@@ -14,7 +14,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "create-admin": "tsx scripts/create-admin.ts",
-    "seed:knowledge": "tsx scripts/seed-knowledge.ts"
+    "seed:knowledge": "tsx scripts/seed-knowledge.ts",
+    "eval": "tsx scripts/eval-retrieval.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.125",

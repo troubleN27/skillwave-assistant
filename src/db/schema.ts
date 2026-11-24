@@ -59,7 +59,7 @@ export const settings = pgTable(
       .default(30)
       .notNull(),
     maxMessagesPerDay: integer("max_messages_per_day").default(500).notNull(),
-    minSimilarity: real("min_similarity").default(0.55).notNull(),
+    minSimilarity: real("min_similarity").default(0.69).notNull(),
     telegramNotifications: boolean("telegram_notifications")
       .default(true)
       .notNull(),

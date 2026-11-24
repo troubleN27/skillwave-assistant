@@ -32,7 +32,7 @@
 | ORM и миграции | Drizzle ORM + drizzle-kit, драйвер `@neondatabase/serverless` |
 | Авторизация админки | Better Auth (email + пароль, регистрация отключена) |
 | AI | Gemini API через Vercel AI SDK (`ai`, `@ai-sdk/google`, `@ai-sdk/react`). Если AI SDK не поддерживает нужный параметр модели эмбеддингов — для эмбеддингов использовать официальный `@google/genai` |
-| Модель ответов | `gemini-3.8-flash` (задаётся в `.env`) |
+| Модель ответов | `gemini-3.5-flash-lite` (задаётся в `.env`; изначально планировалась `gemini-3.8-flash`, заменена из-за её недоступности — 503 «high demand») |
 | Модель эмбеддингов | `gemini-embedding-2`, размерность 768 (задаётся в `.env`) |
 | Чтение документов | `unpdf` (PDF), `mammoth` (DOCX) |
 | Хранение исходных файлов | Vercel Blob |
@@ -366,7 +366,7 @@ Claude пишет на русском 9–10 документов в Markdown, �
 ```
 DATABASE_URL=                  # pooled-строка Neon
 GOOGLE_GENERATIVE_AI_API_KEY=  # ключ Gemini API из Google AI Studio
-GEMINI_CHAT_MODEL=gemini-3.8-flash
+GEMINI_CHAT_MODEL=gemini-3.5-flash-lite
 GEMINI_EMBEDDING_MODEL=gemini-embedding-2
 EMBEDDING_DIMENSIONS=768
 BETTER_AUTH_SECRET=

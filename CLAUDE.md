@@ -22,18 +22,20 @@ Next.js 16 (App Router, `cacheComponents`, `src/proxy.ts` вместо middlewar
 
 ```
 docs/                 PRD и SPEC
-db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию)
+db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты)
 messages/             переводы сайта и виджета (ru, en)
 knowledge/            стартовая база знаний (Markdown; заголовок `#` = название документа, `-en.md` = английский)
-scripts/              CLI: create-admin, seed-knowledge (далее eval-retrieval)
+evals/questions.json  тестовые вопросы: answerable (ожидаемые документы), noAnswer, offTopic
+scripts/              CLI: create-admin, seed-knowledge, eval-retrieval
 src/proxy.ts          локали next-intl + быстрая проверка cookie для /admin
 src/i18n/             routing, request config, navigation
 src/app/[locale]/     сайт школы
 src/app/admin/        админка: login/ и (panel)/ с боковым меню
-src/app/api/          route handlers (auth/[...all], admin/blob-upload — токены загрузки в Vercel Blob)
+src/app/api/          route handlers: chat, feedback, auth/[...all], admin/blob-upload (токены загрузки в Vercel Blob)
 src/db/               schema.ts, client.ts (createDb для скриптов), index.ts (db для приложения)
-src/lib/              auth-config.ts, auth.ts, auth-client.ts, session.ts (requireAdmin), settings.ts, validations/
-src/lib/ai/           models.ts (модели из env), embeddings.ts (префиксы, пакеты, повтор при 429)
+src/lib/              auth*, session.ts (requireAdmin), settings.ts (настройки, isAllowedOrigin), rate-limit.ts, language.ts, validations/
+src/lib/ai/           models.ts (модели из env), embeddings.ts, prompts.ts (системный промпт, заготовки), rewrite.ts
+src/lib/chat/         conversations.ts, feedback.ts, types.ts (ChatUIMessage и data-части потока)
 src/lib/rag/          file-types, extract, chunking, ingest, documents, retrieve, rrf
 src/components/ui/    компоненты shadcn/ui
 src/components/admin/ компоненты админки
@@ -52,6 +54,7 @@ tests/                Vitest
 | `npm run db:migrate` | применить миграции |
 | `npm run create-admin -- --email <email> --password <password> [--name "<имя>"]` | создать администратора |
 | `npm run seed:knowledge [-- --force]` | проиндексировать `knowledge/` (неизменённые документы пропускаются) |
+| `npm run eval [-- --threshold 0.xx]` | качество поиска: hit@5, отсечение порогом, рекомендуемый порог |
 
 ## Важные детали
 
@@ -61,6 +64,11 @@ tests/                Vitest
 - Файлы базы знаний грузятся из браузера прямо в Vercel Blob (private, `upload()` + `/api/admin/blob-upload`): лимит тела запроса Vercel 4.5 МБ, файлы до 10 МБ. Текст извлекается при первой индексации.
 - `mammoth`/`unpdf` импортируются только на сервере (`extract.ts`); клиент использует `file-types.ts`.
 - Бесплатный тариф Gemini ограничивает запросы в минуту: при 429 повтор учитывает `retryDelay` из ответа (до 60 с, до 3 повторов).
+- Модель ответов — `gemini-3.5-flash-lite` (решение владельца: `gemini-3.8-flash` отвечала 503 «high demand»). Меняется через `GEMINI_CHAT_MODEL`.
+- `/api/chat` принимает `{ id (uuid диалога), visitorId, text, locale, pageUrl? }` и сам грузит историю из БД. Ответ — UI message stream AI SDK 7, который маршрут пишет вручную (`createUIMessageStream`): текст + `data-sources`, `data-meta` (id сообщения для 👍/👎, answered), `data-lead-form` (reason, courseId). Типы — `src/lib/chat/types.ts`.
+- Форма заявки: инструмент `show_lead_form` + страховка `suggestsLeadForm()` (лёгкая модель иногда предлагает оставить контакты, не вызывая инструмент).
+- Порог уверенности 0.69 подобран `npm run eval` с запасом 0.02. Вопросы «без ответа», близкие к теме школы, порог не отсекает — их обрабатывает промпт (в `unanswered_questions` они не пишутся, только после 👎).
+- Вызовы модели ограничены по времени: переформулировка 8 с, генерация 45 с; при ошибке — заготовка «перегружен» + форма заявки.
 - Колонка `chunks.tsv` генерируется Postgres; индексы HNSW (`vector_cosine_ops`) и GIN описаны в схеме.
 - Neon: проект `skillwave-assistant` (aws-eu-central-1), ветка `dev` для разработки.
 - Vercel: проект `skillwave-assistant` (без деплоя), Blob store `skillwave-knowledge` (private, fra1).

@@ -1,0 +1,52 @@
+{
+  "answerable": [
+    { "question": "Сколько стоит курс Python-разработчик?", "lang": "ru", "expected": ["Курс «Python-разработчик»", "Оплата, рассрочка и скидки"] },
+    { "question": "Есть ли рассрочка без переплаты?", "lang": "ru", "expected": ["Оплата, рассрочка и скидки", "Частые вопросы"] },
+    { "question": "Что изучают на курсе UX/UI-дизайнер?", "lang": "ru", "expected": ["Курс «UX/UI-дизайнер»"] },
+    { "question": "Когда стартует ближайший поток курса «Аналитик данных»?", "lang": "ru", "expected": ["Курс «Аналитик данных»", "Частые вопросы"] },
+    { "question": "Сколько длится обучение на фронтенд-разработчика?", "lang": "ru", "expected": ["Курс «Frontend-разработчик»"] },
+    { "question": "Какие проекты будут в портфолио у интернет-маркетолога?", "lang": "ru", "expected": ["Курс «Интернет-маркетолог»"] },
+    { "question": "Как вернуть деньги, если курс не подошёл?", "lang": "ru", "expected": ["Условия возврата денег", "Частые вопросы"] },
+    { "question": "Выдаёте ли вы сертификат после окончания курса?", "lang": "ru", "expected": ["Сертификаты и помощь с трудоустройством", "Частые вопросы"] },
+    { "question": "Помогаете ли вы найти работу после обучения?", "lang": "ru", "expected": ["Сертификаты и помощь с трудоустройством", "Частые вопросы"] },
+    { "question": "Какими способами можно оплатить курс?", "lang": "ru", "expected": ["Оплата, рассрочка и скидки"] },
+    { "question": "Как связаться с менеджером школы?", "lang": "ru", "expected": ["О школе Skillwave Academy"] },
+    { "question": "Кто преподаёт на курсах?", "lang": "ru", "expected": ["О школе Skillwave Academy"] },
+    { "question": "Нужно ли знать высшую математику, чтобы стать аналитиком данных?", "lang": "ru", "expected": ["Курс «Аналитик данных»", "Частые вопросы"] },
+    { "question": "Есть ли скидка, если оплатить весь курс сразу?", "lang": "ru", "expected": ["Оплата, рассрочка и скидки", "Частые вопросы"] },
+    { "question": "Во сколько проходят живые вебинары?", "lang": "ru", "expected": ["Частые вопросы", "О школе Skillwave Academy"] },
+    { "question": "Можно ли взять паузу в обучении?", "lang": "ru", "expected": ["Условия возврата денег", "Частые вопросы"] },
+    { "question": "Изучают ли на курсе Python фреймворк Django?", "lang": "ru", "expected": ["Курс «Python-разработчик»"] },
+    { "question": "Какой компьютер нужен для учёбы?", "lang": "ru", "expected": ["Частые вопросы"] },
+    { "question": "Может ли обучение оплатить работодатель?", "lang": "ru", "expected": ["Оплата, рассрочка и скидки", "Частые вопросы"] },
+    { "question": "Какой курс выбрать, если я совсем новичок?", "lang": "ru", "expected": ["Частые вопросы", "О школе Skillwave Academy"] },
+
+    { "question": "How much does the Frontend Developer course cost?", "lang": "en", "expected": ["Курс «Frontend-разработчик»", "Payment, installments and discounts", "Оплата, рассрочка и скидки"] },
+    { "question": "Can I pay for the course in installments?", "lang": "en", "expected": ["Payment, installments and discounts", "Оплата, рассрочка и скидки", "Частые вопросы"] },
+    { "question": "What will I learn in the Python Developer course?", "lang": "en", "expected": ["Курс «Python-разработчик»"] },
+    { "question": "When does the next UX/UI Designer cohort start?", "lang": "en", "expected": ["Курс «UX/UI-дизайнер»", "Частые вопросы"] },
+    { "question": "Can I get a refund if I change my mind?", "lang": "en", "expected": ["Условия возврата денег", "Частые вопросы"] },
+    { "question": "Do you help graduates find a job?", "lang": "en", "expected": ["Сертификаты и помощь с трудоустройством", "Частые вопросы"] },
+    { "question": "How can I contact the school?", "lang": "en", "expected": ["About Skillwave Academy", "О школе Skillwave Academy"] },
+    { "question": "How long is the Data Analyst program?", "lang": "en", "expected": ["Курс «Аналитик данных»", "О школе Skillwave Academy", "About Skillwave Academy"] },
+    { "question": "Is the certificate available in English?", "lang": "en", "expected": ["Сертификаты и помощь с трудоустройством"] },
+    { "question": "What projects will I build in the digital marketing course?", "lang": "en", "expected": ["Курс «Интернет-маркетолог»"] }
+  ],
+  "noAnswer": [
+    { "question": "Есть ли у вас курс по Java?", "lang": "ru" },
+    { "question": "Можно ли получить налоговый вычет за обучение?", "lang": "ru" },
+    { "question": "Сколько стоит курс по программированию на 1С?", "lang": "ru" },
+    { "question": "Есть ли у вас курсы для детей и школьников?", "lang": "ru" },
+    { "question": "Есть ли у школы государственная лицензия на образовательную деятельность?", "lang": "ru" },
+    { "question": "Есть ли у вас мобильное приложение для учёбы?", "lang": "ru" },
+    { "question": "Do you offer a course in game development?", "lang": "en" },
+    { "question": "Can I get a student visa through your school?", "lang": "en" }
+  ],
+  "offTopic": [
+    { "question": "Какая завтра погода в Москве?", "lang": "ru" },
+    { "question": "Напиши функцию сортировки массива на JavaScript", "lang": "ru" },
+    { "question": "Кто победит на следующих выборах?", "lang": "ru" },
+    { "question": "Посоветуй рецепт борща", "lang": "ru" },
+    { "question": "What is the capital of Australia?", "lang": "en" }
+  ]
+}

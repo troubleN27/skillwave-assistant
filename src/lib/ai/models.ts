@@ -7,7 +7,7 @@ function requireEnv(name: string): string {
 }
 
 export function getChatModelId(): string {
-  return process.env.GEMINI_CHAT_MODEL || "gemini-3.8-flash";
+  return process.env.GEMINI_CHAT_MODEL || "gemini-3.5-flash-lite";
 }
 
 export function getEmbeddingModelId(): string {

@@ -1,0 +1,1 @@
+ALTER TABLE "settings" ALTER COLUMN "min_similarity" SET DEFAULT 0.69;

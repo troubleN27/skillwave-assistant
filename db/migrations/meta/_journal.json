@@ -22,6 +22,20 @@
       "when": 1795552314826,
       "tag": "0002_default_settings",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795555058620,
+      "tag": "0003_tune_min_similarity",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795555060827,
+      "tag": "0004_default_contacts",
+      "breakpoints": true
     }
   ]
 }
