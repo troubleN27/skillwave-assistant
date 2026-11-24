@@ -24,14 +24,17 @@ Next.js 16 (App Router, `cacheComponents`, `src/proxy.ts` вместо middlewar
 docs/                 PRD и SPEC
 db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию)
 messages/             переводы сайта и виджета (ru, en)
-scripts/              CLI: create-admin (далее seed-knowledge, eval-retrieval)
+knowledge/            стартовая база знаний (Markdown; заголовок `#` = название документа, `-en.md` = английский)
+scripts/              CLI: create-admin, seed-knowledge (далее eval-retrieval)
 src/proxy.ts          локали next-intl + быстрая проверка cookie для /admin
 src/i18n/             routing, request config, navigation
 src/app/[locale]/     сайт школы
 src/app/admin/        админка: login/ и (panel)/ с боковым меню
-src/app/api/          route handlers (auth/[...all])
+src/app/api/          route handlers (auth/[...all], admin/blob-upload — токены загрузки в Vercel Blob)
 src/db/               schema.ts, client.ts (createDb для скриптов), index.ts (db для приложения)
-src/lib/              auth-config.ts, auth.ts, auth-client.ts, session.ts (requireAdmin), validations/
+src/lib/              auth-config.ts, auth.ts, auth-client.ts, session.ts (requireAdmin), settings.ts, validations/
+src/lib/ai/           models.ts (модели из env), embeddings.ts (префиксы, пакеты, повтор при 429)
+src/lib/rag/          file-types, extract, chunking, ingest, documents, retrieve, rrf
 src/components/ui/    компоненты shadcn/ui
 src/components/admin/ компоненты админки
 tests/                Vitest
@@ -48,10 +51,16 @@ tests/                Vitest
 | `npx drizzle-kit generate --custom --name=<name>` | пустая миграция для ручного SQL |
 | `npm run db:migrate` | применить миграции |
 | `npm run create-admin -- --email <email> --password <password> [--name "<имя>"]` | создать администратора |
+| `npm run seed:knowledge [-- --force]` | проиндексировать `knowledge/` (неизменённые документы пропускаются) |
 
 ## Важные детали
 
-- Каждая страница админки вызывает `requireAdmin()` (`src/lib/session.ts`); proxy проверяет только наличие cookie.
-- С `cacheComponents` любые обращения к `headers()`/`cookies()` должны быть внутри `<Suspense>` (в админке это обеспечивает `(panel)/loading.tsx`).
+- Proxy проверяет только наличие cookie; сессию на сервере проверяют `requireAdmin()` (`src/lib/session.ts`) и каждый Server Action / Route Handler.
+- С `cacheComponents` чтение сессии и данных — только внутри `<Suspense>`. На страницах админки заголовок статичный, а данные оборачиваются в `<AdminGate>` (`src/components/admin/admin-gate.tsx`) — иначе dev-проверка мгновенной навигации выдаёт «uncached data outside of Suspense». `requireAdmin` намеренно без React `cache()` (общий промис из макета ломает эту проверку).
+- Индексация из админки запускается через `after()` в Server Action; статус обновляется клиентским поллингом `router.refresh()`.
+- Файлы базы знаний грузятся из браузера прямо в Vercel Blob (private, `upload()` + `/api/admin/blob-upload`): лимит тела запроса Vercel 4.5 МБ, файлы до 10 МБ. Текст извлекается при первой индексации.
+- `mammoth`/`unpdf` импортируются только на сервере (`extract.ts`); клиент использует `file-types.ts`.
+- Бесплатный тариф Gemini ограничивает запросы в минуту: при 429 повтор учитывает `retryDelay` из ответа (до 60 с, до 3 повторов).
 - Колонка `chunks.tsv` генерируется Postgres; индексы HNSW (`vector_cosine_ops`) и GIN описаны в схеме.
 - Neon: проект `skillwave-assistant` (aws-eu-central-1), ветка `dev` для разработки.
+- Vercel: проект `skillwave-assistant` (без деплоя), Blob store `skillwave-knowledge` (private, fra1).

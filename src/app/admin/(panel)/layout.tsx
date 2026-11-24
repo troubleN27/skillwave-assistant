@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Toaster } from "@/components/ui/sonner";
 import {
   SidebarInset,
   SidebarProvider,
@@ -34,7 +35,7 @@ export default function AdminPanelLayout({ children }: LayoutProps<"/admin">) {
             </>
           }
         />
-        <SidebarInset>
+        <SidebarInset className="min-w-0">
           <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur md:hidden">
             <SidebarTrigger aria-label="Открыть меню" />
             <span className="font-semibold">Skillwave Academy</span>
@@ -44,6 +45,7 @@ export default function AdminPanelLayout({ children }: LayoutProps<"/admin">) {
           </div>
         </SidebarInset>
       </SidebarProvider>
+      <Toaster position="top-center" richColors />
     </TooltipProvider>
   );
 }

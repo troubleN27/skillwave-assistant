@@ -1,10 +1,10 @@
 import type { LucideIcon } from "lucide-react";
-import { requireAdmin } from "@/lib/session";
+import { AdminGate } from "./admin-gate";
 import { EmptyState } from "./empty-state";
 import { PageHeader } from "./page-header";
 
 /** Admin section with a header and an empty state until data appears. */
-export async function SectionPage({
+export function SectionPage({
   title,
   description,
   icon,
@@ -17,12 +17,12 @@ export async function SectionPage({
   emptyTitle: string;
   emptyDescription: string;
 }) {
-  await requireAdmin();
-
   return (
     <>
       <PageHeader title={title} description={description} />
-      <EmptyState icon={icon} title={emptyTitle} description={emptyDescription} />
+      <AdminGate>
+        <EmptyState icon={icon} title={emptyTitle} description={emptyDescription} />
+      </AdminGate>
     </>
   );
 }
