@@ -201,6 +201,8 @@ export async function POST(request: Request) {
       let firstTokenAt: number | null = null;
       let failure: unknown = null;
       let leadFormShown = false;
+      // Text block still open when the model fails midway; it must be closed.
+      let openTextId: string | null = null;
 
       writer.write({ type: "start" });
       try {
@@ -242,6 +244,7 @@ export async function POST(request: Request) {
         for await (const part of result.stream) {
           switch (part.type) {
             case "text-start":
+              openTextId = part.id;
               writer.write({ type: "text-start", id: part.id });
               break;
             case "text-delta":
@@ -250,10 +253,15 @@ export async function POST(request: Request) {
               writer.write({ type: "text-delta", id: part.id, delta: part.text });
               break;
             case "text-end":
+              openTextId = null;
               writer.write({ type: "text-end", id: part.id });
               break;
             case "error":
               failure = part.error;
+              break;
+            // The timeout aborts the stream without an error part.
+            case "abort":
+              failure ??= new Error(`Generation aborted${part.reason ? `: ${part.reason}` : ""}`);
               break;
           }
         }
@@ -263,10 +271,19 @@ export async function POST(request: Request) {
 
       if (failure) console.error("Chat generation failed:", describeEmbeddingError(failure));
 
+      // failed: nothing was written; interrupted: the model stopped midway.
       const failed = Boolean(failure) && !answer.trim();
+      const interrupted = Boolean(failure) && !failed;
       if (failed) {
         answer = cannedReply("overloaded", language);
         writeText(writer, answer);
+        if (!leadFormShown) writeLeadForm(writer, "error");
+      } else if (interrupted) {
+        // Never pass a cut-off answer off as complete: mark it and offer the form.
+        if (openTextId) writer.write({ type: "text-end", id: openTextId });
+        const note = cannedReply("interrupted", language);
+        writeText(writer, `\n\n${note}`);
+        answer = `${answer.trimEnd()}\n\n${note}`;
         if (!leadFormShown) writeLeadForm(writer, "error");
       } else {
         if (!leadFormShown && suggestsLeadForm(answer)) {
@@ -279,12 +296,15 @@ export async function POST(request: Request) {
       const messageId = await saveAssistantMessage(db, {
         conversationId,
         content: answer.trim(),
-        sources: failed ? null : storedSources,
-        answered: failed ? null : true,
+        sources: failed || interrupted ? null : storedSources,
+        answered: failed || interrupted ? null : true,
         latencyMs: (firstTokenAt ?? Date.now()) - startedAt,
       });
 
-      writer.write({ type: "data-meta", data: { messageId, answered: failed ? null : true } });
+      writer.write({
+        type: "data-meta",
+        data: { messageId, answered: failed || interrupted ? null : true },
+      });
       writer.write({ type: "finish" });
     },
     onError: (error) => {

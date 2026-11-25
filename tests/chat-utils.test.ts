@@ -96,6 +96,8 @@ describe("cannedReply", () => {
   it("returns texts in both languages", () => {
     expect(cannedReply("noContext", "ru")).toMatch(/нет точной информации/);
     expect(cannedReply("overloaded", "en")).toMatch(/temporarily overloaded/);
+    expect(cannedReply("interrupted", "ru")).toMatch(/Ответ прервался/);
+    expect(cannedReply("interrupted", "en")).toMatch(/cut off/);
   });
 });
 

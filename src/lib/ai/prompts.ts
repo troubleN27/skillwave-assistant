@@ -70,7 +70,8 @@ type CannedKind =
   | "limitVisitor"
   | "limitConversation"
   | "limitSite"
-  | "overloaded";
+  | "overloaded"
+  | "interrupted";
 
 const CANNED: Record<CannedKind, Record<Language, string>> = {
   noContext: {
@@ -92,6 +93,11 @@ const CANNED: Record<CannedKind, Record<Language, string>> = {
   overloaded: {
     ru: "Ассистент временно перегружен, попробуйте через минуту или оставьте заявку — менеджер свяжется с вами.",
     en: "The assistant is temporarily overloaded. Please try again in a minute or leave a request and a manager will contact you.",
+  },
+  // Appended to a partial answer when generation fails midway.
+  interrupted: {
+    ru: "_Ответ прервался: ассистент сейчас перегружен. Повторите вопрос через минуту или оставьте заявку — менеджер свяжется с вами._",
+    en: "_The answer was cut off because the assistant is overloaded right now. Please ask again in a minute or leave a request and a manager will contact you._",
   },
 };
 
