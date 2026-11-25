@@ -31,7 +31,11 @@ src/proxy.ts          локали next-intl + быстрая проверка c
 src/i18n/             routing, request config, navigation
 src/app/[locale]/     сайт школы
 src/app/admin/        админка: login/ и (panel)/ с боковым меню
-src/app/api/          route handlers: chat, feedback, auth/[...all], admin/blob-upload (токены загрузки в Vercel Blob)
+src/app/embed/        чат для iframe: /embed?lang= → proxy переписывает на статическую /embed/[lang]
+src/app/api/          route handlers: chat, chat/history, feedback, leads, auth/[...all], admin/blob-upload
+public/widget.js      скрипт встраивания (без зависимостей); public/embed-test.html — проверка
+src/components/chat/  виджет: chat-widget (сайт), embedded-chat (iframe), chat-panel, chat-session (useChat), lead-form
+src/components/site/  секции сайта школы; данные курсов — src/lib/site/courses.ts (тест сверяет с knowledge/)
 src/db/               schema.ts, client.ts (createDb для скриптов), index.ts (db для приложения)
 src/lib/              auth*, session.ts (requireAdmin), settings.ts (настройки, isAllowedOrigin), rate-limit.ts, language.ts, validations/
 src/lib/ai/           models.ts (модели из env), embeddings.ts, prompts.ts (системный промпт, заготовки), rewrite.ts
@@ -69,6 +73,11 @@ tests/                Vitest
 - Форма заявки: инструмент `show_lead_form` + страховка `suggestsLeadForm()` (лёгкая модель иногда предлагает оставить контакты, не вызывая инструмент).
 - Порог уверенности 0.69 подобран `npm run eval` с запасом 0.02. Вопросы «без ответа», близкие к теме школы, порог не отсекает — их обрабатывает промпт (в `unanswered_questions` они не пишутся, только после 👎).
 - Вызовы модели ограничены по времени: переформулировка 8 с, генерация 45 с; при ошибке — заготовка «перегружен» + форма заявки.
+- Виджет: `visitorId`/`conversationId` в localStorage (`src/lib/chat/storage.ts`), история — `GET /api/chat/history`. Сессия чата (`ChatSession`) пересоздаётся по `key={conversationId}`; форма заявки вычисляется из `data-lead-form` последнего ответа (без setState в эффектах — правило React Compiler).
+- Настройки для виджета — `getWidgetConfig()` с `"use cache"` + `cacheTag("settings")`; при сохранении настроек (Этап 5) нужно инвалидировать тег.
+- Язык ответа определяет сервер (`detectLanguage`) и явно передаёт в системный промпт.
+- `/embed`: CSP `frame-ancestors 'self' <allowed_origins>` ставит `src/proxy.ts` (кэш 60 с). Страница вызывает `setRequestLocale`, иначе next-intl читает заголовки и ломает статическую отрисовку; `instant = false`, т.к. клиентской навигации в iframe нет.
+- Заявки: `/api/leads` (zod, honeypot `website`, 3/час на посетителя и 10/час на IP) → Telegram в `after()`; без токена — пропуск с логом. Лимиты чата: 20/10 мин на посетителя+IP, 60/10 мин на IP, диалог и сутки — из settings.
 - Колонка `chunks.tsv` генерируется Postgres; индексы HNSW (`vector_cosine_ops`) и GIN описаны в схеме.
 - Neon: проект `skillwave-assistant` (aws-eu-central-1), ветка `dev` для разработки.
 - Vercel: проект `skillwave-assistant` (без деплоя), Blob store `skillwave-knowledge` (private, fra1).

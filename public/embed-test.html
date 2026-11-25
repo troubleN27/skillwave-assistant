@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Проверка встраивания виджета Skillwave Academy</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      main {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 48px 16px;
+        line-height: 1.6;
+      }
+      code {
+        background: #e2e8f0;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Проверка встраивания виджета</h1>
+      <p>
+        Эта страница подключает чат-ассистента одной строкой — так же, как его встраивают на
+        сайт партнёра. Кнопка чата появится в правом нижнем углу.
+      </p>
+      <p>
+        Чтобы открыть страницу с другого адреса, запустите в папке <code>public</code>
+        <code>python -m http.server 5500</code> и добавьте <code>http://localhost:5500</code> в
+        список разрешённых сайтов в настройках админки.
+      </p>
+    </main>
+    <!-- When the page is served by the app itself the relative path works too. -->
+    <script src="http://localhost:3000/widget.js" data-lang="ru" async></script>
+  </body>
+</html>

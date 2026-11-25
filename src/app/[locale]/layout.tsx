@@ -15,7 +15,26 @@ export async function generateMetadata({
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  return { title: t("title"), description: t("description") };
+  const title = t("title");
+  const description = t("description");
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+    title,
+    description,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { ru: "/ru", en: "/en", "x-default": "/ru" },
+    },
+    openGraph: {
+      type: "website",
+      siteName: "Skillwave Academy",
+      title,
+      description,
+      locale: locale === "ru" ? "ru_RU" : "en_US",
+      url: `/${locale}`,
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
 }
 
 export default async function LocaleLayout({
@@ -28,7 +47,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-white text-slate-900">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

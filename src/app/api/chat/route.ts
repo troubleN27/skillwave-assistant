@@ -127,6 +127,7 @@ export async function POST(request: Request) {
   if (!limits.ok) {
     const kind = {
       visitor: "limitVisitor",
+      ip: "limitVisitor",
       conversation: "limitConversation",
       site: "limitSite",
     } as const;
@@ -188,6 +189,7 @@ export async function POST(request: Request) {
       courses: settings.courses ?? [],
     },
     formatContext(retrieval.chunks),
+    language,
   );
 
   const stream = createUIMessageStream<ChatUIMessage>({

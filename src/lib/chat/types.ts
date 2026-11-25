@@ -7,7 +7,12 @@ export type LeadFormReason = "requested" | "no_context" | "limit" | "error";
 /** Custom data parts streamed by /api/chat (consumed by the widget). */
 export type ChatDataParts = {
   sources: ChatSource[];
-  meta: { messageId: string | null; answered: boolean | null };
+  meta: {
+    messageId: string | null;
+    answered: boolean | null;
+    /** Present only in history loaded from the server. */
+    feedback?: "up" | "down" | null;
+  };
   "lead-form": { reason: LeadFormReason; courseId?: string };
 };
 

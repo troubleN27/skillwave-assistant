@@ -1,17 +1,26 @@
 import { getSessionCookie } from "better-auth/cookies";
 import createIntlMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
+import { db } from "@/db";
 import { routing } from "@/i18n/routing";
+import { buildFrameAncestors } from "@/lib/embed";
+import { getSettings } from "@/lib/settings";
 
 const handleI18n = createIntlMiddleware(routing);
 
 const ADMIN_LOGIN_PATH = "/admin/login";
+const FRAME_ANCESTORS_TTL_MS = 60_000;
 
-export default function proxy(request: NextRequest) {
+let frameAncestorsCache: { value: string; expiresAt: number } | null = null;
+
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     return guardAdmin(request);
+  }
+  if (pathname === "/embed" || pathname.startsWith("/embed/")) {
+    return embedResponse(request);
   }
 
   return handleI18n(request);
@@ -32,7 +41,44 @@ function guardAdmin(request: NextRequest) {
   return NextResponse.next();
 }
 
+/**
+ * /embed?lang=ru|en is rewritten to the static /embed/{lang} page. It may be
+ * framed only by the school site and settings.allowed_origins (SPEC 6.6).
+ */
+async function embedResponse(request: NextRequest) {
+  const { pathname, searchParams } = request.nextUrl;
+  let response: NextResponse;
+  if (pathname === "/embed") {
+    const lang = searchParams.get("lang") === "en" ? "en" : "ru";
+    response = NextResponse.rewrite(new URL(`/embed/${lang}`, request.url));
+  } else {
+    response = NextResponse.next();
+  }
+  response.headers.set(
+    "Content-Security-Policy",
+    `frame-ancestors ${await getFrameAncestors()}`,
+  );
+  return response;
+}
+
+async function getFrameAncestors(): Promise<string> {
+  const now = Date.now();
+  if (frameAncestorsCache && frameAncestorsCache.expiresAt > now) {
+    return frameAncestorsCache.value;
+  }
+  try {
+    const settings = await getSettings(db);
+    const value = buildFrameAncestors(settings.allowedOrigins);
+    frameAncestorsCache = { value, expiresAt: now + FRAME_ANCESTORS_TTL_MS };
+    return value;
+  } catch (error) {
+    console.error("Failed to load allowed origins for /embed", error);
+    // Fail closed: only the school site itself may frame the chat.
+    return frameAncestorsCache?.value ?? "'self'";
+  }
+}
+
 export const config = {
-  // Skip API routes, the embed page, Next.js internals and static files.
-  matcher: ["/((?!api|embed|_next|_vercel|.*\\..*).*)"],
+  // Skip API routes, Next.js internals and static files.
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };

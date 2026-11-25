@@ -1,18 +1,29 @@
-import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { use } from "react";
+import { ChatOpenProvider } from "@/components/chat/chat-context";
+import { ChatWidget } from "@/components/chat/chat-widget";
+import { ContactsSection } from "@/components/site/contacts-section";
+import { CoursesSection } from "@/components/site/courses-section";
+import { Hero } from "@/components/site/hero";
+import { SiteHeader } from "@/components/site/site-header";
+import { WhySection } from "@/components/site/why-section";
+import { getWidgetConfig } from "@/lib/chat/widget-config";
+import type { Language } from "@/lib/language";
 
-export default function HomePage({ params }: PageProps<"/[locale]">) {
-  const { locale } = use(params);
+export default async function HomePage({ params }: PageProps<"/[locale]">) {
+  const { locale } = await params;
   setRequestLocale(locale);
-  const t = useTranslations("Home");
+  const config = await getWidgetConfig(locale as Language);
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-3 px-4 py-24 text-center">
-      <h1 className="text-4xl font-semibold tracking-tight text-primary sm:text-5xl">
-        {t("title")}
-      </h1>
-      <p className="text-lg text-muted-foreground">{t("subtitle")}</p>
-    </main>
+    <ChatOpenProvider>
+      <SiteHeader />
+      <main>
+        <Hero />
+        <CoursesSection />
+        <WhySection />
+        <ContactsSection />
+      </main>
+      <ChatWidget config={config} />
+    </ChatOpenProvider>
   );
 }

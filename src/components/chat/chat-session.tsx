@@ -1,0 +1,333 @@
+"use client";
+
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, isDataUIPart, isTextUIPart } from "ai";
+import { ArrowUpIcon, SquareIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { ChatDataParts, ChatUIMessage } from "@/lib/chat/types";
+import type { WidgetConfig } from "@/lib/chat/widget-config";
+import { MAX_MESSAGE_LENGTH } from "@/lib/validations/chat";
+import { cn } from "@/lib/utils";
+import { ChatMarkdown } from "./chat-markdown";
+import { LeadForm } from "./lead-form";
+import { Feedback, Sources } from "./message-extras";
+
+type LeadFormState = { anchorId: string; courseId?: string } | null;
+
+function textOf(message: ChatUIMessage): string {
+  return message.parts.filter(isTextUIPart).map((p) => p.text).join("");
+}
+
+function dataOf<K extends keyof ChatDataParts>(message: ChatUIMessage, name: K) {
+  const part = message.parts.findLast(
+    (p) => isDataUIPart(p) && p.type === `data-${name}`,
+  ) as { data: ChatDataParts[K] } | undefined;
+  return part?.data;
+}
+
+/** Reads `{ "error": "..." }` from a failed /api/chat response, if present. */
+function serverErrorText(error: Error | undefined): string | null {
+  if (!error) return null;
+  try {
+    const parsed = JSON.parse(error.message) as { error?: unknown };
+    return typeof parsed.error === "string" ? parsed.error : null;
+  } catch {
+    return null;
+  }
+}
+
+export function ChatSession({
+  conversationId,
+  visitorId,
+  initialMessages,
+  config,
+  pageUrl,
+  manualLeadForm,
+  onManualLeadFormClose,
+  pendingQuestion,
+  onPendingQuestionSent,
+}: {
+  conversationId: string;
+  visitorId: string;
+  initialMessages: ChatUIMessage[];
+  config: WidgetConfig;
+  pageUrl: () => string | undefined;
+  manualLeadForm: boolean;
+  onManualLeadFormClose: () => void;
+  pendingQuestion: string | null;
+  onPendingQuestionSent: () => void;
+}) {
+  const t = useTranslations("Widget");
+  const locale = useLocale();
+  const [input, setInput] = useState("");
+  const [dismissedForms, setDismissedForms] = useState<Set<string>>(() => new Set());
+  const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport<ChatUIMessage>({
+        api: "/api/chat",
+        prepareSendMessagesRequest: ({ messages }) => {
+          const last = messages.at(-1);
+          return {
+            body: {
+              id: conversationId,
+              visitorId,
+              text: last ? textOf(last) : "",
+              locale,
+              pageUrl: pageUrl(),
+            },
+          };
+        },
+      }),
+    [conversationId, visitorId, locale, pageUrl],
+  );
+
+  const { messages, sendMessage, status, error, regenerate, stop, setMessages } =
+    useChat<ChatUIMessage>({ id: conversationId, messages: initialMessages, transport });
+
+  const busy = status === "submitted" || status === "streaming";
+  const lastMessage = messages.at(-1);
+  const waitingForFirstToken =
+    status === "submitted" ||
+    (status === "streaming" && lastMessage?.role === "assistant" && !textOf(lastMessage));
+
+  // The form requested by the latest answer (tool call, no context, limits, errors),
+  // or the one opened with "Contact a manager".
+  const requestedForm =
+    status === "ready" && lastMessage?.role === "assistant" && !dismissedForms.has(lastMessage.id)
+      ? dataOf(lastMessage, "lead-form")
+      : undefined;
+  const leadForm: LeadFormState = manualLeadForm
+    ? { anchorId: "manual" }
+    : requestedForm && lastMessage
+      ? { anchorId: lastMessage.id, courseId: requestedForm.courseId }
+      : null;
+
+  // Keep the newest content in view.
+  useEffect(() => {
+    const list = listRef.current;
+    if (list) list.scrollTo({ top: list.scrollHeight, behavior: "smooth" });
+  }, [messages, leadForm?.anchorId, waitingForFirstToken]);
+
+  function send(text: string) {
+    const trimmed = text.trim();
+    if (!trimmed || busy) return;
+    if (manualLeadForm) onManualLeadFormClose();
+    setInput("");
+    void sendMessage({ text: trimmed.slice(0, MAX_MESSAGE_LENGTH) });
+  }
+
+  // A question passed from the page (e.g. "Ask about this course").
+  useEffect(() => {
+    if (pendingQuestion && status === "ready") {
+      onPendingQuestionSent();
+      void sendMessage({ text: pendingQuestion.slice(0, MAX_MESSAGE_LENGTH) });
+    }
+  }, [pendingQuestion, status, sendMessage, onPendingQuestionSent]);
+
+  function closeLeadForm() {
+    if (leadForm?.anchorId === "manual") {
+      onManualLeadFormClose();
+    } else if (leadForm) {
+      setDismissedForms((prev) => new Set(prev).add(leadForm.anchorId));
+    }
+  }
+
+  function leadSent(name: string) {
+    closeLeadForm();
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `lead-${Date.now()}`,
+        role: "assistant",
+        parts: [{ type: "text", text: t("leadSent", { name }) }],
+      },
+    ]);
+  }
+
+  const errorText =
+    serverErrorText(error) ?? (error ? t("errors.generic") : null);
+  const showWelcome = messages.length === 0;
+  const remaining = MAX_MESSAGE_LENGTH - input.length;
+
+  const leadFormNode = leadForm && (
+    <LeadForm
+      courses={config.courses}
+      defaultCourseId={leadForm.courseId}
+      visitorId={visitorId}
+      conversationId={conversationId}
+      onSent={leadSent}
+      onCancel={closeLeadForm}
+    />
+  );
+
+  return (
+    <>
+      <div
+        ref={listRef}
+        className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4"
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
+        {showWelcome && (
+          <div className="space-y-3">
+            <Bubble role="assistant">
+              <ChatMarkdown text={config.welcome ?? t("welcomeFallback")} />
+            </Bubble>
+            {config.quickQuestions.length > 0 && (
+              <div aria-label={t("quickQuestions")} className="flex flex-col items-start gap-1.5">
+                {config.quickQuestions.map((question) => (
+                  <button
+                    key={question}
+                    type="button"
+                    onClick={() => send(question)}
+                    className="rounded-2xl border border-indigo-200 bg-white px-3 py-1.5 text-left text-sm text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-indigo-500"
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {messages.map((message) => {
+          const text = textOf(message);
+          if (message.role === "user") {
+            return (
+              <Bubble key={message.id} role="user">
+                <p className="whitespace-pre-wrap">{text}</p>
+              </Bubble>
+            );
+          }
+          if (!text) return null;
+          const sources = dataOf(message, "sources") ?? [];
+          const meta = dataOf(message, "meta");
+          const streamingThis = busy && message.id === lastMessage?.id;
+          return (
+            <div key={message.id}>
+              <Bubble role="assistant">
+                <ChatMarkdown text={text} />
+              </Bubble>
+              {!streamingThis && (
+                <div className="pl-1">
+                  {meta?.answered && <Sources sources={sources} />}
+                  {meta?.messageId && meta.answered && (
+                    <Feedback
+                      messageId={meta.messageId}
+                      visitorId={visitorId}
+                      initial={meta.feedback}
+                    />
+                  )}
+                </div>
+              )}
+              {leadForm?.anchorId === message.id && leadFormNode}
+            </div>
+          );
+        })}
+
+        {waitingForFirstToken && (
+          <div className="flex items-center gap-2 pl-1 text-xs text-slate-500" role="status">
+            <span className="flex gap-1" aria-hidden>
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  className="size-1.5 rounded-full bg-indigo-400 motion-safe:animate-bounce"
+                  style={{ animationDelay: `${i * 150}ms` }}
+                />
+              ))}
+            </span>
+            {t("typing")}
+          </div>
+        )}
+
+        {errorText && status === "error" && (
+          <div role="alert" className="rounded-2xl bg-red-50 px-3 py-2 text-sm text-red-700">
+            <p>{errorText}</p>
+            <button
+              type="button"
+              onClick={() => void regenerate()}
+              className="mt-1 font-medium underline underline-offset-2"
+            >
+              {t("errors.retry")}
+            </button>
+          </div>
+        )}
+
+        {leadForm?.anchorId === "manual" && leadFormNode}
+      </div>
+
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          send(input);
+        }}
+        className="border-t border-slate-100 bg-white px-3 pt-3 pb-2"
+      >
+        <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500/15">
+          <textarea
+            ref={inputRef}
+            data-chat-input
+            // The panel mounts after history loads, so focus the composer on mount.
+            autoFocus
+            value={input}
+            onChange={(event) => setInput(event.target.value.slice(0, MAX_MESSAGE_LENGTH))}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
+                event.preventDefault();
+                send(input);
+              }
+            }}
+            rows={1}
+            placeholder={t("placeholder")}
+            aria-label={t("placeholder")}
+            className="max-h-32 min-h-6 flex-1 resize-none bg-transparent text-sm text-slate-900 outline-none [field-sizing:content] placeholder:text-slate-400"
+          />
+          {busy ? (
+            <button
+              type="button"
+              onClick={() => void stop()}
+              aria-label={t("stop")}
+              className="grid size-8 shrink-0 place-items-center rounded-full bg-slate-900 text-white"
+            >
+              <SquareIcon className="size-3 fill-current" aria-hidden />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={!input.trim()}
+              aria-label={t("send")}
+              className="grid size-8 shrink-0 place-items-center rounded-full bg-indigo-600 text-white transition-colors hover:bg-indigo-700 disabled:bg-slate-300"
+            >
+              <ArrowUpIcon className="size-4" aria-hidden />
+            </button>
+          )}
+        </div>
+        <p className="mt-1.5 min-h-4 px-1 text-[10px] leading-4 text-slate-400">
+          {remaining <= 100 ? t("charsLeft", { count: remaining }) : t("disclaimer")}
+        </p>
+      </form>
+    </>
+  );
+}
+
+function Bubble({ role, children }: { role: "user" | "assistant"; children: React.ReactNode }) {
+  return (
+    <div className={cn("flex", role === "user" ? "justify-end" : "justify-start")}>
+      <div
+        className={cn(
+          "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed break-words",
+          role === "user"
+            ? "rounded-br-md bg-indigo-600 text-white"
+            : "rounded-bl-md bg-slate-100 text-slate-900",
+        )}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}

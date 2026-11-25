@@ -5,6 +5,7 @@ import {
   formatContext,
   suggestsLeadForm,
 } from "@/lib/ai/prompts";
+import { keepNumbersTogether } from "@/components/chat/chat-markdown";
 import { detectLanguage } from "@/lib/language";
 import { DAY_MS, getClientIp, VISITOR_WINDOW_MS, windowStart } from "@/lib/rate-limit";
 import { isAllowedOrigin } from "@/lib/settings";
@@ -47,8 +48,10 @@ describe("buildSystemPrompt", () => {
         courses: [{ id: "python", name_ru: "Python-разработчик", name_en: "Python Developer" }],
       },
       "[1] Doc\nText",
+      "en",
     );
     expect(prompt).toContain("You are Ассистент Skillwave");
+    expect(prompt).toContain("Reply in English");
     expect(prompt).toContain("hello@skillwave.academy");
     expect(prompt).toContain("- python: Python-разработчик / Python Developer");
     expect(prompt).toContain("<context>\n[1] Doc\nText\n</context>");
@@ -62,12 +65,29 @@ describe("suggestsLeadForm", () => {
     expect(suggestsLeadForm("Менеджер свяжется с вами в течение дня.")).toBe(true);
     expect(suggestsLeadForm("Please leave your contact details below.")).toBe(true);
     expect(suggestsLeadForm("A manager will get in touch shortly.")).toBe(true);
+    expect(suggestsLeadForm("Если хотите записаться, я открою форму для связи ниже.")).toBe(true);
+    expect(suggestsLeadForm("Please fill in the form below.")).toBe(true);
   });
 
   it("ignores regular answers", () => {
     expect(suggestsLeadForm("Полная стоимость курса — 95 000 ₽.")).toBe(false);
     expect(suggestsLeadForm("Contacts: hello@skillwave.academy")).toBe(false);
     expect(suggestsLeadForm("Вебинары проходят в 19:00 по Москве.")).toBe(false);
+  });
+});
+
+describe("keepNumbersTogether", () => {
+  it("joins thousands and currency with non-breaking spaces", () => {
+    expect(keepNumbersTogether("от 5 750 ₽ в месяц, всего 62 100 ₽")).toBe(
+      "от 5 750 ₽ в месяц, всего 62 100 ₽",
+    );
+    expect(keepNumbersTogether("from 7 917 RUB")).toBe("from 7 917 RUB");
+  });
+
+  it("leaves unrelated numbers alone", () => {
+    expect(keepNumbersTogether("2 потока в 2027 году, 12 месяцев")).toBe(
+      "2 потока в 2027 году, 12 месяцев",
+    );
   });
 });
 
@@ -87,8 +107,17 @@ describe("windowStart", () => {
 });
 
 describe("getClientIp", () => {
-  it("takes the first forwarded address", () => {
-    expect(getClientIp(new Headers({ "x-forwarded-for": "1.2.3.4, 10.0.0.1" }))).toBe("1.2.3.4");
+  it("prefers platform-set headers over client-controllable ones", () => {
+    expect(
+      getClientIp(
+        new Headers({ "x-vercel-forwarded-for": "5.6.7.8", "x-forwarded-for": "1.1.1.1, 5.6.7.8" }),
+      ),
+    ).toBe("5.6.7.8");
+    expect(getClientIp(new Headers({ "x-real-ip": "9.9.9.9" }))).toBe("9.9.9.9");
+  });
+
+  it("uses the last x-forwarded-for entry (added by the nearest proxy)", () => {
+    expect(getClientIp(new Headers({ "x-forwarded-for": "6.6.6.6, 1.2.3.4" }))).toBe("1.2.3.4");
     expect(getClientIp(new Headers())).toBe("unknown");
   });
 });

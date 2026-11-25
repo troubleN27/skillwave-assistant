@@ -3,8 +3,150 @@
     "title": "Skillwave Academy — online school of digital professions",
     "description": "Courses in frontend development, UX/UI design, Python, data analytics and digital marketing. Our assistant answers your questions about courses 24/7."
   },
-  "Home": {
-    "title": "Skillwave Academy",
-    "subtitle": "Online school of digital professions"
+  "Widget": {
+    "open": "Open chat with the assistant",
+    "close": "Close chat",
+    "online": "Replies instantly, 24/7",
+    "contactManager": "Contact a manager",
+    "restart": "Start over",
+    "restartConfirm": "Start a new conversation? The current one stays with our managers but will disappear from this window.",
+    "restartYes": "Start over",
+    "restartNo": "Cancel",
+    "welcomeFallback": "Hi! I'm the Skillwave Academy assistant. I can help you choose a course and answer questions about programs, prices, schedules and payment.",
+    "quickQuestions": "Popular questions",
+    "placeholder": "Type your question…",
+    "send": "Send",
+    "stop": "Stop the answer",
+    "typing": "The assistant is typing…",
+    "sources": "Sources",
+    "helpful": "Helpful answer",
+    "notHelpful": "Not helpful",
+    "feedbackThanks": "Thanks for your feedback!",
+    "feedbackError": "Couldn't save your rating",
+    "charsLeft": "Characters left: {count}",
+    "loadingHistory": "Loading the conversation…",
+    "errors": {
+      "generic": "Couldn't get an answer. Check your internet connection and try again.",
+      "forbidden": "The chat isn't available on this website.",
+      "retry": "Try again"
+    },
+    "leadSent": "Thank you, {name}! Your request has been sent — a manager will contact you during business hours (Mon–Fri, 10 am – 7 pm Moscow time).",
+    "disclaimer": "The assistant answers based on school materials and can make mistakes. Please confirm important details with a manager."
+  },
+  "LeadForm": {
+    "title": "Leave your contacts — a manager will get in touch",
+    "name": "Name",
+    "contact": "Phone or email",
+    "contactHint": "Phone in international format, e.g. +44 20 7946 0958",
+    "course": "Course you're interested in",
+    "courseNone": "Not decided yet",
+    "channel": "Preferred way to contact you",
+    "channels": {
+      "call": "Phone call",
+      "telegram": "Telegram",
+      "email": "Email"
+    },
+    "comment": "Comment",
+    "commentPlaceholder": "For example, a convenient time to call",
+    "consent": "I agree to the processing of my personal data",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "cancel": "Hide the form",
+    "errors": {
+      "nameShort": "Name must be at least 2 characters",
+      "nameLong": "Name must be at most 60 characters",
+      "contactRequired": "Enter your phone or email",
+      "contactInvalid": "Enter a phone in international format (+…) or an email",
+      "commentLong": "Comment must be at most 1000 characters",
+      "consentRequired": "Consent to data processing is required",
+      "rateLimited": "You've already sent several requests. A manager will contact you soon.",
+      "generic": "Couldn't send the request. Please try again."
+    }
+  },
+  "Site": {
+    "nav": {
+      "courses": "Courses",
+      "why": "Why us",
+      "contacts": "Contacts"
+    },
+    "askQuestion": "Ask a question",
+    "language": "Site language",
+    "hero": {
+      "title": "A digital profession from scratch — with a mentor, real projects and job support",
+      "subtitle": "Five online courses for beginners in development, design, analytics and marketing. Our assistant answers questions about programs, prices and installments right now.",
+      "cta": "Find a course",
+      "secondary": "See courses",
+      "chatPreview": "Try asking the assistant",
+      "chatQuestion": "How much is the Python Developer course, and can I pay in installments?",
+      "chatAnswer": "The course costs **95,000 RUB**, or 85,500 RUB if you pay in full. Interest-free installments for 12 months start at **7,917 RUB per month**.",
+      "chatSource": "Python Developer course",
+      "chatTry": "Ask your own question"
+    },
+    "courses": {
+      "title": "Courses",
+      "subtitle": "Online learning: recorded lessons, live webinars twice a week and mentor-reviewed assignments. Classes are taught in Russian.",
+      "months": "{count, plural, one {# month} other {# months}}",
+      "priceFrom": "from {price} per month",
+      "fullPrice": "{price} if paid in full",
+      "start": "Starts {date}",
+      "ask": "Ask about this course",
+      "askPrompt": "Tell me more about the {course} course",
+      "projects": "{count, plural, one {# portfolio project} other {# portfolio projects}}",
+      "items": {
+        "frontend": {
+          "name": "Frontend Developer",
+          "description": "HTML, CSS, JavaScript, TypeScript, React and Next.js — from your first layout to a team graduation project."
+        },
+        "ux-ui": {
+          "name": "UX/UI Designer",
+          "description": "Research, prototypes and interfaces in Figma. Design for websites and mobile apps."
+        },
+        "python": {
+          "name": "Python Developer",
+          "description": "Python, SQL, Django, FastAPI and Docker. Backend development, APIs and Telegram bots."
+        },
+        "data-analyst": {
+          "name": "Data Analyst",
+          "description": "Excel, SQL, Python, statistics and A/B tests, dashboards in DataLens and Power BI."
+        },
+        "marketing": {
+          "name": "Digital Marketer",
+          "description": "Strategy, Yandex Direct, paid social, SEO, SMM and web analytics with real budgets."
+        }
+      }
+    },
+    "why": {
+      "title": "Why it works",
+      "items": {
+        "mentors": {
+          "title": "A mentor at every step",
+          "text": "Practitioners review every assignment within 48 hours. Each mentor works with no more than 25 students."
+        },
+        "projects": {
+          "title": "A portfolio of real tasks",
+          "text": "4 to 6 projects per course, with a graduation project for a real client."
+        },
+        "career": {
+          "title": "Help finding a job",
+          "text": "CV reviews, mock interviews and referrals to partner companies. 78% of graduates find a job within 6 months."
+        },
+        "flexible": {
+          "title": "Easy to combine with work",
+          "text": "Webinars in the evening and recordings always at hand. You can pause and continue with the next cohort."
+        }
+      }
+    },
+    "contacts": {
+      "title": "Contacts",
+      "text": "Managers are available Monday to Friday, 10 am – 7 pm Moscow time. The assistant on this website answers 24/7.",
+      "email": "Email",
+      "phone": "Phone",
+      "telegram": "Telegram",
+      "phoneNote": "toll-free in Russia"
+    },
+    "footer": {
+      "copyright": "© 2019–2026 Skillwave Academy",
+      "tagline": "Online school of digital professions"
+    }
   }
 }
