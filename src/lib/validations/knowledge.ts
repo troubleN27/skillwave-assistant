@@ -1,14 +1,16 @@
 import { z } from "zod";
 
+// Error messages are keys of the Admin.validation namespace.
+
 export const languageSchema = z.enum(["ru", "en"], {
-  error: "Выберите язык документа",
+  error: "documentLanguage",
 });
 
 const title = z
   .string()
   .trim()
-  .min(2, "Название — минимум 2 символа")
-  .max(200, "Название — максимум 200 символов");
+  .min(2, "titleMin")
+  .max(200, "titleMax");
 
 export const textDocumentSchema = z.object({
   title,
@@ -16,8 +18,8 @@ export const textDocumentSchema = z.object({
   content: z
     .string()
     .trim()
-    .min(20, "Текст — минимум 20 символов")
-    .max(200_000, "Текст слишком длинный: максимум 200 000 символов"),
+    .min(20, "textMin")
+    .max(200_000, "textMax"),
 });
 export type TextDocumentInput = z.infer<typeof textDocumentSchema>;
 
@@ -25,13 +27,13 @@ export const faqDocumentSchema = z.object({
   question: z
     .string()
     .trim()
-    .min(5, "Вопрос — минимум 5 символов")
-    .max(300, "Вопрос — максимум 300 символов"),
+    .min(5, "questionMin")
+    .max(300, "questionMax"),
   answer: z
     .string()
     .trim()
-    .min(5, "Ответ — минимум 5 символов")
-    .max(3000, "Ответ — максимум 3000 символов"),
+    .min(5, "answerMin")
+    .max(3000, "answerMax"),
   language: languageSchema,
 });
 export type FaqDocumentInput = z.infer<typeof faqDocumentSchema>;
@@ -44,12 +46,12 @@ export const fileDocumentSchema = z.object({
     .url()
     .refine(
       (url) => new URL(url).hostname.endsWith(".blob.vercel-storage.com"),
-      "Файл должен быть загружен в хранилище",
+      "blobStorage",
     ),
 });
 export type FileDocumentInput = z.infer<typeof fileDocumentSchema>;
 
-export const documentIdSchema = z.uuid("Некорректный идентификатор документа");
+export const documentIdSchema = z.uuid("documentId");
 
 export const renameDocumentSchema = z.object({ title, language: languageSchema });
 
@@ -57,8 +59,8 @@ export const searchTestSchema = z.object({
   question: z
     .string()
     .trim()
-    .min(2, "Введите вопрос")
-    .max(1000, "Вопрос — максимум 1000 символов"),
+    .min(2, "searchQuestionRequired")
+    .max(1000, "searchQuestionMax"),
 });
 
 /** Splits FAQ content stored as "Вопрос: … Ответ: …" back into fields. */

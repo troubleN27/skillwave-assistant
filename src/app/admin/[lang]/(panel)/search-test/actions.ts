@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { invalid } from "@/lib/admin/action-result";
 import { describeEmbeddingError } from "@/lib/ai/embeddings";
 import { retrieve, type RetrievalResult } from "@/lib/rag/retrieve";
 import { requireAdmin } from "@/lib/session";
@@ -15,7 +16,8 @@ export async function runSearchTestAction(input: unknown): Promise<SearchTestRes
   await requireAdmin();
   const parsed = searchTestSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Введите вопрос" };
+    const result = await invalid(parsed.error);
+    return { ok: false, error: result.ok ? "" : result.error };
   }
 
   try {

@@ -1,6 +1,7 @@
 import { MessagesSquareIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { AdminGate } from "@/components/admin/admin-gate";
 import { EmptyState } from "@/components/admin/empty-state";
 import { formatDateTime, shortPageUrl } from "@/components/admin/format";
@@ -8,30 +9,27 @@ import { PageHeader } from "@/components/admin/page-header";
 import { PeriodFilter } from "@/components/admin/period-filter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { db } from "@/db";
 import { CONVERSATIONS_PAGE_SIZE, listConversations } from "@/lib/admin/conversations";
+import type { AdminLang } from "@/lib/admin/locale";
+import { getAdminLang } from "@/lib/admin/page-lang";
 import { parsePeriod, periodStart } from "@/lib/admin/period";
 
-export const metadata: Metadata = { title: "Диалоги" };
-
-type Search = Awaited<PageProps<"/admin/conversations">["searchParams"]>;
+type Props = PageProps<"/admin/[lang]/conversations">;
+type Search = Awaited<Props["searchParams"]>;
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
-async function ConversationsList({
-  searchParams,
-}: {
-  searchParams: PageProps<"/admin/conversations">["searchParams"];
-}) {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations({ locale: await getAdminLang(), namespace: "Admin.nav" });
+  return { title: t("conversations") };
+}
+
+async function ConversationsList({ lang, searchParams }: { lang: AdminLang; searchParams: Props["searchParams"] }) {
+  const t = await getTranslations("Admin.conversations");
   const params: Search = await searchParams;
   const period = parsePeriod(params.period);
+  // ?lang= here filters conversations by the visitor's language.
   const locale = first(params.lang);
   const filters = {
     from: periodStart(period),
@@ -61,75 +59,70 @@ async function ConversationsList({
 
   return (
     <>
-      <div className="flex flex-col gap-3 rounded-2xl border bg-background p-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 rounded-md border bg-background p-4 lg:flex-row lg:items-center lg:justify-between">
         <PeriodFilter current={period} basePath="/admin/conversations" params={keep} />
         <form method="get" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
           <input type="hidden" name="period" value={period} />
           <label className="flex items-center gap-2">
-            Язык
-            <select
-              name="lang"
-              defaultValue={filters.locale ?? ""}
-              className="rounded-md border bg-background px-2 py-1"
-            >
-              <option value="">Все</option>
-              <option value="ru">Русский</option>
-              <option value="en">English</option>
+            {t("filters.language")}
+            <select name="lang" defaultValue={filters.locale ?? ""} className="rounded-sm border bg-background px-2 py-1">
+              <option value="">{t("filters.all")}</option>
+              <option value="ru">{t("filters.ru")}</option>
+              <option value="en">{t("filters.en")}</option>
             </select>
           </label>
           <label className="flex items-center gap-1.5">
             <input type="checkbox" name="lead" value="1" defaultChecked={filters.hasLead} className="accent-primary" />
-            С заявкой
+            {t("filters.withLead")}
           </label>
           <label className="flex items-center gap-1.5">
-            <input type="checkbox" name="unanswered" value="1" defaultChecked={filters.unanswered} className="accent-primary" />
-            Без ответа
+            <input
+              type="checkbox"
+              name="unanswered"
+              value="1"
+              defaultChecked={filters.unanswered}
+              className="accent-primary"
+            />
+            {t("filters.unanswered")}
           </label>
           <label className="flex items-center gap-1.5">
             <input type="checkbox" name="negative" value="1" defaultChecked={filters.negative} className="accent-primary" />
-            С 👎
+            {t("filters.negative")}
           </label>
           <Button type="submit" size="sm" variant="outline">
-            Применить
+            {t("filters.apply")}
           </Button>
         </form>
       </div>
 
       {rows.length === 0 ? (
-        <EmptyState
-          icon={MessagesSquareIcon}
-          title="Диалогов не найдено"
-          description="Измените период или фильтры. Диалоги появляются, когда посетители пишут ассистенту."
-        />
+        <EmptyState icon={MessagesSquareIcon} title={t("empty")} description={t("emptyText")} />
       ) : (
-        <div className="overflow-hidden rounded-2xl border bg-background">
+        <div className="overflow-hidden rounded-md border bg-background">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="pl-4">Последнее сообщение</TableHead>
-                <TableHead>Язык</TableHead>
-                <TableHead className="text-right">Сообщений</TableHead>
-                <TableHead>Отметки</TableHead>
-                <TableHead>Страница</TableHead>
+                <TableHead className="pl-4">{t("columns.lastMessage")}</TableHead>
+                <TableHead>{t("columns.language")}</TableHead>
+                <TableHead className="text-right">{t("columns.messages")}</TableHead>
+                <TableHead>{t("columns.flags")}</TableHead>
+                <TableHead>{t("columns.page")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell className="pl-4">
-                    <Link
-                      href={`/admin/conversations/${row.id}`}
-                      className="font-medium text-primary hover:underline"
-                    >
-                      {formatDateTime(row.lastMessageAt)}
+                    <Link href={`/admin/conversations/${row.id}`} className="font-semibold underline-offset-4 hover:underline">
+                      {formatDateTime(row.lastMessageAt, lang)}
                     </Link>
                   </TableCell>
                   <TableCell className="uppercase">{row.locale ?? "—"}</TableCell>
                   <TableCell className="text-right tabular-nums">{row.messageCount}</TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
-                      {row.hasLead && <Badge>Заявка</Badge>}
-                      {row.hasUnanswered && <Badge variant="secondary">Без ответа</Badge>}
+                      {row.hasLead && <Badge>{t("flags.lead")}</Badge>}
+                      {row.hasUnanswered && <Badge variant="secondary">{t("flags.unanswered")}</Badge>}
                       {row.hasNegativeFeedback && <Badge variant="destructive">👎</Badge>}
                     </div>
                   </TableCell>
@@ -144,19 +137,19 @@ async function ConversationsList({
       )}
 
       {pages > 1 && (
-        <nav aria-label="Страницы" className="flex items-center justify-between text-sm">
+        <nav aria-label={t("pagination.label")} className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">
-            Всего: {total}. Страница {filters.page} из {pages}
+            {t("pagination.summary", { total, page: filters.page, pages })}
           </span>
           <div className="flex gap-2">
             {filters.page > 1 && (
-              <Link href={pageHref(filters.page - 1)} className="rounded-md border px-3 py-1 hover:bg-muted">
-                Назад
+              <Link href={pageHref(filters.page - 1)} className="rounded-sm border px-3 py-1 hover:bg-muted">
+                {t("pagination.prev")}
               </Link>
             )}
             {filters.page < pages && (
-              <Link href={pageHref(filters.page + 1)} className="rounded-md border px-3 py-1 hover:bg-muted">
-                Вперёд
+              <Link href={pageHref(filters.page + 1)} className="rounded-sm border px-3 py-1 hover:bg-muted">
+                {t("pagination.next")}
               </Link>
             )}
           </div>
@@ -166,15 +159,14 @@ async function ConversationsList({
   );
 }
 
-export default function ConversationsPage({ searchParams }: PageProps<"/admin/conversations">) {
+export default async function ConversationsPage({ searchParams }: Props) {
+  const lang = await getAdminLang();
+  const t = await getTranslations("Admin.conversations");
   return (
     <>
-      <PageHeader
-        title="Диалоги"
-        description="История общения посетителей с ассистентом. Нажмите на дату, чтобы открыть диалог целиком."
-      />
+      <PageHeader title={t("title")} description={t("description")} />
       <AdminGate>
-        <ConversationsList searchParams={searchParams} />
+        <ConversationsList lang={lang} searchParams={searchParams} />
       </AdminGate>
     </>
   );

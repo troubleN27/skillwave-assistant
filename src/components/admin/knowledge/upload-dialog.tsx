@@ -2,9 +2,10 @@
 
 import { upload } from "@vercel/blob/client";
 import { FileUpIcon, Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { createFileDocumentAction } from "@/app/admin/(panel)/knowledge/actions";
+import { createFileDocumentAction } from "@/app/admin/[lang]/(panel)/knowledge/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -30,10 +31,10 @@ function titleFromFileName(name: string) {
   return name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").trim();
 }
 
-function formatSize(bytes: number) {
+function formatSize(bytes: number, t: (key: string, values: { size: string }) => string) {
   return bytes < 1024 * 1024
-    ? `${Math.max(1, Math.round(bytes / 1024))} КБ`
-    : `${(bytes / 1024 / 1024).toFixed(1)} МБ`;
+    ? t("sizeKb", { size: String(Math.max(1, Math.round(bytes / 1024))) })
+    : t("sizeMb", { size: (bytes / 1024 / 1024).toFixed(1) });
 }
 
 export function UploadDialog({
@@ -43,6 +44,7 @@ export function UploadDialog({
   onClose: () => void;
   onSaved: () => void;
 }) {
+  const t = useTranslations("Admin.knowledge.upload");
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
@@ -56,11 +58,11 @@ export function UploadDialog({
     setError(null);
     if (!selected) return;
     if (!sourceTypeFromFileName(selected.name)) {
-      setError("Поддерживаются только файлы PDF, DOCX, TXT и MD");
+      setError(t("wrongType"));
       return;
     }
     if (selected.size > MAX_FILE_SIZE) {
-      setError("Файл больше 10 МБ");
+      setError(t("tooLarge"));
       return;
     }
     setFile(selected);
@@ -70,7 +72,7 @@ export function UploadDialog({
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!file) {
-      setError("Выберите файл");
+      setError(t("noFile"));
       return;
     }
     const sourceType = sourceTypeFromFileName(file.name);
@@ -97,13 +99,13 @@ export function UploadDialog({
         setProgress(null);
         return;
       }
-      toast.success("Файл загружен. Документ индексируется");
+      toast.success(t("done"));
       onSaved();
     } catch (uploadError) {
       setError(
         uploadError instanceof Error && uploadError.message
-          ? `Не удалось загрузить файл: ${uploadError.message}`
-          : "Не удалось загрузить файл",
+          ? t("failedWithReason", { reason: uploadError.message })
+          : t("failed"),
       );
       setProgress(null);
     }
@@ -114,8 +116,8 @@ export function UploadDialog({
       <DialogContent className="sm:max-w-lg">
         <form onSubmit={submit} className="flex flex-col gap-4">
           <DialogHeader>
-            <DialogTitle>Загрузить файл</DialogTitle>
-            <DialogDescription>PDF, DOCX, TXT или MD, до 10 МБ.</DialogDescription>
+            <DialogTitle>{t("title")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </DialogHeader>
 
           <button
@@ -133,7 +135,7 @@ export function UploadDialog({
             }}
             disabled={pending}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-colors",
+              "flex flex-col items-center gap-2 rounded-md border-2 border-dashed px-4 py-8 text-center transition-colors",
               dragging ? "border-primary bg-primary/5" : "hover:bg-muted",
             )}
           >
@@ -141,11 +143,11 @@ export function UploadDialog({
             {file ? (
               <span className="text-sm">
                 <span className="font-medium break-all">{file.name}</span>
-                <span className="text-muted-foreground"> · {formatSize(file.size)}</span>
+                <span className="text-muted-foreground"> · {formatSize(file.size, t)}</span>
               </span>
             ) : (
               <span className="text-sm text-muted-foreground">
-                Перетащите файл сюда или нажмите, чтобы выбрать
+                {t("dropHint")}
               </span>
             )}
           </button>
@@ -159,7 +161,7 @@ export function UploadDialog({
           />
 
           <div className="flex flex-col gap-2">
-            <Label htmlFor="upload-title">Название</Label>
+            <Label htmlFor="upload-title">{t("name")}</Label>
             <Input
               id="upload-title"
               value={title}
@@ -168,23 +170,23 @@ export function UploadDialog({
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label>Язык</Label>
+            <Label>{t("language")}</Label>
             <LanguageToggle value={language} onChange={setLanguage} disabled={pending} />
           </div>
 
           {error && (
-            <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
             </p>
           )}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose} disabled={pending}>
-              Отмена
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending || !file}>
               {pending && <Loader2Icon className="animate-spin" />}
-              {pending ? `Загрузка ${progress}%` : "Загрузить"}
+              {pending ? t("progress", { percent: progress ?? 0 }) : t("submit")}
             </Button>
           </DialogFooter>
         </form>

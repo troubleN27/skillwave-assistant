@@ -3,6 +3,7 @@ import createIntlMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 import { db } from "@/db";
 import { routing } from "@/i18n/routing";
+import { ADMIN_LANG_COOKIE, parseAdminLang } from "@/lib/admin/locale";
 import { buildFrameAncestors } from "@/lib/embed";
 import { getSettings } from "@/lib/settings";
 
@@ -29,16 +30,31 @@ export default async function proxy(request: NextRequest) {
 /**
  * Optimistic check by cookie presence only. The session itself is verified
  * on the server in every admin page (`requireAdmin`).
+ *
+ * /admin/... is rewritten to the static /admin/{lang}/... pages by the
+ * interface-language cookie, so the address bar never shows the language.
  */
 function guardAdmin(request: NextRequest) {
-  const isLoginPage = request.nextUrl.pathname === ADMIN_LOGIN_PATH;
+  const { pathname, search } = request.nextUrl;
+
+  // Direct /admin/en/... links: remember the language and drop it from the URL.
+  const direct = pathname.match(/^\/admin\/(ru|en)(\/.*)?$/);
+  if (direct) {
+    const response = NextResponse.redirect(new URL(`/admin${direct[2] ?? ""}${search}`, request.url));
+    response.cookies.set(ADMIN_LANG_COOKIE, direct[1], { path: "/admin", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+    return response;
+  }
+
+  const isLoginPage = pathname === ADMIN_LOGIN_PATH;
   const hasSessionCookie = Boolean(getSessionCookie(request));
 
   if (!isLoginPage && !hasSessionCookie) {
     return NextResponse.redirect(new URL(ADMIN_LOGIN_PATH, request.url));
   }
 
-  return NextResponse.next();
+  const lang = parseAdminLang(request.cookies.get(ADMIN_LANG_COOKIE)?.value);
+  const rest = pathname.slice("/admin".length);
+  return NextResponse.rewrite(new URL(`/admin/${lang}${rest}${search}`, request.url));
 }
 
 /**

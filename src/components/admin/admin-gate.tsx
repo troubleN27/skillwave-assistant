@@ -1,12 +1,14 @@
+import { useTranslations } from "next-intl";
 import { Suspense, type ReactNode } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { requireAdmin } from "@/lib/session";
 
 export function SectionSkeleton() {
+  const t = useTranslations("Admin.common");
   return (
-    <div className="flex flex-col gap-3" aria-busy="true" aria-label="Загрузка">
+    <div className="flex flex-col gap-3" aria-busy="true" aria-label={t("loading")}>
       <Skeleton className="h-9 w-72 max-w-full" />
-      <Skeleton className="h-64 w-full rounded-2xl" />
+      <Skeleton className="h-64 w-full rounded-md" />
     </div>
   );
 }

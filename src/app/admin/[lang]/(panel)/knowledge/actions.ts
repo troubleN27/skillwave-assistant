@@ -3,6 +3,7 @@
 import { eq } from "drizzle-orm";
 import { after } from "next/server";
 import { db } from "@/db";
+import { failure, invalid, type ActionResult } from "@/lib/admin/action-result";
 import { documents } from "@/db/schema";
 import { formatFaqContent } from "@/lib/rag/chunking";
 import {
@@ -21,11 +22,7 @@ import {
   textDocumentSchema,
 } from "@/lib/validations/knowledge";
 
-export type ActionResult = { ok: true } | { ok: false; error: string };
-
-function invalid(error: { issues: { message: string }[] }): ActionResult {
-  return { ok: false, error: error.issues[0]?.message ?? "Проверьте поля формы" };
-}
+export type { ActionResult };
 
 /** Indexing runs after the response, so the UI shows "processing" right away. */
 function scheduleIndexing(documentId: string) {
@@ -82,7 +79,7 @@ export async function updateTextDocumentAction(
     .select({ sourceType: documents.sourceType })
     .from(documents)
     .where(eq(documents.id, docId.data));
-  if (!doc) return { ok: false, error: "Документ не найден" };
+  if (!doc) return failure("documentNotFound");
 
   if (doc.sourceType === "faq") {
     const parsed = faqDocumentSchema.safeParse(input);
@@ -126,7 +123,7 @@ export async function deleteDocumentAction(id: unknown): Promise<ActionResult> {
   if (!docId.success) return invalid(docId.error);
 
   const deleted = await deleteDocument(db, docId.data);
-  return deleted ? { ok: true } : { ok: false, error: "Документ не найден" };
+  return deleted ? { ok: true } : failure("documentNotFound");
 }
 
 export async function getDocumentChunksAction(id: unknown) {

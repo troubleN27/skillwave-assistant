@@ -1,11 +1,12 @@
 "use client";
 
 import { CheckCircle2Icon, Loader2Icon, SearchIcon, XCircleIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import {
   runSearchTestAction,
   type SearchTestResult,
-} from "@/app/admin/(panel)/search-test/actions";
+} from "@/app/admin/[lang]/(panel)/search-test/actions";
 import { EmptyState } from "@/components/admin/empty-state";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
+// Sample visitor questions in both knowledge base languages.
 const EXAMPLES = [
   "Сколько стоит курс Python-разработчик?",
   "Есть ли рассрочка?",
@@ -29,6 +31,7 @@ const EXAMPLES = [
 const percent = (value: number) => `${Math.round(value * 100)}%`;
 
 export function SearchTestForm() {
+  const t = useTranslations("Admin.searchTest");
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState<SearchTestResult | null>(null);
   const [pending, startTransition] = useTransition();
@@ -39,7 +42,7 @@ export function SearchTestForm() {
       try {
         setResponse(await runSearchTestAction({ question: value }));
       } catch {
-        setResponse({ ok: false, error: "Нет связи с сервером. Попробуйте ещё раз" });
+        setResponse({ ok: false, error: t("offline") });
       }
     });
   }
@@ -54,8 +57,8 @@ export function SearchTestForm() {
         }}
       >
         <Input
-          aria-label="Вопрос"
-          placeholder="Введите вопрос так, как его задал бы посетитель"
+          aria-label={t("question")}
+          placeholder={t("placeholder")}
           value={question}
           maxLength={1000}
           onChange={(event) => setQuestion(event.target.value)}
@@ -63,7 +66,7 @@ export function SearchTestForm() {
         />
         <Button type="submit" size="lg" disabled={pending || !question.trim()}>
           {pending ? <Loader2Icon className="animate-spin" /> : <SearchIcon />}
-          Найти
+          {t("submit")}
         </Button>
       </form>
       <div className="flex flex-wrap gap-2">
@@ -84,11 +87,11 @@ export function SearchTestForm() {
       {!response ? (
         <EmptyState
           icon={SearchIcon}
-          title="Задайте вопрос"
-          description="Покажем фрагменты базы знаний, которые ассистент использует для ответа, и их близость к вопросу."
+          title={t("emptyTitle")}
+          description={t("emptyText")}
         />
       ) : !response.ok ? (
-        <p role="alert" className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
+        <p role="alert" className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {response.error}
         </p>
       ) : (
@@ -105,6 +108,7 @@ function SearchResults({
   response: Extract<SearchTestResult, { ok: true }>;
   pending: boolean;
 }) {
+  const t = useTranslations("Admin.searchTest");
   const { result, minSimilarity } = response;
   const confident = result.confident;
 
@@ -112,7 +116,7 @@ function SearchResults({
     <div className={cn("flex flex-col gap-4", pending && "opacity-60")}>
       <div
         className={cn(
-          "flex items-start gap-3 rounded-xl px-4 py-3 text-sm",
+          "flex items-start gap-3 rounded-md px-4 py-3 text-sm",
           confident
             ? "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"
             : "bg-amber-500/10 text-amber-800 dark:text-amber-300",
@@ -124,30 +128,31 @@ function SearchResults({
           <XCircleIcon className="mt-0.5 size-4 shrink-0" />
         )}
         <p>
-          {confident
-            ? "Вопрос прошёл бы порог уверенности — ассистент ответит по найденным фрагментам."
-            : "Вопрос не прошёл бы порог уверенности — ассистент скажет, что не знает точного ответа, и предложит оставить заявку."}{" "}
-          Максимальная близость {percent(result.maxSimilarity)}, порог {percent(minSimilarity)},
-          полнотекстовых совпадений: {result.textResultCount}.
+          {confident ? t("confident") : t("notConfident")}{" "}
+          {t("summary", {
+            max: percent(result.maxSimilarity),
+            threshold: percent(minSimilarity),
+            matches: result.textResultCount,
+          })}
         </p>
       </div>
 
       {result.chunks.length === 0 ? (
         <EmptyState
           icon={SearchIcon}
-          title="Ничего не найдено"
-          description="В базе знаний пока нет проиндексированных документов."
+          title={t("nothingTitle")}
+          description={t("nothingText")}
         />
       ) : (
-        <div className="overflow-hidden rounded-2xl border bg-background">
+        <div className="overflow-hidden rounded-md border bg-background">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-12 pl-4">#</TableHead>
-                <TableHead>Фрагмент</TableHead>
-                <TableHead className="text-right">Близость</TableHead>
-                <TableHead className="text-right">Вектор</TableHead>
-                <TableHead className="text-right">Текст</TableHead>
+                <TableHead>{t("columns.chunk")}</TableHead>
+                <TableHead className="text-right">{t("columns.similarity")}</TableHead>
+                <TableHead className="text-right">{t("columns.vector")}</TableHead>
+                <TableHead className="text-right">{t("columns.text")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

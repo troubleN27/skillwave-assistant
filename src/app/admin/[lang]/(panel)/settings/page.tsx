@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { AdminGate } from "@/components/admin/admin-gate";
 import { PageHeader } from "@/components/admin/page-header";
 import { SettingsForm } from "@/components/admin/settings/settings-form";
 import { db } from "@/db";
+import { getAdminLang } from "@/lib/admin/page-lang";
 import { getSettings } from "@/lib/settings";
 import type { SettingsFormValues } from "@/lib/validations/settings";
 
-export const metadata: Metadata = { title: "Настройки" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations({ locale: await getAdminLang(), namespace: "Admin.nav" });
+  return { title: t("settings") };
+}
 
 async function SettingsData() {
   const s = await getSettings(db);
@@ -28,13 +33,12 @@ async function SettingsData() {
   return <SettingsForm initial={initial} />;
 }
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  await getAdminLang();
+  const t = await getTranslations("Admin.settings");
   return (
     <>
-      <PageHeader
-        title="Настройки"
-        description="Приветствие и быстрые вопросы виджета, контакты, курсы, разрешённые сайты и лимиты. Изменения применяются сразу после сохранения."
-      />
+      <PageHeader title={t("title")} description={t("description")} />
       <AdminGate>
         <SettingsData />
       </AdminGate>

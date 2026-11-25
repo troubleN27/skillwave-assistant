@@ -2,12 +2,13 @@
 
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import {
   answerWithFaqAction,
   setUnansweredStatusAction,
-} from "@/app/admin/(panel)/unanswered/actions";
+} from "@/app/admin/[lang]/(panel)/unanswered/actions";
 import { DocumentFormDialog } from "@/components/admin/knowledge/document-form-dialog";
 import { Button } from "@/components/ui/button";
 
@@ -20,6 +21,7 @@ export function UnansweredActions({
   question: string;
   status: "new" | "resolved" | "ignored";
 }) {
+  const t = useTranslations("Admin.unanswered");
   const router = useRouter();
   const [formOpen, setFormOpen] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -37,7 +39,7 @@ export function UnansweredActions({
     <div className="flex flex-wrap gap-2">
       {status !== "resolved" && (
         <Button size="sm" onClick={() => setFormOpen(true)} disabled={pending}>
-          Добавить ответ
+          {t("actions.answer")}
         </Button>
       )}
       {status === "new" && (
@@ -45,10 +47,10 @@ export function UnansweredActions({
           size="sm"
           variant="outline"
           disabled={pending}
-          onClick={() => changeStatus("ignored", "Вопрос перенесён в игнорированные")}
+          onClick={() => changeStatus("ignored", t("toast.ignored"))}
         >
           {pending && <Loader2Icon className="animate-spin" />}
-          Игнорировать
+          {t("actions.ignore")}
         </Button>
       )}
       {status !== "new" && (
@@ -56,17 +58,17 @@ export function UnansweredActions({
           size="sm"
           variant="outline"
           disabled={pending}
-          onClick={() => changeStatus("new", "Вопрос возвращён в новые")}
+          onClick={() => changeStatus("new", t("toast.restored"))}
         >
           {pending && <Loader2Icon className="animate-spin" />}
-          Вернуть в новые
+          {t("actions.restore")}
         </Button>
       )}
 
       {formOpen && (
         <DocumentFormDialog
           mode={{ kind: "create-faq", question }}
-          dialogTitle="Добавить ответ в базу знаний"
+          dialogTitle={t("dialogTitle")}
           submitFaq={(payload) => answerWithFaqAction(ids, payload)}
           onClose={() => setFormOpen(false)}
           onSaved={() => {

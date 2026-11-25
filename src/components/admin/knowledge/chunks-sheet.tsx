@@ -1,8 +1,9 @@
 "use client";
 
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { getDocumentChunksAction } from "@/app/admin/(panel)/knowledge/actions";
+import { getDocumentChunksAction } from "@/app/admin/[lang]/(panel)/knowledge/actions";
 import {
   Sheet,
   SheetContent,
@@ -21,6 +22,7 @@ export function ChunksSheet({
   document: KnowledgeDocument;
   onClose: () => void;
 }) {
+  const t = useTranslations("Admin.knowledge.chunksSheet");
   const [chunks, setChunks] = useState<ChunkRow[] | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -40,24 +42,24 @@ export function ChunksSheet({
         <SheetHeader className="border-b">
           <SheetTitle className="pr-8">{document.title}</SheetTitle>
           <SheetDescription>
-            Фрагменты, по которым ассистент ищет ответы: {document.chunkCount}
+            {t("description", { count: document.chunkCount })}
           </SheetDescription>
         </SheetHeader>
         <div className="flex-1 overflow-y-auto p-4">
           {failed ? (
-            <p className="text-sm text-destructive">Не удалось загрузить фрагменты</p>
+            <p className="text-sm text-destructive">{t("failed")}</p>
           ) : chunks === null ? (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2Icon className="size-4 animate-spin" /> Загрузка…
+              <Loader2Icon className="size-4 animate-spin" /> {t("loading")}
             </div>
           ) : chunks.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              Фрагментов пока нет — документ ещё не проиндексирован.
+              {t("empty")}
             </p>
           ) : (
             <ol className="flex flex-col gap-3">
               {chunks.map((chunk) => (
-                <li key={chunk.id} className="rounded-xl border bg-background p-3">
+                <li key={chunk.id} className="rounded-md border bg-background p-3">
                   <p className="mb-1 text-xs font-medium text-muted-foreground">
                     #{chunk.position + 1}
                     {chunk.heading && ` · ${chunk.heading}`}

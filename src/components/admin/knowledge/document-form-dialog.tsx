@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import {
@@ -8,7 +9,7 @@ import {
   createTextDocumentAction,
   updateTextDocumentAction,
   type ActionResult,
-} from "@/app/admin/(panel)/knowledge/actions";
+} from "@/app/admin/[lang]/(panel)/knowledge/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -69,6 +70,7 @@ export function DocumentFormDialog({
   submitFaq?: (payload: FaqPayload) => Promise<ActionResult>;
   dialogTitle?: string;
 }) {
+  const t = useTranslations("Admin.knowledge.form");
   const [form, setForm] = useState(() => initialState(mode));
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -80,10 +82,10 @@ export function DocumentFormDialog({
   const title =
     dialogTitle ??
     (mode.kind === "create-text"
-      ? "Добавить текст"
+      ? t("titleText")
       : mode.kind === "create-faq"
-        ? "Добавить FAQ"
-        : "Редактировать документ");
+        ? t("titleFaq")
+        : t("titleEdit"));
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -106,14 +108,14 @@ export function DocumentFormDialog({
           result = await createTextDocumentAction(payload);
         }
       } catch {
-        result = { ok: false, error: "Не удалось сохранить. Проверьте подключение" };
+        result = { ok: false, error: t("offline") };
       }
 
       if (!result.ok) {
         setError(result.error);
         return;
       }
-      toast.success("Сохранено. Документ индексируется");
+      toast.success(t("saved"));
       onSaved();
     });
   }
@@ -129,22 +131,18 @@ export function DocumentFormDialog({
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>
-              {isFaq
-                ? "Пара «вопрос — ответ» всегда хранится как один фрагмент."
-                : isFile
-                  ? "Текст файла извлекается автоматически; можно изменить название и язык."
-                  : "После сохранения документ будет проиндексирован, и ассистент начнёт по нему отвечать."}
+              {isFaq ? t("hintFaq") : isFile ? t("hintFile") : t("hintText")}
             </DialogDescription>
           </DialogHeader>
 
           {isFaq ? (
             <>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="faq-question">Вопрос</Label>
+                <Label htmlFor="faq-question">{t("question")}</Label>
                 <Input id="faq-question" value={form.question} onChange={set("question")} />
               </div>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="faq-answer">Ответ</Label>
+                <Label htmlFor="faq-answer">{t("answer")}</Label>
                 <Textarea
                   id="faq-answer"
                   rows={6}
@@ -156,19 +154,19 @@ export function DocumentFormDialog({
           ) : (
             <>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="doc-title">Название</Label>
+                <Label htmlFor="doc-title">{t("name")}</Label>
                 <Input id="doc-title" value={form.title} onChange={set("title")} />
               </div>
               {!isFile && (
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="doc-content">Текст</Label>
+                  <Label htmlFor="doc-content">{t("text")}</Label>
                   <Textarea
                     id="doc-content"
                     rows={12}
                     className="max-h-[50svh] font-mono text-xs"
                     value={form.content}
                     onChange={set("content")}
-                    placeholder="Можно использовать Markdown: заголовки ## разбивают текст на разделы"
+                    placeholder={t("textPlaceholder")}
                   />
                 </div>
               )}
@@ -176,7 +174,7 @@ export function DocumentFormDialog({
           )}
 
           <div className="flex flex-col gap-2">
-            <Label>Язык</Label>
+            <Label>{t("language")}</Label>
             <LanguageToggle
               value={form.language}
               disabled={pending}
@@ -185,18 +183,18 @@ export function DocumentFormDialog({
           </div>
 
           {error && (
-            <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
             </p>
           )}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose} disabled={pending}>
-              Отмена
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
               {pending && <Loader2Icon className="animate-spin" />}
-              Сохранить
+              {t("save")}
             </Button>
           </DialogFooter>
         </form>

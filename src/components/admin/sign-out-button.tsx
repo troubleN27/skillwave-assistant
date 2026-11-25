@@ -2,11 +2,13 @@
 
 import { Loader2Icon, LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
 export function SignOutButton() {
+  const t = useTranslations("Admin.common");
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -34,11 +36,11 @@ export function SignOutButton() {
         disabled={pending}
       >
         {pending ? <Loader2Icon className="animate-spin" /> : <LogOutIcon />}
-        Выйти
+        {t("signOut")}
       </Button>
       {failed && (
         <p role="alert" className="px-2 text-xs text-destructive">
-          Не удалось выйти, попробуйте ещё раз
+          {t("signOutFailed")}
         </p>
       )}
     </div>

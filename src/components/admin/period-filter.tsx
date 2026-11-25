@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { PERIODS, type Period } from "@/lib/admin/period";
 import { cn } from "@/lib/utils";
 
@@ -12,8 +13,9 @@ export function PeriodFilter({
   basePath: string;
   params?: Record<string, string | undefined>;
 }) {
+  const t = useTranslations("Admin.period");
   return (
-    <nav aria-label="Период" className="inline-flex w-fit rounded-lg border bg-background p-0.5">
+    <nav aria-label={t("label")} className="inline-flex w-fit rounded-md border bg-background p-0.5">
       {PERIODS.map((period) => {
         const query = new URLSearchParams(
           Object.entries({ ...params, period: String(period), page: undefined }).filter(
@@ -26,13 +28,13 @@ export function PeriodFilter({
             href={`${basePath}?${query}`}
             aria-current={period === current ? "page" : undefined}
             className={cn(
-              "rounded-md px-3 py-1 text-sm transition-colors",
+              "rounded-sm px-3 py-1 text-sm transition-colors",
               period === current
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
-            {period} дней
+            {t("days", { count: period })}
           </Link>
         );
       })}

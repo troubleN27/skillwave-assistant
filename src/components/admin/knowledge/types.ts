@@ -10,16 +10,16 @@ export type KnowledgeDocument = {
   updatedAt: Date;
 };
 
-export const SOURCE_TYPE_LABELS: Record<KnowledgeDocument["sourceType"], string> = {
+const FILE_TYPE_LABELS: Record<Exclude<KnowledgeDocument["sourceType"], "text">, string> = {
   pdf: "PDF",
   docx: "DOCX",
   txt: "TXT",
   md: "Markdown",
-  text: "Текст",
   faq: "FAQ",
 };
 
-export const LANGUAGE_LABELS: Record<KnowledgeDocument["language"], string> = {
-  ru: "Русский",
-  en: "English",
-};
+/** Format names are the same in every language; only "text" is translated. */
+export const sourceTypeLabel = (type: KnowledgeDocument["sourceType"], textLabel: string) =>
+  type === "text" ? textLabel : FILE_TYPE_LABELS[type];
+
+export const DOCUMENT_LANGUAGES = ["ru", "en"] as const satisfies readonly KnowledgeDocument["language"][];

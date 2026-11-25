@@ -9,12 +9,13 @@ import {
   MoreHorizontalIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import {
   deleteDocumentAction,
   reindexDocumentAction,
-} from "@/app/admin/(panel)/knowledge/actions";
+} from "@/app/admin/[lang]/(panel)/knowledge/actions";
 import { EmptyState } from "@/components/admin/empty-state";
 import { formatDateTime } from "@/components/admin/format";
 import {
@@ -45,29 +46,31 @@ import {
 } from "@/components/ui/table";
 import { ChunksSheet } from "./chunks-sheet";
 import { DocumentFormDialog, type DocumentFormMode } from "./document-form-dialog";
-import { SOURCE_TYPE_LABELS, type KnowledgeDocument } from "./types";
+import { parseAdminLang } from "@/lib/admin/locale";
+import { sourceTypeLabel, type KnowledgeDocument } from "./types";
 import { UploadDialog } from "./upload-dialog";
 
 const POLL_INTERVAL_MS = 2000;
 
 
 function StatusBadge({ doc }: { doc: KnowledgeDocument }) {
+  const t = useTranslations("Admin.knowledge.status");
   if (doc.status === "processing") {
     return (
       <Badge variant="secondary">
-        <Loader2Icon className="animate-spin" /> Обрабатывается
+        <Loader2Icon className="animate-spin" /> {t("processing")}
       </Badge>
     );
   }
   if (doc.status === "error") {
     return (
       <Badge variant="destructive" title={doc.error ?? undefined}>
-        Ошибка
+        {t("error")}
       </Badge>
     );
   }
   return (
-    <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">Готов</Badge>
+    <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">{t("ready")}</Badge>
   );
 }
 
@@ -79,6 +82,8 @@ type Dialog =
   | null;
 
 export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[] }) {
+  const t = useTranslations("Admin.knowledge");
+  const lang = parseAdminLang(useLocale());
   const router = useRouter();
   const [dialog, setDialog] = useState<Dialog>(null);
   const [pending, startTransition] = useTransition();
@@ -100,7 +105,7 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
   function reindex(doc: KnowledgeDocument) {
     startTransition(async () => {
       const result = await reindexDocumentAction(doc.id);
-      if (result.ok) toast.success(`«${doc.title}» отправлен на переиндексацию`);
+      if (result.ok) toast.success(t("toast.reindexQueued", { title: doc.title }));
       else toast.error(result.error);
       router.refresh();
     });
@@ -109,7 +114,7 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
   function remove(doc: KnowledgeDocument) {
     startTransition(async () => {
       const result = await deleteDocumentAction(doc.id);
-      if (result.ok) toast.success(`«${doc.title}» удалён`);
+      if (result.ok) toast.success(t("toast.deleted", { title: doc.title }));
       else toast.error(result.error);
       setDialog(null);
       router.refresh();
@@ -120,41 +125,41 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => setDialog({ type: "upload" })}>
-          <FileUpIcon /> Загрузить файл
+          <FileUpIcon /> {t("uploadFile")}
         </Button>
         <Button
           variant="outline"
           onClick={() => setDialog({ type: "form", mode: { kind: "create-text" } })}
         >
-          <FileTextIcon /> Добавить текст
+          <FileTextIcon /> {t("addText")}
         </Button>
         <Button
           variant="outline"
           onClick={() => setDialog({ type: "form", mode: { kind: "create-faq" } })}
         >
-          <MessageCircleQuestionIcon /> Добавить FAQ
+          <MessageCircleQuestionIcon /> {t("addFaq")}
         </Button>
       </div>
 
       {documents.length === 0 ? (
         <EmptyState
           icon={BookOpenIcon}
-          title="Документов пока нет"
-          description="Загрузите файлы или добавьте текст и FAQ — ассистент начнёт отвечать по ним после индексации."
+          title={t("empty")}
+          description={t("emptyText")}
         />
       ) : (
-        <div className="overflow-hidden rounded-2xl border bg-background">
+        <div className="overflow-hidden rounded-md border bg-background">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="pl-4">Название</TableHead>
-                <TableHead>Тип</TableHead>
-                <TableHead>Язык</TableHead>
-                <TableHead>Статус</TableHead>
-                <TableHead className="text-right">Фрагменты</TableHead>
-                <TableHead>Обновлён</TableHead>
+                <TableHead className="pl-4">{t("columns.title")}</TableHead>
+                <TableHead>{t("columns.type")}</TableHead>
+                <TableHead>{t("columns.language")}</TableHead>
+                <TableHead>{t("columns.status")}</TableHead>
+                <TableHead className="text-right">{t("columns.chunks")}</TableHead>
+                <TableHead>{t("columns.updated")}</TableHead>
                 <TableHead className="w-12">
-                  <span className="sr-only">Действия</span>
+                  <span className="sr-only">{t("columns.actions")}</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -176,14 +181,14 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
                       </p>
                     )}
                   </TableCell>
-                  <TableCell>{SOURCE_TYPE_LABELS[doc.sourceType]}</TableCell>
+                  <TableCell>{sourceTypeLabel(doc.sourceType, t("sourceText"))}</TableCell>
                   <TableCell className="uppercase">{doc.language}</TableCell>
                   <TableCell>
                     <StatusBadge doc={doc} />
                   </TableCell>
                   <TableCell className="text-right tabular-nums">{doc.chunkCount}</TableCell>
                   <TableCell className="text-muted-foreground tabular-nums">
-                    {formatDateTime(doc.updatedAt)}
+                    {formatDateTime(doc.updatedAt, lang)}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -192,7 +197,7 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
                           <Button
                             variant="ghost"
                             size="icon"
-                            aria-label={`Действия с документом «${doc.title}»`}
+                            aria-label={t("actionsFor", { title: doc.title })}
                             disabled={pending}
                           />
                         }
@@ -203,27 +208,27 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
                         <DropdownMenuItem
                           onClick={() => setDialog({ type: "chunks", document: doc })}
                         >
-                          Фрагменты
+                          {t("menu.chunks")}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() =>
                             setDialog({ type: "form", mode: { kind: "edit", document: doc } })
                           }
                         >
-                          Редактировать
+                          {t("menu.edit")}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           disabled={doc.status === "processing"}
                           onClick={() => reindex(doc)}
                         >
-                          Переиндексировать
+                          {t("menu.reindex")}
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           variant="destructive"
                           onClick={() => setDialog({ type: "delete", document: doc })}
                         >
-                          Удалить
+                          {t("menu.delete")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -244,21 +249,20 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
         <AlertDialog open onOpenChange={(open) => !open && !pending && close()}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Удалить документ?</AlertDialogTitle>
+              <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
               <AlertDialogDescription>
-                «{dialog.document.title}» и все его фрагменты будут удалены. Ассистент перестанет
-                отвечать по этому документу. Действие нельзя отменить.
+                {t("deleteDialog.text", { title: dialog.document.title })}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel disabled={pending}>Отмена</AlertDialogCancel>
+              <AlertDialogCancel disabled={pending}>{t("deleteDialog.cancel")}</AlertDialogCancel>
               <Button
                 variant="destructive"
                 disabled={pending}
                 onClick={() => remove(dialog.document)}
               >
                 {pending && <Loader2Icon className="animate-spin" />}
-                Удалить
+                {t("deleteDialog.confirm")}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

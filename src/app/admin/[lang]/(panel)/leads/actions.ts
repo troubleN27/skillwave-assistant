@@ -2,10 +2,11 @@
 
 import { z } from "zod";
 import { db } from "@/db";
+import { failure, invalid, type ActionResult } from "@/lib/admin/action-result";
 import { updateLead } from "@/lib/admin/leads";
 import { requireAdmin } from "@/lib/session";
 
-export type ActionResult = { ok: true } | { ok: false; error: string };
+export type { ActionResult };
 
 const updateSchema = z.object({
   id: z.uuid(),
@@ -13,7 +14,7 @@ const updateSchema = z.object({
   managerNote: z
     .string()
     .trim()
-    .max(2000, "Заметка — максимум 2000 символов")
+    .max(2000, "noteMax")
     .optional()
     .transform((v) => (v === undefined ? undefined : v || null)),
 });
@@ -21,10 +22,8 @@ const updateSchema = z.object({
 export async function updateLeadAction(input: unknown): Promise<ActionResult> {
   await requireAdmin();
   const parsed = updateSchema.safeParse(input);
-  if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Некорректный запрос" };
-  }
+  if (!parsed.success) return invalid(parsed.error);
   const { id, ...data } = parsed.data;
   const updated = await updateLead(db, id, data);
-  return updated ? { ok: true } : { ok: false, error: "Заявка не найдена" };
+  return updated ? { ok: true } : failure("leadNotFound");
 }

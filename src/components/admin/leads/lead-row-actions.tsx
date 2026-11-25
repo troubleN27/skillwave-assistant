@@ -2,10 +2,11 @@
 
 import { Loader2Icon, StickyNoteIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { updateLeadAction } from "@/app/admin/(panel)/leads/actions";
-import { LEAD_STATUS_LABELS } from "@/components/admin/format";
+import { updateLeadAction } from "@/app/admin/[lang]/(panel)/leads/actions";
+import { LEAD_STATUSES, type LeadStatus } from "@/components/admin/format";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,16 +19,18 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-type Status = keyof typeof LEAD_STATUS_LABELS;
+type Status = LeadStatus;
 
 export function LeadStatusSelect({ id, status, name }: { id: string; status: Status; name: string }) {
+  const t = useTranslations("Admin.leads");
+  const tStatus = useTranslations("Admin.leadStatus");
   const router = useRouter();
   const [value, setValue] = useState(status);
   const [pending, startTransition] = useTransition();
 
   return (
     <select
-      aria-label={`Статус заявки: ${name}`}
+      aria-label={t("statusFor", { name })}
       value={value}
       disabled={pending}
       onChange={(event) => {
@@ -37,7 +40,7 @@ export function LeadStatusSelect({ id, status, name }: { id: string; status: Sta
         startTransition(async () => {
           const result = await updateLeadAction({ id, status: next });
           if (result.ok) {
-            toast.success(`Статус: ${LEAD_STATUS_LABELS[next]}`);
+            toast.success(t("statusChanged", { status: tStatus(next) }));
             router.refresh();
           } else {
             setValue(previous);
@@ -45,11 +48,11 @@ export function LeadStatusSelect({ id, status, name }: { id: string; status: Sta
           }
         });
       }}
-      className="rounded-md border bg-background px-2 py-1 text-sm disabled:opacity-60"
+      className="rounded-sm border bg-background px-2 py-1 text-sm disabled:opacity-60"
     >
-      {(Object.keys(LEAD_STATUS_LABELS) as Status[]).map((s) => (
+      {LEAD_STATUSES.map((s) => (
         <option key={s} value={s}>
-          {LEAD_STATUS_LABELS[s]}
+          {tStatus(s)}
         </option>
       ))}
     </select>
@@ -57,6 +60,7 @@ export function LeadStatusSelect({ id, status, name }: { id: string; status: Sta
 }
 
 export function LeadNoteButton({ id, note, name }: { id: string; note: string | null; name: string }) {
+  const t = useTranslations("Admin.leads.noteDialog");
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState(note ?? "");
@@ -72,7 +76,7 @@ export function LeadNoteButton({ id, note, name }: { id: string; note: string | 
         setError(result.error);
         return;
       }
-      toast.success("Заметка сохранена");
+      toast.success(t("saved"));
       setOpen(false);
       router.refresh();
     });
@@ -87,41 +91,41 @@ export function LeadNoteButton({ id, note, name }: { id: string; note: string | 
           setText(note ?? "");
           setOpen(true);
         }}
-        aria-label={`Заметка к заявке: ${name}`}
+        aria-label={t("buttonFor", { name })}
         className="max-w-48 justify-start"
       >
         <StickyNoteIcon className="shrink-0" />
-        <span className="truncate">{note || "Добавить"}</span>
+        <span className="truncate">{note || t("add")}</span>
       </Button>
       <Dialog open={open} onOpenChange={(next) => !pending && setOpen(next)}>
         <DialogContent>
           <form onSubmit={save} className="flex flex-col gap-4">
             <DialogHeader>
-              <DialogTitle>Заметка менеджера</DialogTitle>
+              <DialogTitle>{t("title")}</DialogTitle>
               <DialogDescription>{name}</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-2">
-              <Label htmlFor={`note-${id}`}>Заметка</Label>
+              <Label htmlFor={`note-${id}`}>{t("label")}</Label>
               <Textarea
                 id={`note-${id}`}
                 rows={5}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Например: перезвонить в четверг после 18:00"
+                placeholder={t("placeholder")}
               />
             </div>
             {error && (
-              <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {error}
               </p>
             )}
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setOpen(false)} disabled={pending}>
-                Отмена
+                {t("cancel")}
               </Button>
               <Button type="submit" disabled={pending}>
                 {pending && <Loader2Icon className="animate-spin" />}
-                Сохранить
+                {t("save")}
               </Button>
             </DialogFooter>
           </form>

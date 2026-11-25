@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -196,8 +197,7 @@ function Sidebar({
           side={side}
         >
           <SheetHeader className="sr-only">
-            <SheetTitle>Меню</SheetTitle>
-            <SheetDescription>Разделы панели управления</SheetDescription>
+            <SidebarSheetLabels />
           </SheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
@@ -272,7 +272,7 @@ function SidebarTrigger({
       {...props}
     >
       <PanelLeftIcon />
-      <span className="sr-only">Показать или скрыть меню</span>
+      <ToggleLabel />
     </Button>
   )
 }
@@ -720,4 +720,20 @@ export {
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
+}
+
+/** Screen-reader texts of the mobile sidebar (used in the admin). */
+function SidebarSheetLabels() {
+  const t = useTranslations("Admin.common")
+  return (
+    <>
+      <SheetTitle>{t("menu")}</SheetTitle>
+      <SheetDescription>{t("menuDescription")}</SheetDescription>
+    </>
+  )
+}
+
+function ToggleLabel() {
+  const t = useTranslations("Admin.common")
+  return <span className="sr-only">{t("toggleMenu")}</span>
 }

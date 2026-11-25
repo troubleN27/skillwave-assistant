@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { SignOutButton } from "@/components/admin/sign-out-button";
@@ -9,6 +10,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getAdminLang } from "@/lib/admin/page-lang";
 import { requireAdmin } from "@/lib/session";
 
 async function CurrentAdmin() {
@@ -21,7 +23,9 @@ async function CurrentAdmin() {
   );
 }
 
-export default function AdminPanelLayout({ children }: LayoutProps<"/admin">) {
+export default async function AdminPanelLayout({ children }: LayoutProps<"/admin/[lang]">) {
+  await getAdminLang();
+  const t = await getTranslations("Admin.common");
   return (
     <TooltipProvider>
       <SidebarProvider>
@@ -37,8 +41,8 @@ export default function AdminPanelLayout({ children }: LayoutProps<"/admin">) {
         />
         <SidebarInset className="min-w-0">
           <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur md:hidden">
-            <SidebarTrigger aria-label="Открыть меню" />
-            <span className="font-semibold">Skillwave Academy</span>
+            <SidebarTrigger aria-label={t("openMenu")} />
+            <span className="font-display font-black uppercase">Skillwave</span>
           </header>
           <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 p-4 md:p-8">
             {children}

@@ -18,13 +18,15 @@ export function toOrigin(value: string): string | null {
   }
 }
 
+// Error messages are keys of the Admin.validation namespace.
+
 const quickQuestions = z
   .string()
   .transform(toLines)
   .pipe(
     z
-      .array(z.string().max(120, "Быстрый вопрос — максимум 120 символов"))
-      .max(4, "Не больше 4 быстрых вопросов"),
+      .array(z.string().max(120, "quickQuestionMax"))
+      .max(4, "quickQuestionsCount"),
   );
 
 const optionalText = (max: number, message: string) =>
@@ -38,47 +40,47 @@ export const courseSchema = z.object({
   id: z
     .string()
     .trim()
-    .regex(/^[a-z0-9-]{2,40}$/, "Код курса: латиница в нижнем регистре, цифры и дефис, 2–40 символов"),
-  name_ru: z.string().trim().min(2, "Название на русском — минимум 2 символа").max(80),
-  name_en: z.string().trim().min(2, "Название на английском — минимум 2 символа").max(80),
+    .regex(/^[a-z0-9-]{2,40}$/, "courseCode"),
+  name_ru: z.string().trim().min(2, "courseNameRu").max(80, "courseNameMax"),
+  name_en: z.string().trim().min(2, "courseNameEn").max(80, "courseNameMax"),
 });
 
 export const settingsSchema = z.object({
-  assistantName: z.string().trim().min(2, "Имя — минимум 2 символа").max(60, "Имя — максимум 60 символов"),
-  welcomeRu: optionalText(500, "Приветствие — максимум 500 символов"),
-  welcomeEn: optionalText(500, "Приветствие — максимум 500 символов"),
+  assistantName: z.string().trim().min(2, "assistantNameMin").max(60, "assistantNameMax"),
+  welcomeRu: optionalText(500, "welcomeMax"),
+  welcomeEn: optionalText(500, "welcomeMax"),
   quickQuestionsRu: quickQuestions,
   quickQuestionsEn: quickQuestions,
-  contactsRu: optionalText(1000, "Контакты — максимум 1000 символов"),
-  contactsEn: optionalText(1000, "Контакты — максимум 1000 символов"),
+  contactsRu: optionalText(1000, "contactsMax"),
+  contactsEn: optionalText(1000, "contactsMax"),
   courses: z
     .array(courseSchema)
-    .max(20, "Не больше 20 курсов")
-    .refine((list) => new Set(list.map((c) => c.id)).size === list.length, "Коды курсов не должны повторяться"),
+    .max(20, "coursesMax")
+    .refine((list) => new Set(list.map((c) => c.id)).size === list.length, "courseCodesUnique"),
   allowedOrigins: z
     .string()
     .transform(toLines)
     .pipe(
       z
         .array(z.string())
-        .max(20, "Не больше 20 сайтов")
-        .refine((list) => list.every((v) => toOrigin(v) !== null), "Укажите адреса сайтов, например https://partner.ru")
+        .max(20, "originsMax")
+        .refine((list) => list.every((v) => toOrigin(v) !== null), "originsInvalid")
         .transform((list) => [...new Set(list.map((v) => toOrigin(v)!))]),
     ),
   maxMessagesPerConversation: z.coerce
     .number<string | number>()
-    .int("Целое число")
-    .min(5, "Не меньше 5")
-    .max(200, "Не больше 200"),
+    .int("integer")
+    .min(5, "conversationLimitRange")
+    .max(200, "conversationLimitRange"),
   maxMessagesPerDay: z.coerce
     .number<string | number>()
-    .int("Целое число")
-    .min(10, "Не меньше 10")
-    .max(100_000, "Не больше 100 000"),
+    .int("integer")
+    .min(10, "dailyLimitRange")
+    .max(100_000, "dailyLimitRange"),
   minSimilarity: z.coerce
     .number<string | number>()
-    .min(0.3, "Не меньше 0.3")
-    .max(0.95, "Не больше 0.95"),
+    .min(0.3, "similarityRange")
+    .max(0.95, "similarityRange"),
   telegramNotifications: z.boolean(),
 });
 

@@ -1,8 +1,9 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z.email("Введите корректный email"),
-  password: z.string().min(1, "Введите пароль"),
+  // Messages are keys of the Admin.validation namespace.
+  email: z.email("emailInvalid"),
+  password: z.string().min(1, "passwordRequired"),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

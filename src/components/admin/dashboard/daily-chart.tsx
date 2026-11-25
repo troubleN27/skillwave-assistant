@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
@@ -9,26 +11,31 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { adminIntlLocale, parseAdminLang } from "@/lib/admin/locale";
 
-// Brand indigo and a darker cyan step (#0891B2) that keeps 3:1 contrast on white;
-// the pair passes the dataviz palette validator (CVD ΔE ≥ 12).
-const config = {
-  conversations: { label: "Диалоги", color: "#4F46E5" },
-  leads: { label: "Заявки", color: "#0891B2" },
-} satisfies ChartConfig;
+// Blue and ochre: both keep 3:1 contrast on white and the pair passes the
+// dataviz palette validator (CVD ΔE 26.9, normal vision ΔE 30.6). Brand black
+// can't be a series colour: the validator rejects it as too dark and grey.
+const COLORS = { conversations: "#1D6FD1", leads: "#B45309" };
 
 type Point = { day: string; conversations: number; leads: number };
 
-const shortDate = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "short", timeZone: "UTC" });
-const longDate = new Intl.DateTimeFormat("ru-RU", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
 const toDate = (day: string) => new Date(`${day}T00:00:00Z`);
 
 export function DailyChart({ data }: { data: Point[] }) {
+  const t = useTranslations("Admin.dashboard");
+  const intlLocale = adminIntlLocale(parseAdminLang(useLocale()));
+  const { config, shortDate, longDate } = useMemo(
+    () => ({
+      config: {
+        conversations: { label: t("series.conversations"), color: COLORS.conversations },
+        leads: { label: t("series.leads"), color: COLORS.leads },
+      } satisfies ChartConfig,
+      shortDate: new Intl.DateTimeFormat(intlLocale, { day: "numeric", month: "short", timeZone: "UTC" }),
+      longDate: new Intl.DateTimeFormat(intlLocale, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }),
+    }),
+    [t, intlLocale],
+  );
   const empty = data.every((p) => p.conversations === 0 && p.leads === 0);
 
   return (
@@ -37,7 +44,7 @@ export function DailyChart({ data }: { data: Point[] }) {
         config={config}
         className="aspect-auto h-64 w-full"
         role="img"
-        aria-label="Диалоги и заявки по дням"
+        aria-label={t("dailyTitle")}
       >
         <LineChart data={data} margin={{ top: 8, right: 12, left: -8, bottom: 0 }}>
           <CartesianGrid vertical={false} strokeDasharray="0" stroke="var(--border)" />
@@ -82,20 +89,20 @@ export function DailyChart({ data }: { data: Point[] }) {
       </ChartContainer>
       {empty && (
         <p className="text-center text-sm text-muted-foreground">
-          За выбранный период диалогов и заявок не было.
+          {t("chartEmpty")}
         </p>
       )}
       <details className="text-sm">
         <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-          Показать таблицей
+          {t("showTable")}
         </summary>
         <div className="mt-2 max-h-64 overflow-auto rounded-lg border">
           <table className="w-full text-left tabular-nums">
             <thead className="sticky top-0 bg-muted">
               <tr>
-                <th className="px-3 py-1.5 font-medium">Дата</th>
-                <th className="px-3 py-1.5 text-right font-medium">Диалоги</th>
-                <th className="px-3 py-1.5 text-right font-medium">Заявки</th>
+                <th className="px-3 py-1.5 font-medium">{t("date")}</th>
+                <th className="px-3 py-1.5 text-right font-medium">{t("series.conversations")}</th>
+                <th className="px-3 py-1.5 text-right font-medium">{t("series.leads")}</th>
               </tr>
             </thead>
             <tbody>

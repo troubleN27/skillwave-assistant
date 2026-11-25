@@ -1,7 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { LANGUAGE_LABELS, type KnowledgeDocument } from "./types";
+import { DOCUMENT_LANGUAGES, type KnowledgeDocument } from "./types";
 
 type Language = KnowledgeDocument["language"];
 
@@ -14,13 +15,14 @@ export function LanguageToggle({
   onChange: (value: Language) => void;
   disabled?: boolean;
 }) {
+  const t = useTranslations("Admin.knowledge");
   return (
     <div
       role="radiogroup"
-      aria-label="Язык документа"
-      className="inline-flex w-fit rounded-lg border bg-muted p-0.5"
+      aria-label={t("documentLanguage")}
+      className="inline-flex w-fit rounded-md border bg-muted p-0.5"
     >
-      {(Object.keys(LANGUAGE_LABELS) as Language[]).map((lang) => (
+      {DOCUMENT_LANGUAGES.map((lang) => (
         <button
           key={lang}
           type="button"
@@ -29,13 +31,13 @@ export function LanguageToggle({
           disabled={disabled}
           onClick={() => onChange(lang)}
           className={cn(
-            "rounded-md px-3 py-1 text-sm transition-colors disabled:opacity-50",
+            "rounded-sm px-3 py-1 text-sm transition-colors disabled:opacity-50",
             value === lang
               ? "bg-background font-medium shadow-sm"
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {LANGUAGE_LABELS[lang]}
+          {t(`languages.${lang}`)}
         </button>
       ))}
     </div>

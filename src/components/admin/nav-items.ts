@@ -9,14 +9,15 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type AdminNavItem = { href: string; title: string; icon: LucideIcon };
+/** `key` is the item title in the Admin.nav namespace. */
+export type AdminNavItem = { href: string; key: string; icon: LucideIcon };
 
 export const adminNavItems: AdminNavItem[] = [
-  { href: "/admin", title: "Главная", icon: LayoutDashboardIcon },
-  { href: "/admin/knowledge", title: "База знаний", icon: BookOpenIcon },
-  { href: "/admin/search-test", title: "Проверка поиска", icon: SearchCheckIcon },
-  { href: "/admin/conversations", title: "Диалоги", icon: MessagesSquareIcon },
-  { href: "/admin/unanswered", title: "Вопросы без ответа", icon: CircleHelpIcon },
-  { href: "/admin/leads", title: "Заявки", icon: UserRoundPlusIcon },
-  { href: "/admin/settings", title: "Настройки", icon: SettingsIcon },
+  { href: "/admin", key: "dashboard", icon: LayoutDashboardIcon },
+  { href: "/admin/knowledge", key: "knowledge", icon: BookOpenIcon },
+  { href: "/admin/search-test", key: "searchTest", icon: SearchCheckIcon },
+  { href: "/admin/conversations", key: "conversations", icon: MessagesSquareIcon },
+  { href: "/admin/unanswered", key: "unanswered", icon: CircleHelpIcon },
+  { href: "/admin/leads", key: "leads", icon: UserRoundPlusIcon },
+  { href: "/admin/settings", key: "settings", icon: SettingsIcon },
 ];

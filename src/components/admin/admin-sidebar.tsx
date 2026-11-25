@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { LogoMark } from "@/components/brand/logo-mark";
 import { Suspense, type ReactNode } from "react";
 import {
   Sidebar,
@@ -15,6 +17,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { LanguageSwitch } from "./language-switch";
 import { adminNavItems } from "./nav-items";
 
 function isActive(pathname: string, href: string) {
@@ -24,6 +27,7 @@ function isActive(pathname: string, href: string) {
 }
 
 function NavMenu({ pathname }: { pathname: string | null }) {
+  const t = useTranslations("Admin.nav");
   const { isMobile, setOpenMobile } = useSidebar();
   return (
     <SidebarMenu>
@@ -34,7 +38,7 @@ function NavMenu({ pathname }: { pathname: string | null }) {
             render={<Link href={item.href} onClick={() => isMobile && setOpenMobile(false)} />}
           >
             <item.icon />
-            <span>{item.title}</span>
+            <span>{t(item.key)}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       ))}
@@ -47,20 +51,18 @@ function ActiveNavMenu() {
 }
 
 export function AdminSidebar({ footer }: { footer: ReactNode }) {
+  const t = useTranslations("Admin.nav");
   return (
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center gap-3 px-2 py-1.5">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary font-semibold text-primary-foreground">
-            S
-          </div>
+          <LogoMark inverted className="size-9" />
           <div className="min-w-0 leading-tight">
-            <p className="truncate font-semibold">Skillwave Academy</p>
-            <p className="truncate text-xs text-muted-foreground">
-              AI-ассистент
-            </p>
+            <p className="truncate font-display font-black uppercase">Skillwave</p>
+            <p className="truncate text-xs text-sidebar-foreground/70">{t("subtitle")}</p>
           </div>
         </div>
+        <LanguageSwitch className="mx-2 mt-1" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

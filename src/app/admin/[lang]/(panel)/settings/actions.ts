@@ -2,20 +2,19 @@
 
 import { updateTag } from "next/cache";
 import { db } from "@/db";
+import { invalid, type ActionResult } from "@/lib/admin/action-result";
 import { settings } from "@/db/schema";
 import { SETTINGS_CACHE_TAG } from "@/lib/chat/widget-config";
 import { requireAdmin } from "@/lib/session";
 import { settingsSchema } from "@/lib/validations/settings";
 
-export type ActionResult = { ok: true } | { ok: false; error: string };
+export type { ActionResult };
 
 /** Saves all assistant settings; the widget sees them on the next request. */
 export async function saveSettingsAction(input: unknown): Promise<ActionResult> {
   await requireAdmin();
   const parsed = settingsSchema.safeParse(input);
-  if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Проверьте поля формы" };
-  }
+  if (!parsed.success) return invalid(parsed.error);
 
   await db
     .insert(settings)

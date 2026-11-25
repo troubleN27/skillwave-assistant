@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,8 @@ import { authClient } from "@/lib/auth-client";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 
 export function LoginForm() {
+  const t = useTranslations("Admin.login");
+  const tv = useTranslations("Admin.validation");
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const {
@@ -30,16 +33,14 @@ export function LoginForm() {
       const { error } = await authClient.signIn.email(values);
       if (error) {
         setServerError(
-          error.status === 401
-            ? "Неверный email или пароль"
-            : "Не удалось войти. Попробуйте ещё раз",
+          error.status === 401 ? t("wrongCredentials") : t("failed"),
         );
         return;
       }
       router.replace("/admin");
       router.refresh();
     } catch {
-      setServerError("Нет связи с сервером. Проверьте подключение");
+      setServerError(t("offline"));
     }
   }
 
@@ -62,11 +63,11 @@ export function LoginForm() {
               {...register("email")}
             />
             {errors.email && (
-              <p className="text-sm text-destructive">{errors.email.message}</p>
+              <p className="text-sm text-destructive">{tv(errors.email.message ?? "invalid")}</p>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Пароль</Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <Input
               id="password"
               type="password"
@@ -76,7 +77,7 @@ export function LoginForm() {
             />
             {errors.password && (
               <p className="text-sm text-destructive">
-                {errors.password.message}
+                {tv(errors.password.message ?? "invalid")}
               </p>
             )}
           </div>
@@ -90,7 +91,7 @@ export function LoginForm() {
           )}
           <Button type="submit" size="lg" disabled={isSubmitting}>
             {isSubmitting && <Loader2Icon className="animate-spin" />}
-            Войти
+            {t("submit")}
           </Button>
         </form>
       </CardContent>

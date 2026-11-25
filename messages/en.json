@@ -434,5 +434,420 @@
     "home": "Go to the home page",
     "notFoundTitle": "Page not found",
     "notFoundText": "The link may be outdated or the address may contain a typo."
+  },
+  "Admin": {
+    "meta": {
+      "title": "Admin panel — Skillwave Academy"
+    },
+    "common": {
+      "language": "Interface language",
+      "loading": "Loading",
+      "openMenu": "Open menu",
+      "menu": "Menu",
+      "menuDescription": "Admin panel sections",
+      "toggleMenu": "Show or hide the menu",
+      "close": "Close",
+      "signOut": "Sign out",
+      "signOutFailed": "Couldn't sign out, please try again"
+    },
+    "nav": {
+      "subtitle": "Assistant panel",
+      "dashboard": "Dashboard",
+      "knowledge": "Knowledge base",
+      "searchTest": "Search test",
+      "conversations": "Conversations",
+      "unanswered": "Unanswered questions",
+      "leads": "Leads",
+      "settings": "Settings"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Sign in to the assistant control panel",
+      "password": "Password",
+      "submit": "Sign in",
+      "wrongCredentials": "Wrong email or password",
+      "failed": "Couldn't sign in. Please try again",
+      "offline": "Can't reach the server. Check your connection"
+    },
+    "error": {
+      "title": "This section failed to load",
+      "text": "The database may be temporarily unavailable or the internet connection was lost. Try again in a few seconds.",
+      "retry": "Try again",
+      "home": "Go to dashboard"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "text": "The record may have been deleted or the link is out of date. For example, a conversation from an old notification may have been removed.",
+      "home": "Back to the dashboard"
+    },
+    "period": {
+      "label": "Period",
+      "days": "{count, plural, one {# day} other {# days}}"
+    },
+    "leadStatus": {
+      "new": "New",
+      "in_progress": "In progress",
+      "closed": "Closed"
+    },
+    "channel": {
+      "call": "Phone call",
+      "telegram": "Telegram",
+      "email": "Email"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Key metrics of the assistant for the selected period.",
+      "stats": {
+        "conversations": "Conversations",
+        "messages": "Messages",
+        "leads": "Leads",
+        "conversion": "Lead conversion",
+        "conversionHint": "share of conversations with a lead",
+        "unanswered": "Unanswered",
+        "unansweredHint": "answers with no data in the knowledge base",
+        "positive": "👍 ratings",
+        "ratedOf": "of {count, plural, one {# rating} other {# ratings}}",
+        "noRatings": "no ratings yet"
+      },
+      "dailyTitle": "Conversations and leads by day",
+      "series": {
+        "conversations": "Conversations",
+        "leads": "Leads"
+      },
+      "chartEmpty": "There were no conversations or leads in the selected period.",
+      "showTable": "Show as a table",
+      "date": "Date",
+      "topTitle": "Top unanswered questions",
+      "allQuestions": "All questions",
+      "topEmpty": "No new unanswered questions",
+      "topEmptyText": "When the assistant lacks information or an answer gets a 👎, the question will appear here.",
+      "times": "{count, plural, one {# time} other {# times}}"
+    },
+    "knowledge": {
+      "title": "Knowledge base",
+      "description": "Documents the assistant answers from. Click a title to see its chunks.",
+      "uploadFile": "Upload a file",
+      "addText": "Add text",
+      "addFaq": "Add an FAQ",
+      "empty": "No documents yet",
+      "emptyText": "Upload files or add text and FAQs — the assistant will start answering from them once they are indexed.",
+      "columns": {
+        "title": "Title",
+        "type": "Type",
+        "language": "Language",
+        "status": "Status",
+        "chunks": "Chunks",
+        "updated": "Updated",
+        "actions": "Actions"
+      },
+      "status": {
+        "processing": "Processing",
+        "error": "Error",
+        "ready": "Ready"
+      },
+      "sourceText": "Text",
+      "actionsFor": "Actions for “{title}”",
+      "menu": {
+        "chunks": "Chunks",
+        "edit": "Edit",
+        "reindex": "Re-index",
+        "delete": "Delete"
+      },
+      "toast": {
+        "reindexQueued": "“{title}” has been queued for re-indexing",
+        "deleted": "“{title}” has been deleted"
+      },
+      "deleteDialog": {
+        "title": "Delete the document?",
+        "text": "“{title}” and all its chunks will be deleted. The assistant will stop answering from this document. This can't be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      },
+      "documentLanguage": "Document language",
+      "languages": {
+        "ru": "Russian",
+        "en": "English"
+      },
+      "chunksSheet": {
+        "description": "Chunks the assistant searches for answers: {count}",
+        "failed": "Couldn't load the chunks",
+        "loading": "Loading…",
+        "empty": "No chunks yet — the document hasn't been indexed."
+      },
+      "upload": {
+        "title": "Upload a file",
+        "description": "PDF, DOCX, TXT or MD, up to 10 MB.",
+        "dropHint": "Drop a file here or click to choose one",
+        "name": "Title",
+        "language": "Language",
+        "cancel": "Cancel",
+        "submit": "Upload",
+        "progress": "Uploading {percent}%",
+        "sizeKb": "{size} KB",
+        "sizeMb": "{size} MB",
+        "wrongType": "Only PDF, DOCX, TXT and MD files are supported",
+        "tooLarge": "The file is larger than 10 MB",
+        "noFile": "Choose a file",
+        "done": "File uploaded. The document is being indexed",
+        "failed": "Couldn't upload the file",
+        "failedWithReason": "Couldn't upload the file: {reason}"
+      },
+      "form": {
+        "titleText": "Add text",
+        "titleFaq": "Add an FAQ",
+        "titleEdit": "Edit the document",
+        "hintFaq": "A question-and-answer pair is always stored as a single chunk.",
+        "hintFile": "The file text is extracted automatically; you can change the title and language.",
+        "hintText": "After saving, the document will be indexed and the assistant will start answering from it.",
+        "question": "Question",
+        "answer": "Answer",
+        "name": "Title",
+        "text": "Text",
+        "textPlaceholder": "Markdown is supported: ## headings split the text into sections",
+        "language": "Language",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saved": "Saved. The document is being indexed",
+        "offline": "Couldn't save. Check your connection"
+      }
+    },
+    "searchTest": {
+      "title": "Search test",
+      "description": "Which knowledge base chunks the assistant finds for a question: similarity, positions in vector and full-text search, and the final place after fusion (RRF).",
+      "question": "Question",
+      "placeholder": "Type a question the way a visitor would ask it",
+      "submit": "Search",
+      "offline": "Can't reach the server. Please try again",
+      "emptyTitle": "Ask a question",
+      "emptyText": "We'll show the knowledge base chunks the assistant uses for its answer and how close they are to the question.",
+      "confident": "The question would pass the confidence threshold — the assistant will answer from the chunks found.",
+      "notConfident": "The question would not pass the confidence threshold — the assistant will say it doesn't know the exact answer and offer to leave a request.",
+      "summary": "Top similarity {max}, threshold {threshold}, full-text matches: {matches}.",
+      "nothingTitle": "Nothing found",
+      "nothingText": "There are no indexed documents in the knowledge base yet.",
+      "columns": {
+        "chunk": "Chunk",
+        "similarity": "Similarity",
+        "vector": "Vector",
+        "text": "Text"
+      }
+    },
+    "conversations": {
+      "title": "Conversations",
+      "description": "Visitors' conversations with the assistant. Click a date to open the whole conversation.",
+      "filters": {
+        "language": "Language",
+        "all": "All",
+        "ru": "Russian",
+        "en": "English",
+        "withLead": "With a lead",
+        "unanswered": "Unanswered",
+        "negative": "With 👎",
+        "apply": "Apply"
+      },
+      "empty": "No conversations found",
+      "emptyText": "Change the period or filters. Conversations appear when visitors write to the assistant.",
+      "columns": {
+        "lastMessage": "Last message",
+        "language": "Language",
+        "messages": "Messages",
+        "flags": "Flags",
+        "page": "Page"
+      },
+      "flags": {
+        "lead": "Lead",
+        "unanswered": "Unanswered"
+      },
+      "pagination": {
+        "label": "Pages",
+        "summary": "Total: {total}. Page {page} of {pages}",
+        "prev": "Previous",
+        "next": "Next"
+      }
+    },
+    "conversation": {
+      "title": "Conversation",
+      "description": "The visitor's questions, the assistant's answers, sources and ratings.",
+      "back": "All conversations",
+      "started": "Started:",
+      "language": "Language:",
+      "messageCount": "Messages:",
+      "page": "Page:",
+      "messages": "Messages",
+      "noData": "No data in the knowledge base",
+      "latency": "first words after {seconds} s",
+      "helpful": "Helpful",
+      "notHelpful": "Not helpful",
+      "lead": {
+        "title": "Lead",
+        "name": "Name:",
+        "contact": "Contact:",
+        "course": "Course:",
+        "channel": "Contact via:",
+        "comment": "Comment:",
+        "open": "Open in leads"
+      }
+    },
+    "unanswered": {
+      "title": "Unanswered questions",
+      "description": "Add an answer — it will be saved to the knowledge base as an FAQ and the assistant will start answering this question.",
+      "statusLabel": "Status",
+      "tabs": {
+        "new": "New",
+        "resolved": "Resolved",
+        "ignored": "Ignored"
+      },
+      "empty": {
+        "new": "No new unanswered questions",
+        "resolved": "No resolved questions yet",
+        "ignored": "No ignored questions"
+      },
+      "emptyText": "Questions the assistant found no answer to in the knowledge base, and answers rated 👎, end up here. Similar wordings are grouped together.",
+      "times": "{count, plural, one {# time} other {# times}}",
+      "lastAt": "last — {date}",
+      "reasons": {
+        "no_context": "Not in the knowledge base",
+        "negative_feedback": "Rated 👎"
+      },
+      "openConversation": "Open the conversation",
+      "actions": {
+        "answer": "Add an answer",
+        "ignore": "Ignore",
+        "restore": "Move back to new"
+      },
+      "toast": {
+        "ignored": "The question was moved to ignored",
+        "restored": "The question was moved back to new"
+      },
+      "dialogTitle": "Add an answer to the knowledge base"
+    },
+    "leads": {
+      "title": "Leads",
+      "description": "Contact details visitors left in the chat and on the site. Change the status and add notes as you work.",
+      "statusLabel": "Status",
+      "all": "All",
+      "empty": "No leads yet",
+      "emptyFiltered": "No leads with this status",
+      "emptyText": "Leads appear when visitors leave their contacts in the chat or on the site. The manager also gets them in Telegram.",
+      "columns": {
+        "date": "Date",
+        "name": "Name",
+        "contact": "Contact",
+        "course": "Course",
+        "channel": "Contact via",
+        "status": "Status",
+        "note": "Note",
+        "conversation": "Conversation"
+      },
+      "open": "Open",
+      "statusFor": "Lead status: {name}",
+      "statusChanged": "Status: {status}",
+      "noteDialog": {
+        "title": "Manager's note",
+        "label": "Note",
+        "placeholder": "For example: call back on Thursday after 6 pm",
+        "add": "Add",
+        "buttonFor": "Note for the lead: {name}",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saved": "Note saved"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "The widget's greeting and quick questions, contacts, courses, allowed sites and limits. Changes apply right after saving.",
+      "assistant": {
+        "title": "Assistant",
+        "description": "How the assistant introduces itself to visitors.",
+        "name": "Assistant name",
+        "welcomeRu": "Greeting (Russian)",
+        "welcomeEn": "Greeting (English)",
+        "quickRu": "Quick questions (Russian)",
+        "quickEn": "Quick questions (English)",
+        "quickHint": "One per line, up to 4"
+      },
+      "contacts": {
+        "title": "School contacts",
+        "description": "The assistant shares them when a visitor wants to contact the school.",
+        "ru": "Contacts (Russian)",
+        "en": "Contacts (English)"
+      },
+      "courses": {
+        "title": "Courses in the request form",
+        "description": "The list visitors choose a course from. The code is used by the assistant and in leads — change it carefully.",
+        "code": "Course code",
+        "codePlaceholder": "code, e.g. python",
+        "nameRu": "Name in Russian",
+        "nameEn": "Name in English",
+        "remove": "Remove the course",
+        "add": "Add a course"
+      },
+      "embed": {
+        "title": "Embedding on sites",
+        "description": "Sites allowed to show the widget. The school site is always allowed.",
+        "origins": "Allowed sites",
+        "hint": "One address per line, e.g. https://partner.ru. Changes take effect within a minute."
+      },
+      "limits": {
+        "title": "Limits and search",
+        "description": "Protect the Gemini API quota and answer quality.",
+        "perConversation": "Messages per conversation",
+        "perDay": "Messages per day for the whole site",
+        "threshold": "Search confidence threshold",
+        "thresholdHint": "From 0.3 to 0.95. If the closest knowledge base chunk is less similar to the question than the threshold, the assistant doesn't answer itself and offers a request form instead. A higher threshold means fewer off-topic answers but more “I don't know”. The recommended 0.69 was tuned with npm run eval."
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Messages about new leads to the manager in Telegram.",
+        "telegram": "Send leads to Telegram"
+      },
+      "save": "Save",
+      "discard": "Discard changes",
+      "checkFields": "Check the highlighted fields",
+      "saved": "Settings saved and already in effect",
+      "offline": "Couldn't save. Check your connection"
+    },
+    "validation": {
+      "invalid": "Check this value",
+      "formInvalid": "Check the form fields",
+      "badRequest": "Invalid request",
+      "emailInvalid": "Enter a valid email",
+      "passwordRequired": "Enter your password",
+      "documentLanguage": "Choose the document language",
+      "titleMin": "Title — at least 2 characters",
+      "titleMax": "Title — at most 200 characters",
+      "textMin": "Text — at least 20 characters",
+      "textMax": "The text is too long: at most 200,000 characters",
+      "questionMin": "Question — at least 5 characters",
+      "questionMax": "Question — at most 300 characters",
+      "answerMin": "Answer — at least 5 characters",
+      "answerMax": "Answer — at most 3,000 characters",
+      "blobStorage": "The file must be uploaded to storage",
+      "documentId": "Invalid document ID",
+      "documentNotFound": "Document not found",
+      "searchQuestionRequired": "Enter a question",
+      "searchQuestionMax": "Question — at most 1,000 characters",
+      "noQuestions": "No questions selected",
+      "noteMax": "Note — at most 2,000 characters",
+      "leadNotFound": "Lead not found",
+      "quickQuestionMax": "Quick question — at most 120 characters",
+      "quickQuestionsCount": "No more than 4 quick questions",
+      "courseCode": "Course code: lowercase Latin letters, digits and hyphens, 2–40 characters",
+      "courseNameRu": "Russian name — at least 2 characters",
+      "courseNameEn": "English name — at least 2 characters",
+      "courseNameMax": "Course name — at most 80 characters",
+      "assistantNameMin": "Name — at least 2 characters",
+      "assistantNameMax": "Name — at most 60 characters",
+      "welcomeMax": "Greeting — at most 500 characters",
+      "contactsMax": "Contacts — at most 1,000 characters",
+      "coursesMax": "No more than 20 courses",
+      "courseCodesUnique": "Course codes must be unique",
+      "originsMax": "No more than 20 sites",
+      "originsInvalid": "Enter site addresses, e.g. https://partner.ru",
+      "integer": "Must be a whole number",
+      "conversationLimitRange": "From 5 to 200",
+      "dailyLimitRange": "From 10 to 100,000",
+      "similarityRange": "From 0.3 to 0.95"
+    }
   }
 }
