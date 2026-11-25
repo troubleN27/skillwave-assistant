@@ -16,6 +16,7 @@ import {
   reindexDocumentAction,
 } from "@/app/admin/(panel)/knowledge/actions";
 import { EmptyState } from "@/components/admin/empty-state";
+import { formatDateTime } from "@/components/admin/format";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -49,13 +50,6 @@ import { UploadDialog } from "./upload-dialog";
 
 const POLL_INTERVAL_MS = 2000;
 
-const dateFormat = new Intl.DateTimeFormat("ru-RU", {
-  day: "2-digit",
-  month: "2-digit",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-});
 
 function StatusBadge({ doc }: { doc: KnowledgeDocument }) {
   if (doc.status === "processing") {
@@ -189,7 +183,7 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
                   </TableCell>
                   <TableCell className="text-right tabular-nums">{doc.chunkCount}</TableCell>
                   <TableCell className="text-muted-foreground tabular-nums">
-                    {dateFormat.format(new Date(doc.updatedAt))}
+                    {formatDateTime(doc.updatedAt)}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>

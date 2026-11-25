@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { detectLanguage } from "@/lib/language";
 import { parseFaqContent } from "@/lib/validations/knowledge";
 import { LanguageToggle } from "./language-toggle";
 import type { KnowledgeDocument } from "./types";
@@ -42,23 +43,31 @@ function initialState(mode: DocumentFormMode) {
       language: doc.language,
     };
   }
+  const question = mode.kind === "create-faq" ? (mode.question ?? "") : "";
   return {
     title: "",
     content: "",
-    question: mode.kind === "create-faq" ? (mode.question ?? "") : "",
+    question,
     answer: "",
-    language: "ru" as const,
+    language: detectLanguage(question, "ru"),
   };
 }
+
+type FaqPayload = { question: string; answer: string; language: "ru" | "en" };
 
 export function DocumentFormDialog({
   mode,
   onClose,
   onSaved,
+  submitFaq,
+  dialogTitle,
 }: {
   mode: DocumentFormMode;
   onClose: () => void;
   onSaved: () => void;
+  /** Overrides how a new FAQ is saved (e.g. answering unanswered questions). */
+  submitFaq?: (payload: FaqPayload) => Promise<ActionResult>;
+  dialogTitle?: string;
 }) {
   const [form, setForm] = useState(() => initialState(mode));
   const [error, setError] = useState<string | null>(null);
@@ -69,11 +78,12 @@ export function DocumentFormDialog({
   const isFile = sourceType === "pdf" || sourceType === "docx";
 
   const title =
-    mode.kind === "create-text"
+    dialogTitle ??
+    (mode.kind === "create-text"
       ? "Добавить текст"
       : mode.kind === "create-faq"
         ? "Добавить FAQ"
-        : "Редактировать документ";
+        : "Редактировать документ");
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -90,7 +100,8 @@ export function DocumentFormDialog({
         if (mode.kind === "edit") {
           result = await updateTextDocumentAction(mode.document.id, payload);
         } else if (isFaq) {
-          result = await createFaqDocumentAction(payload);
+          const faq = payload as FaqPayload;
+          result = submitFaq ? await submitFaq(faq) : await createFaqDocumentAction(faq);
         } else {
           result = await createTextDocumentAction(payload);
         }

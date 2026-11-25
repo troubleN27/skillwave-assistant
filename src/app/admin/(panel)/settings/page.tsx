@@ -1,17 +1,43 @@
 import type { Metadata } from "next";
-import { SettingsIcon } from "lucide-react";
-import { SectionPage } from "@/components/admin/section-page";
+import { AdminGate } from "@/components/admin/admin-gate";
+import { PageHeader } from "@/components/admin/page-header";
+import { SettingsForm } from "@/components/admin/settings/settings-form";
+import { db } from "@/db";
+import { getSettings } from "@/lib/settings";
+import type { SettingsFormValues } from "@/lib/validations/settings";
 
 export const metadata: Metadata = { title: "Настройки" };
 
+async function SettingsData() {
+  const s = await getSettings(db);
+  const initial: SettingsFormValues = {
+    assistantName: s.assistantName,
+    welcomeRu: s.welcomeRu ?? "",
+    welcomeEn: s.welcomeEn ?? "",
+    quickQuestionsRu: (s.quickQuestionsRu ?? []).join("\n"),
+    quickQuestionsEn: (s.quickQuestionsEn ?? []).join("\n"),
+    contactsRu: s.contactsRu ?? "",
+    contactsEn: s.contactsEn ?? "",
+    courses: s.courses ?? [],
+    allowedOrigins: (s.allowedOrigins ?? []).join("\n"),
+    maxMessagesPerConversation: s.maxMessagesPerConversation,
+    maxMessagesPerDay: s.maxMessagesPerDay,
+    minSimilarity: s.minSimilarity,
+    telegramNotifications: s.telegramNotifications,
+  };
+  return <SettingsForm initial={initial} />;
+}
+
 export default function SettingsPage() {
   return (
-    <SectionPage
-      title="Настройки"
-      description="Имя и приветствие ассистента, быстрые вопросы, курсы и лимиты."
-      icon={SettingsIcon}
-      emptyTitle="Настройки скоро будут доступны"
-      emptyDescription="Здесь можно будет изменить приветствие, быстрые вопросы, список курсов и лимиты сообщений."
-    />
+    <>
+      <PageHeader
+        title="Настройки"
+        description="Приветствие и быстрые вопросы виджета, контакты, курсы, разрешённые сайты и лимиты. Изменения применяются сразу после сохранения."
+      />
+      <AdminGate>
+        <SettingsData />
+      </AdminGate>
+    </>
   );
 }

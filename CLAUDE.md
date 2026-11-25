@@ -40,6 +40,7 @@ src/db/               schema.ts, client.ts (createDb для скриптов), i
 src/lib/              auth*, session.ts (requireAdmin), settings.ts (настройки, isAllowedOrigin), rate-limit.ts, language.ts, validations/
 src/lib/ai/           models.ts (модели из env), embeddings.ts, prompts.ts (системный промпт, заготовки), rewrite.ts
 src/lib/chat/         conversations.ts, feedback.ts, types.ts (ChatUIMessage и data-части потока)
+src/lib/admin/        period (7/30/90 дней, московское время), analytics, conversations, unanswered (группировка), leads
 src/lib/rag/          file-types, extract, chunking, ingest, documents, retrieve, rrf
 src/components/ui/    компоненты shadcn/ui
 src/components/admin/ компоненты админки
@@ -78,6 +79,10 @@ tests/                Vitest
 - Язык ответа определяет сервер (`detectLanguage`) и явно передаёт в системный промпт.
 - `/embed`: CSP `frame-ancestors 'self' <allowed_origins>` ставит `src/proxy.ts` (кэш 60 с). Страница вызывает `setRequestLocale`, иначе next-intl читает заголовки и ломает статическую отрисовку; `instant = false`, т.к. клиентской навигации в iframe нет.
 - Заявки: `/api/leads` (zod, honeypot `website`, 3/час на посетителя и 10/час на IP) → Telegram в `after()`; без токена — пропуск с логом. Лимиты чата: 20/10 мин на посетителя+IP, 60/10 мин на IP, диалог и сутки — из settings.
+- Админка: все даты и дневная разбивка — по Москве (`ADMIN_TIME_ZONE`, `formatDateTime`). Фильтры и вкладки — в `searchParams`, страницы читают их внутри `<AdminGate>`. Меню в сайдбаре — в `<Suspense>` (usePathname на динамических маршрутах).
+- Вопросы без ответа группируются по нормализованному тексту (`normalizeQuestion`); «Добавить ответ» создаёт FAQ (`answerWithFaqAction`) и помечает всю группу `resolved`.
+- Сохранение настроек вызывает `updateTag("settings")` — виджет видит изменения сразу; правка `settings` напрямую в БД кэш виджета НЕ сбрасывает (только через админку). Лимиты и порог чат читает из БД без кэша.
+- График Главной: индиго `#4F46E5` + циан `#0891B2` (проверено валидатором dataviz), таблица данных под графиком.
 - Колонка `chunks.tsv` генерируется Postgres; индексы HNSW (`vector_cosine_ops`) и GIN описаны в схеме.
 - Neon: проект `skillwave-assistant` (aws-eu-central-1), ветка `dev` для разработки.
 - Vercel: проект `skillwave-assistant` (без деплоя), Blob store `skillwave-knowledge` (private, fra1).
