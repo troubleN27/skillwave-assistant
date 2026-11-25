@@ -1,24 +1,18 @@
 import { and, asc, eq } from "drizzle-orm";
 import type { Database } from "@/db/client";
 import { conversations, messages } from "@/db/schema";
-import type { ChatSource, ChatUIMessage } from "./types";
+import { detectLanguage } from "@/lib/language";
+import { visibleSources } from "./sources";
+import type { ChatUIMessage } from "./types";
 
 type MessageRow = {
   id: string;
   role: "user" | "assistant";
   content: string;
-  sources: { documentId: string; title: string }[] | null;
+  sources: { documentId: string; title: string; language?: "ru" | "en" }[] | null;
   answered: boolean | null;
   feedback: "up" | "down" | null;
 };
-
-function uniqueSources(sources: MessageRow["sources"]): ChatSource[] {
-  const seen = new Map<string, ChatSource>();
-  for (const s of sources ?? []) {
-    if (!seen.has(s.documentId)) seen.set(s.documentId, { documentId: s.documentId, title: s.title });
-  }
-  return [...seen.values()];
-}
 
 /** Converts stored rows into UI messages in the same shape the chat stream produces. */
 export function toUIMessages(rows: MessageRow[]): ChatUIMessage[] {
@@ -27,7 +21,8 @@ export function toUIMessages(rows: MessageRow[]): ChatUIMessage[] {
       return { id: row.id, role: "user", parts: [{ type: "text", text: row.content }] };
     }
     const parts: ChatUIMessage["parts"] = [{ type: "text", text: row.content }];
-    const sources = uniqueSources(row.sources);
+    // The reply language is not stored, but the answer text itself tells it.
+    const sources = visibleSources(row.sources ?? [], detectLanguage(row.content, "ru"));
     if (row.answered && sources.length) parts.push({ type: "data-sources", data: sources });
     parts.push({
       type: "data-meta",

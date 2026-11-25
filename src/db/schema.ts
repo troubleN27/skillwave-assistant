@@ -38,6 +38,8 @@ export type MessageSource = {
   title: string;
   chunkId: string;
   similarity: number;
+  /** Document language; missing on messages saved before it was recorded. */
+  language?: "ru" | "en";
 };
 
 /* ---------- Assistant settings (single row) ---------- */

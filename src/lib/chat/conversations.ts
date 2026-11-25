@@ -1,8 +1,7 @@
 import { and, count, desc, eq, lt, sql } from "drizzle-orm";
 import type { Database } from "@/db/client";
-import { conversations, messages, unansweredQuestions } from "@/db/schema";
+import { conversations, messages, unansweredQuestions, type MessageSource } from "@/db/schema";
 import type { HistoryMessage } from "@/lib/ai/rewrite";
-import type { ChatSource } from "./types";
 
 export const HISTORY_LIMIT = 6;
 
@@ -88,7 +87,7 @@ export async function saveUserMessage(db: Database, conversationId: string, cont
 export type AssistantMessageInput = {
   conversationId: string;
   content: string;
-  sources: (ChatSource & { chunkId: string; similarity: number })[] | null;
+  sources: MessageSource[] | null;
   answered: boolean | null;
   latencyMs: number;
   /** When set, the question is recorded as unanswered (SPEC 5.1, step 5). */

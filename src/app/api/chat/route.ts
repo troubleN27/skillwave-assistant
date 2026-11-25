@@ -26,7 +26,9 @@ import {
   saveAssistantMessage,
   saveUserMessage,
 } from "@/lib/chat/conversations";
-import type { ChatSource, ChatUIMessage, LeadFormReason } from "@/lib/chat/types";
+import type { MessageSource } from "@/db/schema";
+import { visibleSources } from "@/lib/chat/sources";
+import type { ChatUIMessage, LeadFormReason } from "@/lib/chat/types";
 import { detectLanguage } from "@/lib/language";
 import { checkMessageLimits, getClientIp } from "@/lib/rate-limit";
 import { retrieve, type RetrievedChunk } from "@/lib/rag/retrieve";
@@ -54,14 +56,14 @@ function writeLeadForm(writer: Writer, reason: LeadFormReason, courseId?: string
   writer.write({ type: "data-lead-form", data: { reason, ...(courseId ? { courseId } : {}) } });
 }
 
-function uniqueSources(chunks: RetrievedChunk[]): ChatSource[] {
-  const seen = new Map<string, ChatSource>();
-  for (const chunk of chunks) {
-    if (!seen.has(chunk.documentId)) {
-      seen.set(chunk.documentId, { documentId: chunk.documentId, title: chunk.documentTitle });
-    }
-  }
-  return [...seen.values()];
+function toMessageSources(chunks: RetrievedChunk[]): MessageSource[] {
+  return chunks.map((c) => ({
+    documentId: c.documentId,
+    title: c.documentTitle,
+    language: c.documentLanguage,
+    chunkId: c.id,
+    similarity: Number(c.similarity.toFixed(4)),
+  }));
 }
 
 /** A short canned reply streamed without calling the model. */
@@ -179,7 +181,8 @@ export async function POST(request: Request) {
   }
 
   // 6–7. Generate a streamed answer from the retrieved context.
-  const sources = uniqueSources(retrieval.chunks);
+  const storedSources = toMessageSources(retrieval.chunks);
+  const sources = visibleSources(storedSources, language);
   const courseIds = new Set((settings.courses ?? []).map((c) => c.id));
   const system = buildSystemPrompt(
     {
@@ -276,14 +279,7 @@ export async function POST(request: Request) {
       const messageId = await saveAssistantMessage(db, {
         conversationId,
         content: answer.trim(),
-        sources: failed
-          ? null
-          : retrieval.chunks.map((c) => ({
-              documentId: c.documentId,
-              title: c.documentTitle,
-              chunkId: c.id,
-              similarity: Number(c.similarity.toFixed(4)),
-            })),
+        sources: failed ? null : storedSources,
         answered: failed ? null : true,
         latencyMs: (firstTokenAt ?? Date.now()) - startedAt,
       });

@@ -14,6 +14,7 @@ type Candidate = {
   heading: string | null;
   documentId: string;
   documentTitle: string;
+  documentLanguage: "ru" | "en";
   similarity: number;
 };
 
@@ -44,6 +45,7 @@ export async function retrieve(
     heading: chunks.heading,
     documentId: chunks.documentId,
     documentTitle: documents.title,
+    documentLanguage: documents.language,
     similarity,
   };
   const ready = eq(documents.status, "ready");
