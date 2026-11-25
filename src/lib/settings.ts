@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import type { Database } from "@/db/client";
 import { settings } from "@/db/schema";
 
-export const DEFAULT_MIN_SIMILARITY = 0.69;
+export const DEFAULT_MIN_SIMILARITY = 0.68;
 
 export type AssistantSettings = typeof settings.$inferSelect;
 

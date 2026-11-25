@@ -22,7 +22,7 @@ Next.js 16 (App Router, `cacheComponents`, `src/proxy.ts` вместо middlewar
 
 ```
 docs/                 PRD и SPEC
-db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты)
+db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты, 0005 — порог 0.68)
 messages/             переводы сайта, виджета и админки (ru, en)
 knowledge/            база знаний (Markdown, 12 документов × RU/EN; заголовок `#` = название, `-en.md` = английский)
 public/images/        фото сайта (выводятся растром через HalftonePhoto)
@@ -74,7 +74,7 @@ tests/                Vitest
 - Модель ответов — `gemini-3.5-flash-lite` (решение владельца: `gemini-3.8-flash` отвечала 503 «high demand»). Меняется через `GEMINI_CHAT_MODEL`.
 - `/api/chat` принимает `{ id (uuid диалога), visitorId, text, locale, pageUrl? }` и сам грузит историю из БД. Ответ — UI message stream AI SDK 7, который маршрут пишет вручную (`createUIMessageStream`): текст + `data-sources`, `data-meta` (id сообщения для 👍/👎, answered), `data-lead-form` (reason, courseId). Типы — `src/lib/chat/types.ts`.
 - Форма заявки: инструмент `show_lead_form` + страховка `suggestsLeadForm()` (лёгкая модель иногда предлагает оставить контакты, не вызывая инструмент).
-- Порог уверенности 0.69 подобран `npm run eval` с запасом 0.02. Вопросы «без ответа», близкие к теме школы, порог не отсекает — их обрабатывает промпт (в `unanswered_questions` они не пишутся, только после 👎).
+- Порог уверенности 0.68 подобран `npm run eval` с запасом 0.02 (после добавления английских документов; миграция 0005). Вопросы «без ответа», близкие к теме школы, порог не отсекает — их обрабатывает промпт (в `unanswered_questions` они не пишутся, только после 👎).
 - Вызовы модели ограничены по времени: переформулировка 8 с, генерация 45 с; при ошибке — заготовка «перегружен» + форма заявки.
 - Виджет: `visitorId`/`conversationId` в localStorage (`src/lib/chat/storage.ts`), история — `GET /api/chat/history`. Сессия чата (`ChatSession`) пересоздаётся по `key={conversationId}`; форма заявки вычисляется из `data-lead-form` последнего ответа (без setState в эффектах — правило React Compiler).
 - Настройки для виджета — `getWidgetConfig()` с `"use cache"` + `cacheTag("settings")`; Server Action сохранения настроек вызывает `updateTag("settings")`.

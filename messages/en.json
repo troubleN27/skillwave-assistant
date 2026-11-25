@@ -794,7 +794,7 @@
         "perConversation": "Messages per conversation",
         "perDay": "Messages per day for the whole site",
         "threshold": "Search confidence threshold",
-        "thresholdHint": "From 0.3 to 0.95. If the closest knowledge base chunk is less similar to the question than the threshold, the assistant doesn't answer itself and offers a request form instead. A higher threshold means fewer off-topic answers but more “I don't know”. The recommended 0.69 was tuned with npm run eval."
+        "thresholdHint": "From 0.3 to 0.95. If the closest knowledge base chunk is less similar to the question than the threshold, the assistant doesn't answer itself and offers a request form instead. A higher threshold means fewer off-topic answers but more “I don't know”. The recommended 0.68 was tuned with npm run eval."
       },
       "notifications": {
         "title": "Notifications",

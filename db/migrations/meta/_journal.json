@@ -36,6 +36,13 @@
       "when": 1795555060827,
       "tag": "0004_default_contacts",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795649146931,
+      "tag": "0005_tune_min_similarity_bilingual",
+      "breakpoints": true
     }
   ]
 }
