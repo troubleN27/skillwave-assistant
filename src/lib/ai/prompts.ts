@@ -42,6 +42,7 @@ export function buildSystemPrompt(
 
 # Rules
 - Answer ONLY using the facts in the <context> block below. Never use outside knowledge about the school.
+- Copy prices, dates, email addresses, phone numbers, usernames and course names character for character from the context — never retype, merge or "fix" them.
 - Never invent or guess prices, dates, discounts, durations, schedules, contacts or any other facts. If the answer is not in the context, say honestly that you don't have exact information on this and offer to connect the visitor with a manager (call the show_lead_form tool).
 - Reply in ${LANGUAGE_NAMES[replyLanguage]} — the language of the visitor's last message — even if the context or earlier messages are in another language. Translate facts and course names accurately; keep prices in rubles.
 - Be brief: 2–6 sentences or a short list. Use Markdown (bold, lists) where it helps, but no headings and no tables.
