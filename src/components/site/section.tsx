@@ -38,6 +38,7 @@ export function SectionTitle({ id, children, className }: { id: string; children
   return (
     <h2
       id={id}
+      data-anim="stamp"
       className={cn(
         "font-display text-[clamp(2.25rem,6vw,4.25rem)] leading-[0.95] font-black uppercase",
         className,

@@ -51,7 +51,7 @@ export function CoursesSection() {
         <SectionTitle id="courses-title">{t("title")}</SectionTitle>
         <p className="max-w-[52ch] text-[17px] leading-relaxed text-sun/80">{t("subtitle")}</p>
       </div>
-      <ul className="mt-12 grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-14">
+      <ul data-anim="deal" className="mt-12 grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-14">
         {tickets.map((ticket, i) => (
           <li key={ticket.id} className={i % 2 ? "lg:translate-y-6" : undefined}>
             <CourseTicket course={ticket} labels={labels} />

@@ -23,8 +23,8 @@ export function ContactsSection() {
           <SectionTitle id="contacts-title">{t("contacts.title")}</SectionTitle>
           <p className="mt-5 max-w-[46ch] text-[17px] leading-relaxed text-ink-soft">{t("contacts.text")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <LeadButton className={button.ink}>{t("leaveRequest")}</LeadButton>
-            <AskButton className={button.inkOutline}>{t("askAssistant")}</AskButton>
+            <LeadButton data-splash className={button.ink}>{t("leaveRequest")}</LeadButton>
+            <AskButton data-splash className={button.inkOutline}>{t("askAssistant")}</AskButton>
           </div>
           <dl className="mt-10 grid gap-4">
             {rows.map((row) => (
@@ -45,7 +45,7 @@ export function ContactsSection() {
           <p className="mt-4 text-sm text-ink-soft">{t("contacts.hours")}</p>
         </div>
         <div className="relative">
-          <InkSplat seed={88} className="absolute -right-10 -bottom-12 size-56 text-ink" />
+          <InkSplat seed={88} data-anim="splat" className="absolute -right-10 -bottom-12 size-56 text-ink" />
           <HalftonePhoto
             src="/images/final-cta.jpg"
             alt={t("contacts.photoAlt")}

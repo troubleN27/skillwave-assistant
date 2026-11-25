@@ -50,7 +50,10 @@ export function CourseTicket({ course, labels }: { course: CourseTicketData; lab
   const titleId = `course-${course.id}`;
 
   return (
-    <article aria-labelledby={titleId} className="relative flex h-full flex-col bg-paper text-ink">
+    <article
+      aria-labelledby={titleId}
+      className="relative flex h-full flex-col bg-paper text-ink transition-transform duration-300 ease-out hover:-translate-y-1 hover:-rotate-1"
+    >
       <div className="flex flex-1 flex-col p-6">
         <h3 id={titleId} className="font-display text-[1.7rem] leading-none font-black uppercase">
           {course.name}
@@ -75,7 +78,7 @@ export function CourseTicket({ course, labels }: { course: CourseTicketData; lab
           <p className="font-display text-2xl font-black whitespace-nowrap">{course.monthly}</p>
         </div>
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className={`${button.ink} mt-4 w-full`}>{labels.details}</Dialog.Trigger>
+          <Dialog.Trigger data-splash className={`${button.ink} mt-4 w-full`}>{labels.details}</Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Backdrop className="fixed inset-0 z-50 bg-ink/70 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
             <Dialog.Popup className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xl flex-col bg-paper text-ink transition-transform duration-300 data-ending-style:translate-x-full data-starting-style:translate-x-full">

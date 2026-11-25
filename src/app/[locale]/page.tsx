@@ -7,6 +7,7 @@ import { CoursesSection } from "@/components/site/courses-section";
 import { Hero } from "@/components/site/hero";
 import { LeadDialogProvider } from "@/components/site/lead-dialog";
 import { LearningSection } from "@/components/site/learning-section";
+import { MotionRoot } from "@/components/site/motion-root";
 import { PaymentSection } from "@/components/site/payment-section";
 import { ReviewsSection } from "@/components/site/reviews-section";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -30,21 +31,23 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <ChatOpenProvider>
       <LeadDialogProvider courses={courses}>
-        <SiteHeader />
-        {/* Clip the slanted ticker and splats that reach past the page edge. */}
-        <main className="overflow-x-clip">
-          <Hero />
-          <Ticker />
-          <Stats />
-          <CoursesSection />
-          <LearningSection />
-          <TeachersSection />
-          <CareerSection />
-          <ReviewsSection />
-          <PaymentSection />
-          <ContactsSection />
-        </main>
-        <SiteFooter />
+        <MotionRoot>
+          <SiteHeader />
+          {/* Clip the slanted ticker and splats that reach past the page edge. */}
+          <main className="overflow-x-clip">
+            <Hero />
+            <Ticker />
+            <Stats />
+            <CoursesSection />
+            <LearningSection />
+            <TeachersSection />
+            <CareerSection />
+            <ReviewsSection />
+            <PaymentSection />
+            <ContactsSection />
+          </main>
+          <SiteFooter />
+        </MotionRoot>
       </LeadDialogProvider>
       <ChatWidget config={config} />
     </ChatOpenProvider>

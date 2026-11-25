@@ -12,7 +12,7 @@ export function TeachersSection() {
         <SectionTitle id="teachers-title">{t("teachers.title")}</SectionTitle>
         <p className="max-w-[52ch] text-[17px] leading-relaxed text-sun/80">{t("teachers.subtitle")}</p>
       </div>
-      <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul data-anim="deal" className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {COURSES.map((course) => {
           const key = `teachers.items.${course.id}` as const;
           return (

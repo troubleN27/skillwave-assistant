@@ -21,7 +21,7 @@ export function ReviewsSection() {
   return (
     <Section labelledBy="reviews-title" className="pt-4 sm:pt-8">
       <SectionTitle id="reviews-title">{t("title")}</SectionTitle>
-      <ul className="mt-12 gap-6 sm:columns-2 lg:columns-3">
+      <ul data-anim="tape" className="mt-12 gap-6 sm:columns-2 lg:columns-3">
         {reviews.map((review, i) => (
           <li key={review.name} className="mb-8 break-inside-avoid pt-3">
             <figure className={cn("relative bg-paper p-6 shadow-[4px_4px_0_var(--color-ink)]", TILTS[i % TILTS.length])}>

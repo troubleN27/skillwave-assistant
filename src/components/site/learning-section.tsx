@@ -16,7 +16,7 @@ export function LearningSection() {
           <SectionTitle id="learning-title">{t("title")}</SectionTitle>
           <p className="mt-5 max-w-[42ch] text-[17px] leading-relaxed text-ink-soft">{t("subtitle")}</p>
           <div className="relative mt-10 hidden md:block">
-            <InkSplat seed={58} className="absolute -top-10 -right-8 size-40 text-ink" />
+            <InkSplat seed={58} data-anim="splat" className="absolute -top-10 -right-8 size-40 text-ink" />
             <HalftonePhoto
               src="/images/learning.jpg"
               alt={t("photoAlt")}
@@ -27,7 +27,7 @@ export function LearningSection() {
         </div>
 
         <div>
-          <ol className="grid">
+          <ol data-anim="deal" className="grid">
             {steps.map((step, i) => (
               <li key={step.title} className="grid grid-cols-[3.25rem_1fr] gap-4 border-t-2 border-ink py-5">
                 <span

@@ -16,7 +16,7 @@ export function Stats() {
           <div key={item.value} className="border-t-4 border-ink pt-4">
             <dt className="sr-only">{item.label}</dt>
             <dd>
-              <span className="block font-display text-[clamp(3rem,6vw,4.5rem)] leading-none font-black">
+              <span data-count={item.value} className="block font-display text-[clamp(3rem,6vw,4.5rem)] leading-none font-black">
                 {item.value}
               </span>
               <span className="mt-3 block max-w-[24ch] text-[15px] leading-snug text-ink-soft">{item.label}</span>

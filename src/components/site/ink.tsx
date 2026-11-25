@@ -1,3 +1,4 @@
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 /* Printed-ink decorations. Shapes are generated from a seed, so server and
@@ -53,10 +54,20 @@ function splatShape(seed: number) {
 }
 
 /** An ink splat. Colour comes from `currentColor`. */
-export function InkSplat({ seed, className }: { seed: number; className?: string }) {
+export function InkSplat({
+  seed,
+  className,
+  ...rest
+}: { seed: number; className?: string } & Omit<ComponentProps<"svg">, "children">) {
   const { body, drops } = splatShape(seed);
   return (
-    <svg viewBox="0 0 200 200" className={cn("pointer-events-none", className)} aria-hidden focusable="false">
+    <svg
+      viewBox="0 0 200 200"
+      className={cn("pointer-events-none", className)}
+      aria-hidden
+      focusable="false"
+      {...rest}
+    >
       <g fill="currentColor">
         <path d={body} />
         {drops.map((drop, i) => (
