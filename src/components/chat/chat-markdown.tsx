@@ -6,7 +6,7 @@ const components: Components = {
       href={href}
       target="_blank"
       rel="noopener noreferrer nofollow"
-      className="font-medium text-primary underline underline-offset-2"
+      className="font-semibold text-ink underline underline-offset-2"
     >
       {children}
     </a>
@@ -20,7 +20,7 @@ const components: Components = {
   h2: ({ children }) => <p className="mt-2 font-semibold">{children}</p>,
   h3: ({ children }) => <p className="mt-2 font-semibold">{children}</p>,
   code: ({ children }) => (
-    <code className="rounded bg-slate-200/70 px-1 py-0.5 text-[0.85em]">{children}</code>
+    <code className="bg-ink/10 px-1 py-0.5 text-[0.85em]">{children}</code>
   ),
   img: () => null,
 };

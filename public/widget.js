@@ -20,7 +20,8 @@
     en: { open: "Open chat with the assistant", close: "Close chat", title: "Skillwave Academy assistant chat" },
   }[LANG];
   var MOBILE_QUERY = window.matchMedia("(max-width: 639px)");
-  var PRIMARY = "#4F46E5";
+  var INK = "#121110";
+  var SUN = "#F6D33F";
 
   var ICON_CHAT =
     '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
@@ -33,8 +34,8 @@
   var container = document.createElement("div");
   container.setAttribute("data-skillwave-widget", "");
   container.style.cssText =
-    "position:fixed;z-index:2147483646;display:none;overflow:hidden;background:#fff;" +
-    "box-shadow:0 24px 60px -20px rgba(15,23,42,.35);border:1px solid #e2e8f0;";
+    "position:fixed;z-index:2147483646;display:none;overflow:hidden;background:#FBF3D0;" +
+    "box-shadow:8px 8px 0 " + INK + ";border:2px solid " + INK + ";";
 
   var button = document.createElement("button");
   button.type = "button";
@@ -42,10 +43,10 @@
   button.setAttribute("aria-expanded", "false");
   button.innerHTML = ICON_CHAT;
   button.style.cssText =
-    "position:fixed;z-index:2147483647;right:24px;bottom:24px;width:56px;height:56px;border:0;border-radius:50%;" +
-    "display:grid;place-items:center;cursor:pointer;color:#fff;background:" + PRIMARY + ";" +
-    "box-shadow:0 10px 25px -5px rgba(79,70,229,.45);transition:transform .15s ease;";
-  button.addEventListener("mouseenter", function () { button.style.transform = "scale(1.05)"; });
+    "position:fixed;z-index:2147483647;right:24px;bottom:24px;width:56px;height:56px;border:2px solid " + SUN + ";border-radius:0;" +
+    "display:grid;place-items:center;cursor:pointer;color:" + SUN + ";background:" + INK + ";" +
+    "box-shadow:4px 4px 0 rgba(18,17,16,.3);transition:transform .15s ease;";
+  button.addEventListener("mouseenter", function () { button.style.transform = "translate(-2px,-2px)"; });
   button.addEventListener("mouseleave", function () { button.style.transform = ""; });
   button.addEventListener("click", function () { setOpen(!open); });
 
@@ -65,8 +66,8 @@
       container.style.inset = "auto 24px 96px auto";
       container.style.width = "380px";
       container.style.height = "min(600px, calc(100vh - 128px))";
-      container.style.borderRadius = "16px";
-      container.style.border = "1px solid #e2e8f0";
+      container.style.borderRadius = "0";
+      container.style.border = "2px solid " + INK;
       button.style.right = "24px";
       button.style.bottom = "24px";
       button.style.display = "grid";

@@ -18,11 +18,11 @@ export default function EmbedError({ error, retry }: { error: unknown; retry: ()
 
   return (
     <div className="flex h-svh flex-col items-center justify-center gap-3 p-6 text-center">
-      <p className="font-medium text-slate-900">{t.title}</p>
+      <p className="font-display text-lg font-black text-ink">{t.title}</p>
       <button
         type="button"
         onClick={() => retry()}
-        className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+        className="bg-ink px-4 py-2 text-sm font-bold text-sun hover:bg-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         {t.retry}
       </button>

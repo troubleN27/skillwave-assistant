@@ -51,8 +51,8 @@ export function ChatWidget({ config }: { config: WidgetConfig }) {
         aria-labelledby={titleId}
         hidden={!open}
         className={cn(
-          "fixed inset-0 z-50 flex flex-col overflow-hidden bg-white",
-          "sm:inset-auto sm:right-6 sm:bottom-24 sm:h-[min(600px,calc(100svh-8rem))] sm:w-[380px] sm:rounded-2xl sm:border sm:border-slate-200 sm:shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)]",
+          "fixed inset-0 z-50 flex flex-col overflow-hidden bg-paper",
+          "sm:inset-auto sm:right-6 sm:bottom-24 sm:h-[min(600px,calc(100svh-8rem))] sm:w-[380px] sm:border-2 sm:border-ink sm:shadow-[8px_8px_0_var(--color-ink)]",
           "motion-safe:origin-bottom-right motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-200",
         )}
       >
@@ -75,7 +75,7 @@ export function ChatWidget({ config }: { config: WidgetConfig }) {
         aria-label={open ? t("close") : t("open")}
         aria-expanded={open}
         className={cn(
-          "fixed right-4 bottom-4 z-50 grid size-14 place-items-center rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-600 sm:right-6 sm:bottom-6",
+          "fixed right-4 bottom-4 z-50 grid size-14 place-items-center border-2 border-sun bg-ink text-sun shadow-[4px_4px_0_rgba(18,17,16,0.3)] transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:right-6 sm:bottom-6",
           open && "max-sm:hidden",
         )}
       >

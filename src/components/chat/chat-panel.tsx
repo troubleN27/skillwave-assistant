@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getConversationId, getVisitorId, startNewConversation } from "@/lib/chat/storage";
 import type { ChatUIMessage } from "@/lib/chat/types";
 import type { WidgetConfig } from "@/lib/chat/widget-config";
+import { LogoMark } from "@/components/brand/logo-mark";
 import { ChatSession } from "./chat-session";
 
 type SessionState = {
@@ -72,20 +73,15 @@ export function ChatPanel({
   }, []);
 
   return (
-    <div className="flex h-full flex-col bg-white">
-      <header className="flex items-center gap-3 border-b border-slate-100 px-4 py-3">
-        <div
-          className="grid size-9 shrink-0 place-items-center rounded-full bg-indigo-600 text-sm font-semibold text-white"
-          aria-hidden
-        >
-          S
-        </div>
+    <div className="flex h-full flex-col bg-paper text-ink">
+      <header className="flex items-center gap-3 bg-ink px-4 py-3 text-sun">
+        <LogoMark inverted className="size-9" />
         <div className="min-w-0 flex-1">
-          <p id={titleId} className="truncate text-sm font-semibold text-slate-900">
+          <p id={titleId} className="truncate font-display text-base font-black">
             {config.assistantName}
           </p>
-          <p className="flex items-center gap-1.5 text-xs text-slate-500">
-            <span className="size-1.5 rounded-full bg-cyan-500" aria-hidden />
+          <p className="flex items-center gap-1.5 text-xs text-sun/75">
+            <span className="size-1.5 rounded-full bg-sun" aria-hidden />
             {t("online")}
           </p>
         </div>
@@ -95,7 +91,7 @@ export function ChatPanel({
           onClick={() => setConfirmRestart(true)}
           aria-label={t("restart")}
           title={t("restart")}
-          className="grid size-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100"
+          className="grid size-9 place-items-center text-sun/80 hover:bg-sun/15 hover:text-sun focus-visible:outline-2 focus-visible:outline-sun"
         >
           <RotateCcwIcon className="size-4" aria-hidden />
         </button>
@@ -103,16 +99,16 @@ export function ChatPanel({
           type="button"
           onClick={onClose}
           aria-label={t("close")}
-          className="grid size-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100"
+          className="grid size-9 place-items-center text-sun/80 hover:bg-sun/15 hover:text-sun focus-visible:outline-2 focus-visible:outline-sun"
         >
           <XIcon className="size-4" aria-hidden />
         </button>
       </header>
-      <div className="border-b border-slate-100 bg-slate-50/70 px-4 py-1.5">
+      <div className="border-b-2 border-ink bg-sun px-4 py-1.5">
         <button
           type="button"
           onClick={() => setManualLeadForm(true)}
-          className="inline-flex items-center gap-1.5 rounded-full py-0.5 text-xs font-medium text-indigo-700 hover:text-indigo-900 focus-visible:outline-2 focus-visible:outline-indigo-500"
+          className="inline-flex items-center gap-1.5 py-0.5 text-xs font-bold text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-ink"
         >
           <PhoneIcon className="size-3.5" aria-hidden />
           {t("contactManager")}
@@ -120,14 +116,14 @@ export function ChatPanel({
       </div>
 
       {confirmRestart && (
-        <div role="alertdialog" aria-label={t("restart")} className="border-b border-slate-100 bg-indigo-50 px-4 py-3 text-sm text-slate-800">
+        <div role="alertdialog" aria-label={t("restart")} className="border-b-2 border-ink bg-sun px-4 py-3 text-sm text-ink">
           <p>{t("restartConfirm")}</p>
           <div className="mt-2 flex gap-2">
             <button
               type="button"
               autoFocus
               onClick={restart}
-              className="rounded-full bg-indigo-600 px-3 py-1 text-xs font-medium text-white hover:bg-indigo-700"
+              className="bg-ink px-3 py-1.5 text-xs font-bold text-sun hover:bg-ink-soft"
             >
               {t("restartYes")}
             </button>
@@ -137,7 +133,7 @@ export function ChatPanel({
                 setConfirmRestart(false);
                 restartRef.current?.focus();
               }}
-              className="rounded-full px-3 py-1 text-xs font-medium text-slate-700 hover:bg-white"
+              className="px-3 py-1.5 text-xs font-bold text-ink hover:bg-paper"
             >
               {t("restartNo")}
             </button>
@@ -159,7 +155,7 @@ export function ChatPanel({
           onPendingQuestionSent={onPendingQuestionSent}
         />
       ) : (
-        <div className="flex flex-1 items-center justify-center gap-2 text-sm text-slate-500" role="status">
+        <div className="flex flex-1 items-center justify-center gap-2 text-sm text-ink-soft" role="status">
           <Loader2Icon className="size-4 animate-spin" aria-hidden />
           {t("loadingHistory")}
         </div>

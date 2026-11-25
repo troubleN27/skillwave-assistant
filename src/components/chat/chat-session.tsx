@@ -185,7 +185,7 @@ export function ChatSession({
                     key={question}
                     type="button"
                     onClick={() => send(question)}
-                    className="rounded-2xl border border-indigo-200 bg-white px-3 py-1.5 text-left text-sm text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-50 focus-visible:outline-2 focus-visible:outline-indigo-500"
+                    className="border-2 border-ink bg-white px-3 py-1.5 text-left text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-sun focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {question}
                   </button>
@@ -231,12 +231,12 @@ export function ChatSession({
         })}
 
         {waitingForFirstToken && (
-          <div className="flex items-center gap-2 pl-1 text-xs text-slate-500" role="status">
+          <div className="flex items-center gap-2 pl-1 text-xs text-ink-soft" role="status">
             <span className="flex gap-1" aria-hidden>
               {[0, 1, 2].map((i) => (
                 <span
                   key={i}
-                  className="size-1.5 rounded-full bg-indigo-400 motion-safe:animate-bounce"
+                  className="size-1.5 rounded-full bg-ink motion-safe:animate-bounce"
                   style={{ animationDelay: `${i * 150}ms` }}
                 />
               ))}
@@ -246,7 +246,7 @@ export function ChatSession({
         )}
 
         {errorText && status === "error" && (
-          <div role="alert" className="rounded-2xl bg-red-50 px-3 py-2 text-sm text-red-700">
+          <div role="alert" className="border-2 border-red-700 bg-red-50 px-3 py-2 text-sm text-red-800">
             <p>{errorText}</p>
             <button
               type="button"
@@ -266,9 +266,9 @@ export function ChatSession({
           event.preventDefault();
           send(input);
         }}
-        className="border-t border-slate-100 bg-white px-3 pt-3 pb-2"
+        className="border-t-2 border-ink bg-paper px-3 pt-3 pb-2"
       >
-        <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500/15">
+        <div className="flex items-end gap-2 border-2 border-ink bg-white px-3 py-2 transition-shadow focus-within:shadow-[3px_3px_0_var(--color-ink)]">
           <textarea
             ref={inputRef}
             data-chat-input
@@ -285,14 +285,14 @@ export function ChatSession({
             rows={1}
             placeholder={t("placeholder")}
             aria-label={t("placeholder")}
-            className="max-h-32 min-h-6 flex-1 resize-none bg-transparent text-sm text-slate-900 outline-none [field-sizing:content] placeholder:text-slate-400"
+            className="max-h-32 min-h-6 flex-1 resize-none bg-transparent text-sm text-ink outline-none [field-sizing:content] placeholder:text-ink-soft/70"
           />
           {busy ? (
             <button
               type="button"
               onClick={() => void stop()}
               aria-label={t("stop")}
-              className="grid size-8 shrink-0 place-items-center rounded-full bg-slate-900 text-white"
+              className="grid size-8 shrink-0 place-items-center bg-ink text-sun"
             >
               <SquareIcon className="size-3 fill-current" aria-hidden />
             </button>
@@ -301,13 +301,13 @@ export function ChatSession({
               type="submit"
               disabled={!input.trim()}
               aria-label={t("send")}
-              className="grid size-8 shrink-0 place-items-center rounded-full bg-indigo-600 text-white transition-colors hover:bg-indigo-700 disabled:bg-slate-300"
+              className="grid size-8 shrink-0 place-items-center bg-ink text-sun transition-colors hover:bg-ink-soft disabled:bg-ink/25 disabled:text-paper"
             >
               <ArrowUpIcon className="size-4" aria-hidden />
             </button>
           )}
         </div>
-        <p className="mt-1.5 min-h-4 px-1 text-[10px] leading-4 text-slate-400">
+        <p className="mt-1.5 min-h-4 px-1 text-[10px] leading-4 text-ink-soft">
           {remaining <= 100 ? t("charsLeft", { count: remaining }) : t("disclaimer")}
         </p>
       </form>
@@ -320,10 +320,8 @@ function Bubble({ role, children }: { role: "user" | "assistant"; children: Reac
     <div className={cn("flex", role === "user" ? "justify-end" : "justify-start")}>
       <div
         className={cn(
-          "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed break-words",
-          role === "user"
-            ? "rounded-br-md bg-indigo-600 text-white"
-            : "rounded-bl-md bg-slate-100 text-slate-900",
+          "max-w-[85%] px-3.5 py-2 text-sm leading-relaxed break-words",
+          role === "user" ? "bg-ink text-sun" : "border-2 border-ink bg-white text-ink",
         )}
       >
         {children}

@@ -14,10 +14,10 @@ export function Sources({ sources }: { sources: ChatSource[] }) {
       {sources.map((source) => (
         <span
           key={source.documentId}
-          className="inline-flex max-w-full items-center gap-1 rounded-full border border-indigo-100 bg-white px-2 py-0.5 text-[11px] text-slate-600"
+          className="inline-flex max-w-full items-center gap-1 border border-ink/30 bg-white px-2 py-0.5 text-[11px] text-ink-soft"
           title={source.title}
         >
-          <FileTextIcon className="size-3 shrink-0 text-cyan-600" aria-hidden />
+          <FileTextIcon className="size-3 shrink-0 text-ink" aria-hidden />
           <span className="truncate">{source.title}</span>
         </span>
       ))}
@@ -66,8 +66,8 @@ export function Feedback({
         aria-label={t(kind === "up" ? "helpful" : "notHelpful")}
         aria-pressed={active}
         className={cn(
-          "rounded-full p-1.5 text-slate-400 transition-colors hover:bg-indigo-50 hover:text-indigo-600 focus-visible:outline-2 focus-visible:outline-indigo-500",
-          active && "bg-indigo-50 text-indigo-600",
+          "p-1.5 text-ink-soft transition-colors hover:bg-sun hover:text-ink focus-visible:outline-2 focus-visible:outline-ink",
+          active && "bg-sun text-ink",
         )}
       >
         <Icon className="size-3.5" aria-hidden />
@@ -79,7 +79,7 @@ export function Feedback({
     <div className="mt-1 flex items-center gap-0.5">
       {button("up")}
       {button("down")}
-      <span className="ml-1 text-[11px] text-slate-400" role="status">
+      <span className="ml-1 text-[11px] text-ink-soft" role="status">
         {status === "saved" ? t("feedbackThanks") : status === "error" ? t("feedbackError") : ""}
       </span>
     </div>
