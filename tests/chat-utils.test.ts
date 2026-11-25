@@ -5,6 +5,7 @@ import {
   formatContext,
   suggestsLeadForm,
 } from "@/lib/ai/prompts";
+import { safeHttpUrl } from "@/components/admin/format";
 import { keepNumbersTogether } from "@/components/chat/chat-markdown";
 import { detectLanguage } from "@/lib/language";
 import { DAY_MS, getClientIp, VISITOR_WINDOW_MS, windowStart } from "@/lib/rate-limit";
@@ -156,6 +157,19 @@ describe("chat validation", () => {
     expect(chatRequestSchema.safeParse({ ...base, text: "a".repeat(1001) }).success).toBe(false);
     expect(chatRequestSchema.safeParse({ ...base, id: "123" }).success).toBe(false);
     expect(chatRequestSchema.safeParse({ ...base, visitorId: "<script>" }).success).toBe(false);
+  });
+
+  it("accepts only http(s) page URLs", () => {
+    expect(chatRequestSchema.safeParse({ ...base, pageUrl: "https://skillwave.academy/ru" }).success).toBe(true);
+    expect(chatRequestSchema.safeParse({ ...base, pageUrl: "javascript:alert(1)" }).success).toBe(false);
+    expect(chatRequestSchema.safeParse({ ...base, pageUrl: "data:text/html,hi" }).success).toBe(false);
+  });
+
+  it("renders only http(s) URLs as links in the admin panel", () => {
+    expect(safeHttpUrl("https://partner.example/page")).toBe("https://partner.example/page");
+    expect(safeHttpUrl("javascript:alert(1)")).toBeNull();
+    expect(safeHttpUrl("not a url")).toBeNull();
+    expect(safeHttpUrl(null)).toBeNull();
   });
 
   it("validates feedback values", () => {

@@ -9,6 +9,7 @@ import {
   CHANNEL_LABELS,
   formatDateTime,
   LEAD_STATUS_LABELS,
+  safeHttpUrl,
   shortPageUrl,
 } from "@/components/admin/format";
 import { PageHeader } from "@/components/admin/page-header";
@@ -50,12 +51,17 @@ async function ConversationDetail({
         </span>
         <span className="min-w-0 truncate">
           <span className="text-muted-foreground">Страница: </span>
-          {conversation.pageUrl ? (
-            <a href={conversation.pageUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+          {safeHttpUrl(conversation.pageUrl) ? (
+            <a
+              href={safeHttpUrl(conversation.pageUrl)!}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
               {shortPageUrl(conversation.pageUrl)}
             </a>
           ) : (
-            "—"
+            (conversation.pageUrl ?? "—")
           )}
         </span>
       </div>

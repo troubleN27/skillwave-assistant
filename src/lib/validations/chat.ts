@@ -15,7 +15,8 @@ export const chatRequestSchema = z.object({
     .min(1, "Введите сообщение")
     .max(MAX_MESSAGE_LENGTH, `Сообщение длиннее ${MAX_MESSAGE_LENGTH} символов`),
   locale: z.enum(["ru", "en"]).default("ru"),
-  pageUrl: z.url().max(2000).optional(),
+  // Only http(s): the URL is later rendered as a link in the admin panel.
+  pageUrl: z.url({ protocol: /^https?$/ }).max(2000).optional(),
 });
 export type ChatRequest = z.infer<typeof chatRequestSchema>;
 

@@ -12,6 +12,17 @@ const dateTime = new Intl.DateTimeFormat("ru-RU", {
 /** Date and time in Moscow time, e.g. "25.11.2026, 14:05". */
 export const formatDateTime = (date: Date | string) => dateTime.format(new Date(date));
 
+/** The URL if it is http(s), otherwise null — never render other schemes as links. */
+export function safeHttpUrl(url: string | null): string | null {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.href : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Path of a page URL without the origin, for compact tables. */
 export function shortPageUrl(url: string | null): string {
   if (!url) return "—";
