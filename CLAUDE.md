@@ -12,35 +12,37 @@
 - Неясность или противоречие SPEC/PRD — спросить, не додумывать.
 - Секреты только в `.env.local` (в `.gitignore`), не выводить их в чат и не коммитить.
 - Тексты сайта, виджета и базы знаний — как для действующей школы, без пометок «демо», «пример», «тестовый».
-- Код, коммиты и комментарии — на английском; тексты интерфейса — через `messages/*.json` (сайт, виджет) или на русском в админке.
+- Код, коммиты и комментарии — на английском; тексты интерфейса — только через `messages/*.json` (разделы `Site`, `Widget`, `LeadForm`, `Admin` и др.), в коде их не пишем.
 
 ## Стек
 
-Next.js 16 (App Router, `cacheComponents`, `src/proxy.ts` вместо middleware) · TypeScript · Tailwind CSS 4 + shadcn/ui (Base UI) · next-intl · Neon Postgres + pgvector · Drizzle ORM (`neon-serverless`, WebSocket Pool) · Better Auth · Vitest.
+Next.js 16 (App Router, `cacheComponents`, `src/proxy.ts` вместо middleware) · TypeScript · Tailwind CSS 4 + shadcn/ui (Base UI) · next-intl · GSAP + `@gsap/react` · Neon Postgres + pgvector · Drizzle ORM (`neon-serverless`, WebSocket Pool) · Better Auth · Vitest.
 
 ## Структура
 
 ```
 docs/                 PRD и SPEC
 db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты)
-messages/             переводы сайта и виджета (ru, en)
-knowledge/            стартовая база знаний (Markdown; заголовок `#` = название документа, `-en.md` = английский)
+messages/             переводы сайта, виджета и админки (ru, en)
+knowledge/            база знаний (Markdown, 12 документов × RU/EN; заголовок `#` = название, `-en.md` = английский)
+public/images/        фото сайта (выводятся растром через HalftonePhoto)
 evals/questions.json  тестовые вопросы: answerable (ожидаемые документы), noAnswer, offTopic
 scripts/              CLI: create-admin, seed-knowledge, eval-retrieval
-src/proxy.ts          локали next-intl + быстрая проверка cookie для /admin
+src/proxy.ts          локали next-intl; /admin: проверка cookie сессии и переписывание на /admin/{lang} по cookie admin_lang
 src/i18n/             routing, request config, navigation
 src/app/[locale]/     сайт школы
-src/app/admin/        админка: login/ и (panel)/ с боковым меню
+src/app/admin/[lang]/ админка (ru, en): login/ и (panel)/ с боковым меню
 src/app/embed/        чат для iframe: /embed?lang= → proxy переписывает на статическую /embed/[lang]
 src/app/api/          route handlers: chat, chat/history, feedback, leads, auth/[...all], admin/blob-upload
 public/widget.js      скрипт встраивания (без зависимостей); public/embed-test.html — проверка
 src/components/chat/  виджет: chat-widget (сайт), embedded-chat (iframe), chat-panel, chat-session (useChat), lead-form
-src/components/site/  секции сайта школы; данные курсов — src/lib/site/courses.ts (тест сверяет с knowledge/)
+src/components/site/  разделы сайта, ink.tsx (кляксы, рваные края), halftone-photo, motion-root (GSAP), lead-dialog; данные курсов — src/lib/site/courses.ts (тесты сверяют сайт с knowledge/)
+src/components/brand/ логотип (LogoMark)
 src/db/               schema.ts, client.ts (createDb для скриптов), index.ts (db для приложения)
 src/lib/              auth*, session.ts (requireAdmin), settings.ts (настройки, isAllowedOrigin), rate-limit.ts, language.ts, validations/
 src/lib/ai/           models.ts (модели из env), embeddings.ts, prompts.ts (системный промпт, заготовки), rewrite.ts
 src/lib/chat/         conversations.ts, feedback.ts, types.ts (ChatUIMessage и data-части потока)
-src/lib/admin/        period (7/30/90 дней, московское время), analytics, conversations, unanswered (группировка), leads
+src/lib/admin/        period (7/30/90 дней, московское время), analytics, conversations, unanswered (группировка), leads; locale/page-lang/i18n/action-result — язык админки
 src/lib/rag/          file-types, extract, chunking, ingest, documents, retrieve, rrf
 src/components/ui/    компоненты shadcn/ui
 src/components/admin/ компоненты админки
@@ -84,7 +86,13 @@ tests/                Vitest
 - Админка: все даты и дневная разбивка — по Москве (`ADMIN_TIME_ZONE`, `formatDateTime`). Фильтры и вкладки — в `searchParams`, страницы читают их внутри `<AdminGate>`. Меню в сайдбаре — в `<Suspense>` (usePathname на динамических маршрутах).
 - Вопросы без ответа группируются по нормализованному тексту (`normalizeQuestion`); «Добавить ответ» создаёт FAQ (`answerWithFaqAction`) и помечает всю группу `resolved`.
 - Сохранение настроек вызывает `updateTag("settings")` — виджет видит изменения сразу; правка `settings` напрямую в БД кэш виджета НЕ сбрасывает (только через админку). Лимиты и порог чат читает из БД без кэша.
-- График Главной: индиго `#4F46E5` + циан `#0891B2` (проверено валидатором dataviz), таблица данных под графиком.
+- График Главной: синий `#1D6FD1` + охра `#B45309` (проверено валидатором dataviz; чёрный бренда валидатор отвергает как цвет серии), таблица данных под графиком.
 - Колонка `chunks.tsv` генерируется Postgres; индексы HNSW (`vector_cosine_ops`) и GIN описаны в схеме.
+- Язык админки: cookie `admin_lang` → `src/proxy.ts` переписывает `/admin/...` на статические `/admin/{lang}/...`. Страницы берут язык через `getAdminLang()` (`next/root-params` + `setRequestLocale`), чтобы не ждать динамические params вне Suspense. `loading.tsx` — клиентский компонент, `not-found` и layout панели сами вызывают `getAdminLang()`, а корневой layout импортирует JSON сообщений напрямую: иначе next-intl читает заголовки и ломает пререндер. Server Actions переводят ошибки через `getActionTranslations()` (cookie); ключи ошибок zod — в `Admin.validation`.
+- Сайт: стили растра и анимаций лежат в компонентах (inline styles / GSAP), а не в `globals.css` — Turbopack на пути с кириллицей иногда не подхватывает правки CSS без перезапуска dev-сервера.
+- Анимации сайта — `MotionRoot`: data-атрибуты `data-hero-*`, `data-anim="stamp|splat|deal|tape"`, `data-count="<итог>"`, `data-splash`. Элементы первого экрана скрыты inline-стилем, CSS-страховка показывает их через 2,5 с.
+- Форма заявки открывается и с сайта (`LeadDialogProvider`, без `conversationId`).
+- Источники под ответом — только на языке ответа (`visibleSources`), полный список с языком документа хранится в `messages.sources`.
+- Обрыв генерации (ошибка или `abort` по таймауту) после первых слов: пометка `cannedReply("interrupted")`, форма заявки, `answered = null`.
 - Neon: проект `skillwave-assistant` (aws-eu-central-1), ветка `dev` для разработки.
 - Vercel: проект `skillwave-assistant` (без деплоя), Blob store `skillwave-knowledge` (private, fra1).
