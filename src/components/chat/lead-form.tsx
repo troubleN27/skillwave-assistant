@@ -20,13 +20,17 @@ export function LeadForm({
   conversationId,
   onSent,
   onCancel,
+  bare = false,
 }: {
   courses: Course[];
   defaultCourseId?: string;
   visitorId: string;
-  conversationId: string;
+  /** Missing when the form is opened from the site rather than from the chat. */
+  conversationId?: string;
   onSent: (name: string) => void;
   onCancel: () => void;
+  /** Inside a dialog that already has a title and a close button. */
+  bare?: boolean;
 }) {
   const t = useTranslations("LeadForm");
   const id = useId();
@@ -79,21 +83,23 @@ export function LeadForm({
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="relative mt-2 rounded-2xl border border-indigo-100 bg-white p-3 shadow-sm"
+      className={cn("relative", !bare && "mt-2 rounded-2xl border border-indigo-100 bg-white p-3 shadow-sm")}
       aria-labelledby={`${id}-title`}
     >
-      <div className="mb-2 flex items-start justify-between gap-2">
+      <div className={cn("mb-2 flex items-start justify-between gap-2", bare && "sr-only")}>
         <p id={`${id}-title`} className="text-sm font-semibold text-slate-900">
           {t("title")}
         </p>
-        <button
-          type="button"
-          onClick={onCancel}
-          aria-label={t("cancel")}
-          className="-mt-1 -mr-1 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
-        >
-          <XIcon className="size-4" aria-hidden />
-        </button>
+        {!bare && (
+          <button
+            type="button"
+            onClick={onCancel}
+            aria-label={t("cancel")}
+            className="-mt-1 -mr-1 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+          >
+            <XIcon className="size-4" aria-hidden />
+          </button>
+        )}
       </div>
 
       {/* Honeypot: hidden from people and assistive tech. */}

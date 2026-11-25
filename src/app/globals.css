@@ -129,6 +129,30 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Ticker tape: two identical rows slide left by one row's width, forever. */
+.ticker-track {
+  animation: ticker 38s linear infinite;
+}
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Chamfered corners, echoing the logo plate and the Tektur letterforms. */
+.chamfer {
+  clip-path: polygon(
+    var(--chamfer, 18px) 0,
+    calc(100% - var(--chamfer, 18px)) 0,
+    100% var(--chamfer, 18px),
+    100% calc(100% - var(--chamfer, 18px)),
+    calc(100% - var(--chamfer, 18px)) 100%,
+    var(--chamfer, 18px) 100%,
+    0 calc(100% - var(--chamfer, 18px)),
+    0 var(--chamfer, 18px)
+  );
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

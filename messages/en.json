@@ -69,94 +69,363 @@
       "learning": "How we teach",
       "teachers": "Teachers",
       "payment": "Payment",
-      "contacts": "Contacts",
-      "why": "Why us"
+      "contacts": "Contacts"
     },
-    "askQuestion": "Ask a question",
+    "navLabel": "Site sections",
+    "menu": "Menu",
+    "menuClose": "Close menu",
     "language": "Site language",
+    "chooseCourse": "Choose a course",
+    "askQuestion": "Ask a question",
+    "askAssistant": "Ask the assistant",
+    "leaveRequest": "Leave a request",
     "hero": {
-      "title": "A digital profession from scratch — with a mentor, real projects and job support",
-      "subtitle": "Five online courses for beginners in development, design, analytics and marketing. Our assistant answers questions about programs, prices and installments right now.",
-      "cta": "Find a course",
-      "secondary": "See courses",
-      "chatPreview": "Try asking the assistant",
-      "chatQuestion": "How much is the Python Developer course, and can I pay in installments?",
-      "chatAnswer": "The course costs **95,000 RUB**, or 85,500 RUB if you pay in full. Interest-free installments for 12 months start at **7,917 RUB per month**.",
-      "chatSource": "Python Developer course",
-      "chatTry": "Ask your own question"
+      "title": "A new career in tech in 5⁠–⁠10 months",
+      "subtitle": "Online courses for beginners with live mentors: development, design, analytics and marketing. Portfolio projects and job support after graduation.",
+      "photoAlt": "A student laughing at her laptop with a mug in her hand",
+      "stamp": "Next start",
+      "stampLink": "Cohort schedule"
+    },
+    "ticker": [
+      "5 professions from scratch",
+      "0% installments for 12 months",
+      "−10% when you pay in full",
+      "100% refund in the first 14 days",
+      "Mentor reviews within 48 hours",
+      "Job support for 6 months after graduation"
+    ],
+    "stats": {
+      "title": "Skillwave in numbers",
+      "items": [
+        {
+          "value": "12,000+",
+          "label": "students have studied with us since 2019"
+        },
+        {
+          "value": "78%",
+          "label": "of graduates find a job in their new field within 6 months"
+        },
+        {
+          "value": "150+",
+          "label": "IT companies and agencies are our partners"
+        },
+        {
+          "value": "25",
+          "label": "students at most per mentor"
+        }
+      ]
     },
     "courses": {
       "title": "Courses",
-      "subtitle": "Online learning: recorded lessons, live webinars twice a week and mentor-reviewed assignments. Classes are taught in Russian.",
+      "subtitle": "Every program is built for beginners. Recorded lessons, two live webinars a week at 7 pm Moscow time, and a mentor reviews every assignment.",
       "months": "{count, plural, one {# month} other {# months}}",
-      "priceFrom": "from {price} per month",
-      "fullPrice": "{price} if paid in full",
-      "start": "Starts {date}",
-      "ask": "Ask about this course",
-      "askPrompt": "Tell me more about the {course} course",
       "projects": "{count, plural, one {# portfolio project} other {# portfolio projects}}",
+      "monthly": "from {price}/mo",
+      "start": "Starts {date}",
+      "details": "Program and price",
+      "close": "Close",
+      "audience": "Who it is for",
+      "program": "Program",
+      "portfolio": "Portfolio projects",
+      "schedule": "Schedule",
+      "workload": "Workload",
+      "price": "Price",
+      "fullPrice": "Full price",
+      "payNow": "Paid in full (−10%)",
+      "installments": "0% installments for 12 months",
+      "askPrompt": "Tell me more about the {course} course",
       "items": {
         "frontend": {
           "name": "Frontend Developer",
-          "description": "HTML, CSS, JavaScript, TypeScript, React and Next.js — from your first layout to a team graduation project."
+          "description": "Layout, JavaScript, TypeScript, React and Next.js — from your first page to a team project.",
+          "audience": "Beginners with no programming experience, people who have tried learning HTML and JavaScript on their own, and designers or testers moving into frontend.",
+          "schedule": "Webinars on Tuesdays and Thursdays at 7 pm Moscow time",
+          "workload": "8–10 hours a week",
+          "modules": [
+            "Web basics and layout",
+            "JavaScript",
+            "TypeScript and developer tools",
+            "React",
+            "Next.js and advanced development",
+            "Final project and job preparation"
+          ],
+          "projectList": [
+            "A responsive landing page from a Figma mockup",
+            "A JavaScript task tracker",
+            "A movie search app using an API",
+            "A React online store with a cart and filters",
+            "A multi-page website on Next.js",
+            "A final team project for a real client"
+          ]
         },
         "ux-ui": {
           "name": "UX/UI Designer",
-          "description": "Research, prototypes and interfaces in Figma. Design for websites and mobile apps."
+          "description": "Research, prototypes and interfaces in Figma. Website and mobile app design.",
+          "audience": "Beginners, graphic and web designers moving into product design, and managers or marketers. You do not need to be able to draw.",
+          "schedule": "Webinars on Mondays and Wednesdays at 7 pm Moscow time",
+          "workload": "8–10 hours a week",
+          "modules": [
+            "UX basics and research",
+            "Interface design",
+            "Figma and visual design",
+            "Website and mobile app design",
+            "Final project and career"
+          ],
+          "projectList": [
+            "A mobile app redesign based on user research",
+            "A landing page for an online service",
+            "An online store with responsive versions and a design system",
+            "A full-cycle final project for a real client"
+          ]
         },
         "python": {
           "name": "Python Developer",
-          "description": "Python, SQL, Django, FastAPI and Docker. Backend development, APIs and Telegram bots."
+          "description": "Python, SQL, Django, FastAPI and Docker. Backend development, APIs and Telegram bots.",
+          "audience": "Beginners who want to become backend developers, specialists from other fields and junior programmers who need a solid foundation.",
+          "schedule": "Webinars on Tuesdays and Thursdays at 7 pm Moscow time",
+          "workload": "10 hours a week",
+          "modules": [
+            "Python basics",
+            "Object-oriented programming",
+            "Databases and SQL",
+            "Web development with Django",
+            "APIs and asynchronous programming",
+            "Infrastructure and deployment",
+            "Final project and job preparation"
+          ],
+          "projectList": [
+            "A Telegram bot for booking services",
+            "A blog platform on Django",
+            "A REST API for a delivery service on FastAPI",
+            "A data scraping and analysis service",
+            "A final team project for a real client"
+          ]
         },
         "data-analyst": {
           "name": "Data Analyst",
-          "description": "Excel, SQL, Python, statistics and A/B tests, dashboards in DataLens and Power BI."
+          "description": "Excel, SQL, Python, statistics, A/B tests and dashboards in DataLens and Power BI.",
+          "audience": "Beginners, economists, marketers and managers who work a lot in Excel. No higher maths needed — we teach statistics from scratch.",
+          "schedule": "Webinars on Mondays and Wednesdays at 7 pm Moscow time",
+          "workload": "8–10 hours a week",
+          "modules": [
+            "Excel and Google Sheets",
+            "SQL",
+            "Python for data analysis",
+            "Statistics and A/B tests",
+            "Product analytics and BI",
+            "Final project and career"
+          ],
+          "projectList": [
+            "An online store sales analysis in Excel",
+            "A user base study in SQL",
+            "An app user behaviour analysis in Python",
+            "A dashboard of key product metrics",
+            "A final study on a partner company's data"
+          ]
         },
         "marketing": {
           "name": "Digital Marketer",
-          "description": "Strategy, Yandex Direct, paid social, SEO, SMM and web analytics with real budgets."
+          "description": "Strategy, Yandex Direct, targeted ads, SEO, SMM and web analytics with real budgets.",
+          "audience": "Beginners who want a digital career without programming, entrepreneurs, SMM specialists, copywriters and managers.",
+          "schedule": "Webinars on Tuesdays and Thursdays at 7 pm Moscow time",
+          "workload": "6–8 hours a week",
+          "modules": [
+            "Marketing basics",
+            "Search and targeted advertising",
+            "SEO and content marketing",
+            "SMM",
+            "Web analytics"
+          ],
+          "projectList": [
+            "A marketing strategy and media plan for an online school",
+            "A Yandex Direct campaign with a real budget",
+            "A content plan and promotion for a Telegram channel",
+            "A final strategy for a partner business"
+          ]
         }
       }
     },
-    "why": {
-      "title": "Why it works",
+    "learning": {
+      "title": "How studying works",
+      "subtitle": "Seven steps from your request to your diploma. Study from any country and keep your job.",
+      "photoAlt": "Hands typing on a laptop with code and design layouts on screen, a notebook beside it",
+      "steps": [
+        {
+          "title": "Request",
+          "text": "A manager helps you choose a profession and opens free access to the introductory lessons for 7 days."
+        },
+        {
+          "title": "Contract and payment",
+          "text": "Pay in full with 10% off or in 0% installments. Platform access opens 15 minutes after payment."
+        },
+        {
+          "title": "Cohort start",
+          "text": "You get the first module, join the group chat in Telegram and meet your mentor."
+        },
+        {
+          "title": "A study week",
+          "text": "2–3 recorded lessons, two 1.5-hour webinars and a practical assignment. 8–10 hours a week."
+        },
+        {
+          "title": "Projects",
+          "text": "Every module ends with a practical project. By the end you have 4 to 6 portfolio pieces."
+        },
+        {
+          "title": "Final project",
+          "text": "On most courses it is for a real client, and you defend it in front of the teacher."
+        },
+        {
+          "title": "Certificate and job",
+          "text": "An electronic certificate with a verification number and six months of career center support."
+        }
+      ],
+      "pause": "Need a break? Move to the next cohort free of charge — once per course, for up to 3 months."
+    },
+    "teachers": {
+      "title": "Teachers",
+      "subtitle": "Every course is led by a practitioner from a product company. Mentors review assignments — no more than 25 students each.",
+      "experience": "{count, plural, one {# year} other {# years}} in the field",
       "items": {
-        "mentors": {
-          "title": "A mentor at every step",
-          "text": "Practitioners review every assignment within 48 hours. Each mentor works with no more than 25 students."
+        "frontend": {
+          "name": "Dmitry Orlov",
+          "role": "Senior frontend developer",
+          "years": 9,
+          "text": "Builds the interface of a fintech service used by several million people and leads a team of six developers.",
+          "photoAlt": "Dmitry Orlov, a man with a short beard in a dark T-shirt"
         },
-        "projects": {
-          "title": "A portfolio of real tasks",
-          "text": "4 to 6 projects per course, with a graduation project for a real client."
+        "ux-ui": {
+          "name": "Anna Belova",
+          "role": "Lead product designer",
+          "years": 8,
+          "text": "Has designed apps for delivery and online education services and built design systems from scratch.",
+          "photoAlt": "Anna Belova, a woman with short wavy hair in a black sweater"
         },
-        "career": {
-          "title": "Help finding a job",
-          "text": "CV reviews, mock interviews and referrals to partner companies. 78% of graduates find a job within 6 months."
+        "python": {
+          "name": "Sergey Kovalev",
+          "role": "Backend team lead",
+          "years": 14,
+          "text": "Has built high-load Python and Django services for e-commerce and logistics. Runs mock technical interviews.",
+          "photoAlt": "Sergey Kovalev, a man in glasses and a navy shirt"
         },
-        "flexible": {
-          "title": "Easy to combine with work",
-          "text": "Webinars in the evening and recordings always at hand. You can pause and continue with the next cohort."
+        "data-analyst": {
+          "name": "Maria Lebedeva",
+          "role": "Product analyst",
+          "years": 7,
+          "text": "Built metric systems at a marketplace and a mobile bank, ran A/B tests and dashboards for management.",
+          "photoAlt": "Maria Lebedeva, a woman in glasses and a denim shirt"
+        },
+        "marketing": {
+          "name": "Timur Galiev",
+          "role": "Performance marketer",
+          "years": 10,
+          "text": "Heads a digital marketing department and has run ads for online schools, services and online stores.",
+          "photoAlt": "Timur Galiev, a curly-haired man in a dark jacket"
         }
       }
+    },
+    "career": {
+      "title": "Certificate and job support",
+      "text": "Help with finding a job is included in every course. The career center works with you during the course and for 6 months after graduation.",
+      "photoAlt": "A graduate shaking hands with an interviewer",
+      "points": [
+        "CV and cover letter",
+        "A portfolio on GitHub, Behance or as case studies",
+        "Mock interviews, including technical ones",
+        "Referrals to partner companies and internships for top students"
+      ],
+      "certificate": "A certificate with a unique number is issued after you defend your final project and complete 80% of assignments. An English version is free on request.",
+      "note": "We do not guarantee employment — the result depends on you too. On average, graduates find their first job in 3 months."
+    },
+    "reviews": {
+      "title": "What graduates say",
+      "graduated": "class of {year}",
+      "items": [
+        {
+          "name": "Olga Mironova",
+          "course": "UX/UI Designer",
+          "year": 2025,
+          "text": "I came from accounting and was afraid I couldn't do it without drawing skills. It turned out interface design is about logic and research. The final project for a real client became the main case in my portfolio."
+        },
+        {
+          "name": "Artem Zakharov",
+          "course": "Frontend Developer",
+          "year": 2024,
+          "text": "The most valuable part was code review. My mentor went through every assignment and explained why not to write it that way. At interviews I was asked things we had already covered in mock interviews."
+        },
+        {
+          "name": "Ekaterina Volkova",
+          "course": "Data Analyst",
+          "year": 2025,
+          "text": "I was a marketer living in Excel. Now I write SQL queries and build dashboards. Statistics was explained from scratch, without scary maths."
+        },
+        {
+          "name": "Igor Savchenko",
+          "course": "Python Developer",
+          "year": 2024,
+          "text": "I studied in the evenings after work: 7 pm webinars were convenient and recordings saved me in busy weeks. I took a break because of a move and was transferred to the next cohort, no questions asked."
+        },
+        {
+          "name": "Natalia Kim",
+          "course": "Digital Marketer",
+          "year": 2025,
+          "text": "I launched my first ad campaign with a real budget in the second month. Now I run promotion for two online stores."
+        },
+        {
+          "name": "Maxim Belousov",
+          "course": "Data Analyst",
+          "year": 2024,
+          "text": "The career center helped me rewrite my CV and sent it to partner companies. I did an internship at one of them and stayed on staff."
+        }
+      ]
+    },
+    "payment": {
+      "title": "Payment",
+      "subtitle": "The price covers everything: lessons, webinars, assignment reviews, projects, job support and the certificate. No extra fees.",
+      "course": "Course",
+      "full": "Full price",
+      "now": "In full, −10%",
+      "monthly": "0% installments",
+      "perMonth": "{price}/mo",
+      "options": [
+        {
+          "title": "Interest-free installments",
+          "text": "Up to 12 months through partner banks, first payment a month later. Non-Russian citizens can pay the school in two or three parts."
+        },
+        {
+          "title": "Discounts",
+          "text": "10% off when you pay for the whole course at once, 15% off a second course for students and graduates. Discounts don't combine."
+        },
+        {
+          "title": "Refunds",
+          "text": "100% in the first 14 days with no questions asked; later, for the modules you haven't started. Money arrives within 10 working days."
+        },
+        {
+          "title": "Payment methods",
+          "text": "Visa, Mastercard and MIR cards, SBP, or an invoice for companies paying for their employees."
+        }
+      ]
     },
     "contacts": {
-      "title": "Contacts",
-      "text": "Managers are available Monday to Friday, 10 am – 7 pm Moscow time. The assistant on this website answers 24/7.",
+      "title": "Still have questions?",
+      "text": "Leave a request — a manager will call you back, help you choose a course and open free introductory lessons for 7 days. Or ask the assistant on the site right now.",
+      "photoAlt": "Four students looking at a laptop together at a wooden table",
+      "hours": "Managers are available on weekdays from 10 am to 7 pm Moscow time",
       "email": "Email",
       "phone": "Phone",
       "telegram": "Telegram",
       "phoneNote": "toll-free in Russia"
+    },
+    "leadDialog": {
+      "title": "Course request",
+      "sent": "Thank you, {name}! Your request has been sent — a manager will contact you during working hours.",
+      "close": "Close"
     },
     "footer": {
       "copyright": "© 2019–2026 Skillwave Academy",
       "tagline": "Online school of digital professions",
       "navTitle": "Sections",
       "contactsTitle": "Contacts"
-    },
-    "navLabel": "Site sections",
-    "menu": "Menu",
-    "menuClose": "Close menu",
-    "chooseCourse": "Choose a course"
+    }
   },
   "Errors": {
     "title": "Something went wrong",

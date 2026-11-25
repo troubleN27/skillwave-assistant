@@ -38,6 +38,19 @@ export function formatStartDate(iso: string, locale: string): string {
   }).format(new Date(`${iso}T00:00:00Z`));
 }
 
+/** "15 December" / "15 декабря" — for the next-start stamp. */
+export function formatDayMonth(iso: string, locale: string): string {
+  return new Intl.DateTimeFormat(locale === "ru" ? "ru-RU" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }).format(new Date(`${iso}T00:00:00Z`));
+}
+
+/** The course whose cohort starts first. */
+export const nextCohort = (): SiteCourse =>
+  [...COURSES].sort((a, b) => a.start.localeCompare(b.start))[0];
+
 export const CONTACTS = {
   email: "hello@skillwave.academy",
   phone: "+7 800 555-27-41",
