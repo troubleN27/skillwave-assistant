@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { CONTACTS } from "@/lib/site/courses";
 import { AskButton } from "./ask-button";
-import { Logo } from "./logo";
 
 export function ContactsSection() {
   const t = useTranslations("Site");
@@ -18,7 +17,6 @@ export function ContactsSection() {
   ];
 
   return (
-    <>
       <section id="contacts" className="scroll-mt-20 bg-slate-900 py-16 text-white sm:py-24">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 md:grid-cols-2">
           <div>
@@ -43,17 +41,5 @@ export function ContactsSection() {
           </dl>
         </div>
       </section>
-      <footer className="bg-slate-900 pb-24 text-slate-400 sm:pb-10">
-        {/* Right padding keeps the text clear of the floating chat button. */}
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 border-t border-white/10 px-4 pt-6 text-sm sm:flex-row sm:items-center sm:justify-between sm:pr-24 sm:pl-6">
-          <div className="flex items-center gap-3 [&_span]:text-white">
-            <Logo />
-          </div>
-          <p>
-            {t("footer.tagline")}. {t("footer.copyright")}
-          </p>
-        </div>
-      </footer>
-    </>
   );
 }

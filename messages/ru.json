@@ -66,8 +66,11 @@
   "Site": {
     "nav": {
       "courses": "Курсы",
-      "why": "Почему мы",
-      "contacts": "Контакты"
+      "learning": "Как учимся",
+      "teachers": "Преподаватели",
+      "payment": "Оплата",
+      "contacts": "Контакты",
+      "why": "Почему мы"
     },
     "askQuestion": "Задать вопрос",
     "language": "Язык сайта",
@@ -146,8 +149,14 @@
     },
     "footer": {
       "copyright": "© 2019–2026 Skillwave Academy",
-      "tagline": "Онлайн-школа цифровых профессий"
-    }
+      "tagline": "Онлайн-школа цифровых профессий",
+      "navTitle": "Разделы",
+      "contactsTitle": "Контакты"
+    },
+    "navLabel": "Разделы сайта",
+    "menu": "Меню",
+    "menuClose": "Закрыть меню",
+    "chooseCourse": "Выбрать курс"
   },
   "Errors": {
     "title": "Что-то пошло не так",

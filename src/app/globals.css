@@ -4,7 +4,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* School site palette: printed poster, yellow paper and black ink. */
+@theme {
+  --color-sun: #f6d33f;
+  --color-sun-deep: #e8c22a;
+  --color-ink: #121110;
+  --color-ink-soft: #3d3829;
+  --color-paper: #fbf3d0;
+}
+
 @theme inline {
+  --font-display: var(--font-display);
   --color-background: var(--background);
   --color-brand-accent: var(--brand-accent);
   --color-foreground: var(--foreground);

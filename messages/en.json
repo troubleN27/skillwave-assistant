@@ -66,8 +66,11 @@
   "Site": {
     "nav": {
       "courses": "Courses",
-      "why": "Why us",
-      "contacts": "Contacts"
+      "learning": "How we teach",
+      "teachers": "Teachers",
+      "payment": "Payment",
+      "contacts": "Contacts",
+      "why": "Why us"
     },
     "askQuestion": "Ask a question",
     "language": "Site language",
@@ -146,8 +149,14 @@
     },
     "footer": {
       "copyright": "© 2019–2026 Skillwave Academy",
-      "tagline": "Online school of digital professions"
-    }
+      "tagline": "Online school of digital professions",
+      "navTitle": "Sections",
+      "contactsTitle": "Contacts"
+    },
+    "navLabel": "Site sections",
+    "menu": "Menu",
+    "menuClose": "Close menu",
+    "chooseCourse": "Choose a course"
   },
   "Errors": {
     "title": "Something went wrong",

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { inter } from "@/lib/fonts";
+import { manrope, tektur } from "@/lib/fonts";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -46,8 +46,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-white text-slate-900">
+    <html lang={locale} className={`${manrope.variable} ${tektur.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col bg-sun text-ink">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

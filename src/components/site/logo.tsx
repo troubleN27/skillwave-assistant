@@ -1,21 +1,22 @@
-/** Wordmark: a wave drawn as a rising line — growth of a skill. */
-export function Logo({ className }: { className?: string }) {
+import { LogoMark } from "@/components/brand/logo-mark";
+import { cn } from "@/lib/utils";
+
+/** Mark + SKILLWAVE / ACADEMY lockup. `inverted` is for black backgrounds. */
+export function Logo({ inverted = false, className }: { inverted?: boolean; className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
-      <svg viewBox="0 0 32 32" className="size-8" aria-hidden>
-        <rect width="32" height="32" rx="9" fill="#4F46E5" />
-        <path
-          d="M6 20c3.2 0 3.2-6 6.4-6s3.2 6 6.4 6 3.2-9 6.4-9"
-          fill="none"
-          stroke="#fff"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-        />
-        <circle cx="25.2" cy="11" r="2.4" fill="#06B6D4" />
-      </svg>
-      <span className="text-[15px] font-semibold tracking-tight text-slate-900">
-        Skillwave Academy
+    <span
+      className={cn(
+        "inline-flex items-center gap-2.5",
+        inverted ? "text-sun" : "text-ink",
+        className,
+      )}
+    >
+      <LogoMark inverted={inverted} className="size-10" />
+      <span className="flex flex-col leading-none">
+        <span className="font-display text-[22px] font-black tracking-[0.01em]">SKILLWAVE</span>
+        <span className="mt-1 text-[9.5px] font-extrabold tracking-[0.42em]">ACADEMY</span>
       </span>
+      <span className="sr-only">Skillwave Academy</span>
     </span>
   );
 }
