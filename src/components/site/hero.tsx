@@ -40,10 +40,10 @@ export function Hero() {
           </h1>
           <p data-hero-fade {...hiddenUntilAnimated} className="mt-6 max-w-[46ch] text-lg leading-relaxed text-ink-soft">{t("hero.subtitle")}</p>
           <div data-hero-fade {...hiddenUntilAnimated} className="mt-8 flex flex-wrap gap-3">
-            <a href="#courses" data-splash className={button.ink}>
+            <a href="#courses" className={button.ink}>
               {t("chooseCourse")}
             </a>
-            <AskButton data-splash className={button.inkOutline}>
+            <AskButton className={button.inkOutline}>
               {t("askAssistant")}
             </AskButton>
           </div>

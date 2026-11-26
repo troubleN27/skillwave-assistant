@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useEffect, useRef, type ReactNode } from "react";
-import { SPRAY_SPLAT } from "./ink";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -16,7 +15,6 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
  *   data-anim="splat"  an ink splat splashing out
  *   data-anim="deal"   children laid out one by one (tickets, cards)
  *   data-anim="tape"   children taped onto the page (reviews)
- *   data-splash        an action button that leaves an ink splat where it is clicked
  * Animations play once; the ticker tape runs on CSS.
  */
 export function MotionRoot({ children }: { children: ReactNode }) {
@@ -36,7 +34,7 @@ export function MotionRoot({ children }: { children: ReactNode }) {
   }, []);
 
   useGSAP(
-    (_, contextSafe) => {
+    () => {
       const q = gsap.utils.selector(root);
       const once = (trigger: Element, start = "top 85%") => ({ trigger, start, once: true });
 
@@ -118,40 +116,6 @@ export function MotionRoot({ children }: { children: ReactNode }) {
           scrollTrigger: once(list),
         });
       });
-
-      /* ---------- Ink splat on click ---------- */
-      // A black splat lands where an action button was pressed, holds for a
-      // moment and fades. Listens on the document so buttons inside dialogs
-      // (rendered in a portal) splash too.
-      const splash = contextSafe!((event: MouseEvent) => {
-        const button = (event.target as Element | null)?.closest?.("[data-splash]");
-        if (!button || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        const size = gsap.utils.random(96, 140);
-        const splat = document.createElement("img");
-        splat.src = SPRAY_SPLAT;
-        splat.alt = "";
-        splat.setAttribute("aria-hidden", "true");
-        Object.assign(splat.style, {
-          position: "fixed",
-          left: `${event.clientX - size / 2}px`,
-          top: `${event.clientY - size / 2}px`,
-          width: `${size}px`,
-          height: `${size}px`,
-          pointerEvents: "none",
-          zIndex: "70",
-        });
-        document.body.appendChild(splat);
-        gsap
-          .timeline({ onComplete: () => splat.remove() })
-          .fromTo(
-            splat,
-            { scale: 0.2, rotation: gsap.utils.random(0, 360), autoAlpha: 1 },
-            { scale: 1, duration: 0.18, ease: "back.out(3)" },
-          )
-          .to(splat, { autoAlpha: 0, scale: 1.08, duration: 0.45, ease: "power1.in" }, "+=0.9");
-      });
-      document.addEventListener("click", splash);
-      return () => document.removeEventListener("click", splash);
     },
     { scope: root },
   );

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
    the header black (#121110). Plain images rather than CSS masks: masks are
    repainted on every animation frame. */
 
-export const SPRAY_SPLAT = "/images/spray-splat.png";
+const SPRAY_SPLAT = "/images/spray-splat.png";
 const SPRAY_EDGE = "/images/spray-edge.png";
 
 /** Turn and mirror for a splat, picked from a seed so every copy looks different. */

@@ -218,8 +218,6 @@ export function LeadForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          // On the site (not in the chat) the submit button splashes ink, see MotionRoot.
-          data-splash={bare || undefined}
           className="inline-flex h-11 items-center justify-center gap-2 bg-ink px-4 text-sm font-bold text-sun transition-colors hover:bg-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:opacity-60"
         >
           {isSubmitting && <Loader2Icon className="size-4 animate-spin" aria-hidden />}
