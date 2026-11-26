@@ -23,8 +23,8 @@
   var INK = "#121110";
   var SUN = "#FFFF00";
 
-  var ICON_CHAT =
-    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';
+  // The school logo (yellow splat, black mark) on the black launcher.
+  var ICON_CHAT = '<img src="' + BASE + '/widget-logo.svg" width="40" height="40" alt="" style="display:block">';
   var ICON_CLOSE =
     '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
 

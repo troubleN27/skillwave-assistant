@@ -34,7 +34,7 @@ src/app/[locale]/     сайт школы
 src/app/admin/[lang]/ админка (ru, en): login/ и (panel)/ с боковым меню
 src/app/embed/        чат для iframe: /embed?lang= → proxy переписывает на статическую /embed/[lang]
 src/app/api/          route handlers: chat, chat/history, feedback, leads, auth/[...all], admin/blob-upload
-public/widget.js      скрипт встраивания (без зависимостей); public/embed-test.html — проверка
+public/widget.js      скрипт встраивания (без зависимостей), кнопка — логотип public/widget-logo.svg; public/embed-test.html — проверка
 src/components/chat/  виджет: chat-widget (сайт), embedded-chat (iframe), chat-panel, chat-session (useChat), lead-form
 src/components/site/  разделы сайта, ink.tsx (InkSplat — клякса, InkEdge — край под шапкой / над подвалом), hero-receipt (чек), starts/starts-board (табло стартов), certificate, chat-replies, week-planner (учебная неделя), home-link, motion-root (GSAP), lead-dialog; данные курсов — src/lib/site/courses.ts (тесты сверяют сайт с knowledge/)
 src/components/brand/ логотип (LogoMark — знак на кляксе), печать (Stamp), splat-paths.ts (контуры клякс, сгенерированы один раз)

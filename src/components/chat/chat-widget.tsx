@@ -1,8 +1,9 @@
 "use client";
 
-import { MessageCircleIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { LogoMark } from "@/components/brand/logo-mark";
 import type { WidgetConfig } from "@/lib/chat/widget-config";
 import { cn } from "@/lib/utils";
 import { useChatOpen } from "./chat-context";
@@ -79,7 +80,7 @@ export function ChatWidget({ config }: { config: WidgetConfig }) {
           open && "max-sm:hidden",
         )}
       >
-        {open ? <XIcon className="size-6" aria-hidden /> : <MessageCircleIcon className="size-6" aria-hidden />}
+        {open ? <XIcon className="size-6" aria-hidden /> : <LogoMark inverted className="size-10" />}
       </button>
     </>
   );
