@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/logo-mark";
+import { scrollToTop } from "@/lib/scroll-top";
 import { Suspense, type ReactNode } from "react";
 import {
   Sidebar,
@@ -50,18 +51,38 @@ function ActiveNavMenu() {
   return <NavMenu pathname={usePathname()} />;
 }
 
+/** Logo link to the dashboard; on the dashboard itself it scrolls back to the top. */
+function HomeLink({ children }: { children: ReactNode }) {
+  // Reads the URL on click: usePathname() here would need a Suspense boundary.
+  const { isMobile, setOpenMobile } = useSidebar();
+  return (
+    <Link
+      href="/admin"
+      onClick={(event) => {
+        if (isMobile) setOpenMobile(false);
+        if (window.location.pathname !== "/admin") return;
+        event.preventDefault();
+        scrollToTop();
+      }}
+      className="flex items-center gap-3 px-2 py-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring"
+    >
+      {children}
+    </Link>
+  );
+}
+
 export function AdminSidebar({ footer }: { footer: ReactNode }) {
   const t = useTranslations("Admin.nav");
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-3 px-2 py-1.5">
+        <HomeLink>
           <LogoMark inverted className="-my-1 size-12" />
           <div className="min-w-0 leading-tight">
             <p className="truncate font-display font-black uppercase">Skillwave</p>
             <p className="truncate text-xs text-sidebar-foreground/70">{t("subtitle")}</p>
           </div>
-        </div>
+        </HomeLink>
         <LanguageSwitch className="mx-2 mt-1" />
       </SidebarHeader>
       <SidebarContent>

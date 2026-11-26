@@ -4,7 +4,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { INK_SPLATS } from "./ink";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -16,11 +17,24 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
  *   data-anim="deal"   children laid out one by one (tickets, cards)
  *   data-anim="tape"   children taped onto the page (reviews)
  *   data-count="12 000+"  a number that counts up to that final text
- *   data-splash        a button that spatters ink when clicked
+ *   data-splash        an action button that leaves an ink splat where it is clicked
  * Animations play once; the ticker tape runs on CSS.
  */
 export function MotionRoot({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
+
+  // A reload always starts at the top of the page: the browser must not restore
+  // the old scroll position or jump to a #section left in the URL.
+  useEffect(() => {
+    history.scrollRestoration = "manual";
+    const [navigation] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+    if (navigation?.type === "reload") {
+      if (window.location.hash) {
+        history.replaceState(history.state, "", window.location.pathname + window.location.search);
+      }
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   useGSAP(
     (_, contextSafe) => {
@@ -128,42 +142,39 @@ export function MotionRoot({ children }: { children: ReactNode }) {
         });
       });
 
-      /* ---------- Ink spatter on click ---------- */
-      const spatter = contextSafe!((event: MouseEvent) => {
-        const button = (event.target as Element).closest("[data-splash]");
-        if (!button || !root.current) return;
-        const color = getComputedStyle(button).backgroundColor;
-        for (let i = 0; i < 10; i++) {
-          const drop = document.createElement("span");
-          const size = gsap.utils.random(4, 11);
-          Object.assign(drop.style, {
-            position: "fixed",
-            left: `${event.clientX - size / 2}px`,
-            top: `${event.clientY - size / 2}px`,
-            width: `${size}px`,
-            height: `${size}px`,
-            borderRadius: "50%",
-            background: color === "rgba(0, 0, 0, 0)" ? "var(--color-ink)" : color,
-            pointerEvents: "none",
-            zIndex: "60",
-          });
-          document.body.appendChild(drop);
-          const angle = gsap.utils.random(0, Math.PI * 2);
-          const distance = gsap.utils.random(30, 80);
-          gsap.to(drop, {
-            x: Math.cos(angle) * distance,
-            y: Math.sin(angle) * distance + 20,
-            scale: gsap.utils.random(0.3, 0.8),
-            autoAlpha: 0,
-            duration: gsap.utils.random(0.45, 0.75),
-            ease: "power2.out",
-            onComplete: () => drop.remove(),
-          });
-        }
+      /* ---------- Ink splat on click ---------- */
+      // A black splat lands where an action button was pressed, holds for a
+      // moment and fades. Listens on the document so buttons inside dialogs
+      // (rendered in a portal) splash too.
+      const splash = contextSafe!((event: MouseEvent) => {
+        const button = (event.target as Element | null)?.closest?.("[data-splash]");
+        if (!button || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const size = gsap.utils.random(96, 140);
+        const splat = document.createElement("img");
+        splat.src = gsap.utils.random(INK_SPLATS);
+        splat.alt = "";
+        splat.setAttribute("aria-hidden", "true");
+        Object.assign(splat.style, {
+          position: "fixed",
+          left: `${event.clientX - size / 2}px`,
+          top: `${event.clientY - size / 2}px`,
+          width: `${size}px`,
+          height: `${size}px`,
+          pointerEvents: "none",
+          zIndex: "70",
+        });
+        document.body.appendChild(splat);
+        gsap
+          .timeline({ onComplete: () => splat.remove() })
+          .fromTo(
+            splat,
+            { scale: 0.2, rotation: gsap.utils.random(0, 360), autoAlpha: 1 },
+            { scale: 1, duration: 0.18, ease: "back.out(3)" },
+          )
+          .to(splat, { autoAlpha: 0, scale: 1.08, duration: 0.45, ease: "power1.in" }, "+=0.9");
       });
-      const element = root.current;
-      element?.addEventListener("click", spatter);
-      return () => element?.removeEventListener("click", spatter);
+      document.addEventListener("click", splash);
+      return () => document.removeEventListener("click", splash);
     },
     { scope: root },
   );

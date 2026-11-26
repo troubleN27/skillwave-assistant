@@ -145,6 +145,7 @@ export function CourseTicket({ course, labels }: { course: CourseTicketData; lab
               <div className="flex flex-wrap gap-3 border-t-2 border-ink px-6 py-4">
                 <button
                   type="button"
+                  data-splash
                   className={button.ink}
                   onClick={() => {
                     setOpen(false);

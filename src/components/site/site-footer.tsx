@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { CONTACTS } from "@/lib/site/courses";
+import { HomeLink } from "./home-link";
 import { TornEdge } from "./ink";
 import { Logo } from "./logo";
 import { NAV_ITEMS } from "./nav-items";
@@ -17,7 +18,9 @@ export function SiteFooter() {
       <div className="bg-ink pb-28 text-sun sm:pb-12">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-10 sm:grid-cols-[1.4fr_1fr_1fr] sm:px-6">
           <div>
-            <Logo inverted />
+            <HomeLink className="inline-block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sun">
+              <Logo inverted />
+            </HomeLink>
             <p className="mt-4 max-w-[34ch] text-sm text-sun/75">{t("footer.tagline")}</p>
           </div>
           <nav aria-label={t("footer.navTitle")}>

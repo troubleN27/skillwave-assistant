@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { TornEdge } from "./ink";
+import { HomeLink } from "./home-link";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 import { NAV_ITEMS } from "./nav-items";
@@ -15,12 +16,9 @@ export function SiteHeader() {
     <header className="pointer-events-none sticky top-0 z-40">
       <div className="pointer-events-auto bg-ink text-sun">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:h-[72px] sm:px-6">
-          <Link
-            href="/"
-            className="shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sun"
-          >
+          <HomeLink className="shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sun">
             <Logo inverted />
-          </Link>
+          </HomeLink>
           <nav aria-label={t("navLabel")} className="mx-auto hidden items-center gap-7 md:flex">
             {NAV_ITEMS.map((item) => (
               <a
