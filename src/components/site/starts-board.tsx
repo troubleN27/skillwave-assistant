@@ -107,7 +107,24 @@ export function StartsBoard({
       onBlur={() => setHeld(false)}
       className="grid items-end gap-x-6 gap-y-4 bg-ink px-5 py-5 text-sun shadow-[8px_8px_0_rgba(18,17,16,0.22)] sm:px-6 md:grid-cols-[auto_1fr_auto_auto]"
     >
-      <h2 id="starts-title" className="self-center font-display text-base leading-tight font-black uppercase">{labels.title}</h2>
+      {/* Title with the course dots right under it, so they read as one label. */}
+      <div className="flex flex-col gap-2 self-end md:pb-0.5">
+        <h2 id="starts-title" className="font-display text-base leading-tight font-black uppercase">{labels.title}</h2>
+        <div className="flex gap-1.5">
+          {items.map((item, i) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={labels.show[i]}
+              aria-current={i === index || undefined}
+              className="group py-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
+            >
+              <span className={cn("block h-1 w-6 transition-colors", i === index ? "bg-sun" : "bg-[#4a453f] group-hover:bg-sun/60")} />
+            </button>
+          ))}
+        </div>
+      </div>
 
       <ul className="sr-only">
         {items.map((item) => (
@@ -136,20 +153,6 @@ export function StartsBoard({
         </div>
       </div>
 
-      <div className="flex gap-1.5 md:col-span-4">
-        {items.map((item, i) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => setIndex(i)}
-            aria-label={labels.show[i]}
-            aria-current={i === index || undefined}
-            className="group py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
-          >
-            <span className={cn("block h-1 w-6 transition-colors", i === index ? "bg-sun" : "bg-[#4a453f] group-hover:bg-sun/60")} />
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
