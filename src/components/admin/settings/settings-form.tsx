@@ -228,15 +228,25 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
         />
       </Section>
 
-      <div className="flex items-center gap-3 pt-2">
-        <Button type="submit" disabled={isSubmitting || !isDirty}>
-          {isSubmitting && <Loader2Icon className="animate-spin" />}
+      {/* Site-style buttons: black "Save" with a hard shadow once there is
+          something to save; until then a calm outlined button that stays readable. */}
+      <div className="flex flex-wrap items-center gap-4 pt-2">
+        <button
+          type="submit"
+          disabled={isSubmitting || !isDirty}
+          className="inline-flex h-12 items-center gap-2 border-2 border-ink bg-ink px-7 text-base font-bold text-sun shadow-[4px_4px_0_rgba(18,17,16,0.35)] transition-[transform,box-shadow,background-color] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(18,17,16,0.35)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink disabled:pointer-events-none disabled:bg-white disabled:text-ink/60 disabled:shadow-none"
+        >
+          {isSubmitting && <Loader2Icon className="size-4 animate-spin" aria-hidden />}
           {t("save")}
-        </Button>
+        </button>
         {isDirty && !isSubmitting && (
-          <Button type="button" variant="ghost" onClick={() => reset(initial)}>
+          <button
+            type="button"
+            onClick={() => reset(initial)}
+            className="inline-flex h-12 items-center border-2 border-ink bg-white px-6 text-base font-bold text-ink transition-colors hover:bg-ink hover:text-sun focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink"
+          >
             {t("discard")}
-          </Button>
+          </button>
         )}
         {serverError && (
           <p role="alert" className="text-sm text-destructive">
