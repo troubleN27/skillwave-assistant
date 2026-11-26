@@ -75,7 +75,7 @@ export function ChatPanel({
   return (
     <div className="flex h-full flex-col bg-paper text-ink">
       <header className="flex items-center gap-3 bg-ink px-4 py-3 text-sun">
-        <LogoMark inverted className="size-9" />
+        <LogoMark inverted className="-my-1 size-12" />
         <div className="min-w-0 flex-1">
           <p id={titleId} className="truncate font-display text-base font-black">
             {config.assistantName}

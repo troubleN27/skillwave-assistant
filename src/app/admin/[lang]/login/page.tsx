@@ -22,7 +22,7 @@ function LoginScreen() {
     <main className="flex min-h-svh items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <LogoMark className="size-14" />
+          <LogoMark className="size-20" />
           <div>
             <h1 className="font-display text-2xl font-black uppercase">Skillwave Academy</h1>
             <p className="text-sm text-muted-foreground">{t("subtitle")}</p>

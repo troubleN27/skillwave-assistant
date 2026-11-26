@@ -21,7 +21,7 @@
   }[LANG];
   var MOBILE_QUERY = window.matchMedia("(max-width: 639px)");
   var INK = "#121110";
-  var SUN = "#F6D33F";
+  var SUN = "#FFFF00";
 
   var ICON_CHAT =
     '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>';

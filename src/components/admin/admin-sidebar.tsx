@@ -56,7 +56,7 @@ export function AdminSidebar({ footer }: { footer: ReactNode }) {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center gap-3 px-2 py-1.5">
-          <LogoMark inverted className="size-9" />
+          <LogoMark inverted className="-my-1 size-12" />
           <div className="min-w-0 leading-tight">
             <p className="truncate font-display font-black uppercase">Skillwave</p>
             <p className="truncate text-xs text-sidebar-foreground/70">{t("subtitle")}</p>

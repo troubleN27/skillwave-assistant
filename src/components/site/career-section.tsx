@@ -13,7 +13,7 @@ export function CareerSection() {
           src="/images/career.jpg"
           alt={t("photoAlt")}
           sizes="(min-width: 768px) 560px, 100vw"
-          className="chamfer aspect-[4/3] md:order-2 [--chamfer:28px]"
+          className="aspect-[4/3] md:order-2"
           imageClassName="object-[45%_50%]"
         />
         <div>

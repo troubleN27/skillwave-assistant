@@ -21,7 +21,7 @@ export function LearningSection() {
               src="/images/learning.jpg"
               alt={t("photoAlt")}
               sizes="(min-width: 768px) 440px, 0px"
-              className="chamfer relative aspect-[4/3]"
+              className="relative aspect-[4/3]"
             />
           </div>
         </div>
@@ -32,7 +32,7 @@ export function LearningSection() {
               <li key={step.title} className="grid grid-cols-[3.25rem_1fr] gap-4 border-t-2 border-ink py-5">
                 <span
                   aria-hidden
-                  className="chamfer flex size-12 items-center justify-center bg-ink font-display text-2xl font-black text-sun [--chamfer:8px]"
+                  className="flex size-12 items-center justify-center bg-ink font-display text-2xl font-black text-sun"
                 >
                   {i + 1}
                 </span>

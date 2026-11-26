@@ -51,7 +51,7 @@ export function Hero() {
               sizes="(min-width: 768px) 520px, 100vw"
               priority
               stock="paper"
-              className="chamfer relative aspect-[4/3] [--chamfer:28px]"
+              className="relative aspect-[4/3]"
               imageClassName="object-[70%_50%]"
             />
           </div>
@@ -62,7 +62,7 @@ export function Hero() {
             {...hiddenUntilAnimated}
             className="group absolute right-4 -bottom-6 rotate-[-6deg] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:right-8"
           >
-            <span className="chamfer flex flex-col bg-ink px-5 py-3 text-sun [--chamfer:10px] group-hover:bg-ink-soft">
+            <span className="flex flex-col bg-ink px-5 py-3 text-sun group-hover:bg-ink-soft">
               <span className="text-xs font-bold text-sun/70">{t("hero.stamp")}</span>
               <span className="font-display text-2xl font-black uppercase">
                 {formatDayMonth(nextStart.start, locale)}

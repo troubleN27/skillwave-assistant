@@ -11,7 +11,7 @@ export function Logo({ inverted = false, className }: { inverted?: boolean; clas
         className,
       )}
     >
-      <LogoMark inverted={inverted} className="size-10" />
+      <LogoMark inverted={inverted} className="-my-2 size-14" />
       <span className="flex flex-col leading-none">
         <span className="font-display text-[22px] font-black tracking-[0.01em]">SKILLWAVE</span>
         <span className="mt-1 text-[9.5px] font-extrabold tracking-[0.42em]">ACADEMY</span>

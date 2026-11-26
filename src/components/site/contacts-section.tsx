@@ -51,7 +51,7 @@ export function ContactsSection() {
             alt={t("contacts.photoAlt")}
             sizes="(min-width: 768px) 520px, 100vw"
             stock="paper"
-            className="chamfer relative aspect-[4/3] [--chamfer:28px]"
+            className="relative aspect-[4/3]"
           />
         </div>
       </div>
