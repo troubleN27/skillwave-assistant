@@ -143,12 +143,12 @@ async function ConversationsList({ lang, searchParams }: { lang: AdminLang; sear
           </span>
           <div className="flex gap-2">
             {filters.page > 1 && (
-              <Link href={pageHref(filters.page - 1)} className="rounded-sm border px-3 py-1 hover:bg-muted">
+              <Link href={pageHref(filters.page - 1)} className="inline-flex h-9 items-center border-2 border-ink bg-ink px-4 font-bold text-sun transition-colors hover:bg-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
                 {t("pagination.prev")}
               </Link>
             )}
             {filters.page < pages && (
-              <Link href={pageHref(filters.page + 1)} className="rounded-sm border px-3 py-1 hover:bg-muted">
+              <Link href={pageHref(filters.page + 1)} className="inline-flex h-9 items-center border-2 border-ink bg-ink px-4 font-bold text-sun transition-colors hover:bg-ink-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
                 {t("pagination.next")}
               </Link>
             )}
