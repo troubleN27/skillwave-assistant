@@ -16,7 +16,6 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
  *   data-anim="splat"  an ink splat splashing out
  *   data-anim="deal"   children laid out one by one (tickets, cards)
  *   data-anim="tape"   children taped onto the page (reviews)
- *   data-count="12 000+"  a number that counts up to that final text
  *   data-splash        an action button that leaves an ink splat where it is clicked
  * Animations play once; the ticker tape runs on CSS.
  */
@@ -117,28 +116,6 @@ export function MotionRoot({ children }: { children: ReactNode }) {
           ease: "power3.out",
           stagger: 0.08,
           scrollTrigger: once(list),
-        });
-      });
-
-      const locale = document.documentElement.lang === "ru" ? "ru-RU" : "en-US";
-      q("[data-count]").forEach((el) => {
-        // Read the target from the attribute: the text itself is overwritten while counting.
-        const finalText = el.getAttribute("data-count") ?? "";
-        const target = Number(finalText.replace(/\D/g, ""));
-        const suffix = finalText.match(/[^\d\s ,]+$/)?.[0] ?? "";
-        if (!target) return;
-        const counter = { value: 0 };
-        gsap.to(counter, {
-          value: target,
-          duration: 1.4,
-          ease: "power2.out",
-          scrollTrigger: once(el, "top 90%"),
-          onUpdate: () => {
-            el.textContent = `${Math.round(counter.value).toLocaleString(locale)}${suffix}`;
-          },
-          onComplete: () => {
-            el.textContent = finalText;
-          },
         });
       });
 

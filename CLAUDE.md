@@ -22,10 +22,10 @@ Next.js 16 (App Router, `cacheComponents`, `src/proxy.ts` вместо middlewar
 
 ```
 docs/                 PRD и SPEC
-db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты, 0005 — порог 0.68)
+db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты, 0005 — порог 0.68, 0006 — курс «Графический дизайнер» в форме заявки, 0007 — телефон без «бесплатно по России»)
 messages/             переводы сайта, виджета и админки (ru, en)
-knowledge/            база знаний (Markdown, 12 документов × RU/EN; заголовок `#` = название, `-en.md` = английский)
-public/images/        фото сайта (выводятся растром через HalftonePhoto)
+knowledge/            база знаний (Markdown, 13 документов × RU/EN, 6 курсов; заголовок `#` = название, `-en.md` = английский)
+public/images/        портреты преподавателей (фон выровнен под #FFFF00), learning.jpg, чернила ink-*.png (прозрачные PNG)
 evals/questions.json  тестовые вопросы: answerable (ожидаемые документы), noAnswer, offTopic
 scripts/              CLI: create-admin, seed-knowledge, eval-retrieval
 src/proxy.ts          локали next-intl; /admin: проверка cookie сессии и переписывание на /admin/{lang} по cookie admin_lang
@@ -36,8 +36,8 @@ src/app/embed/        чат для iframe: /embed?lang= → proxy перепи�
 src/app/api/          route handlers: chat, chat/history, feedback, leads, auth/[...all], admin/blob-upload
 public/widget.js      скрипт встраивания (без зависимостей); public/embed-test.html — проверка
 src/components/chat/  виджет: chat-widget (сайт), embedded-chat (iframe), chat-panel, chat-session (useChat), lead-form
-src/components/site/  разделы сайта, ink.tsx (кляксы, рваные края), halftone-photo, motion-root (GSAP), lead-dialog; данные курсов — src/lib/site/courses.ts (тесты сверяют сайт с knowledge/)
-src/components/brand/ логотип (LogoMark)
+src/components/site/  разделы сайта, ink.tsx (кляксы и потёки из PNG, рваные края), hero-receipt (чек), starts/starts-board (табло стартов), certificate, chat-replies, framed-photo, home-link, motion-root (GSAP), lead-dialog; данные курсов — src/lib/site/courses.ts (тесты сверяют сайт с knowledge/)
+src/components/brand/ логотип (LogoMark — знак на кляксе), печать (Stamp), splat-paths.ts (контуры клякс, сгенерированы один раз)
 src/db/               schema.ts, client.ts (createDb для скриптов), index.ts (db для приложения)
 src/lib/              auth*, session.ts (requireAdmin), settings.ts (настройки, isAllowedOrigin), rate-limit.ts, language.ts, validations/
 src/lib/ai/           models.ts (модели из env), embeddings.ts, prompts.ts (системный промпт, заготовки), rewrite.ts
@@ -86,11 +86,14 @@ tests/                Vitest
 - Админка: все даты и дневная разбивка — по Москве (`ADMIN_TIME_ZONE`, `formatDateTime`). Фильтры и вкладки — в `searchParams`, страницы читают их внутри `<AdminGate>`. Меню в сайдбаре — в `<Suspense>` (usePathname на динамических маршрутах).
 - Вопросы без ответа группируются по нормализованному тексту (`normalizeQuestion`); «Добавить ответ» создаёт FAQ (`answerWithFaqAction`) и помечает всю группу `resolved`.
 - Сохранение настроек вызывает `updateTag("settings")` — виджет видит изменения сразу; правка `settings` напрямую в БД кэш виджета НЕ сбрасывает (только через админку). Лимиты и порог чат читает из БД без кэша.
-- График Главной: синий `#1D6FD1` + охра `#B45309` (проверено валидатором dataviz; чёрный бренда валидатор отвергает как цвет серии), таблица данных под графиком.
+- График Главной на чёрной карточке: жёлтый `#FFFF00` (сплошная) + оранжевый `#FF6B35` (пунктир) с подписями у линий. Валидатор dataviz: различимость и контраст проходят, полоса яркости — нет (из-за брендового жёлтого), поэтому серии различаются ещё пунктиром и подписями. Таблица данных под графиком.
+- Админка: жёлтый фон, белые панели `border-2 border-ink` с тенью, квадратные углы (`--radius: 0`), шапки таблиц чёрные с жёлтым текстом (`.admin-theme` в `globals.css`). Раздел «Встраивание на сайты» убран: `allowed_origins` не редактируется, форма отправляет сохранённое значение без изменений.
 - Колонка `chunks.tsv` генерируется Postgres; индексы HNSW (`vector_cosine_ops`) и GIN описаны в схеме.
 - Язык админки: cookie `admin_lang` → `src/proxy.ts` переписывает `/admin/...` на статические `/admin/{lang}/...`. Страницы берут язык через `getAdminLang()` (`next/root-params` + `setRequestLocale`), чтобы не ждать динамические params вне Suspense. `loading.tsx` — клиентский компонент, `not-found` и layout панели сами вызывают `getAdminLang()`, а корневой layout импортирует JSON сообщений напрямую: иначе next-intl читает заголовки и ломает пререндер. Server Actions переводят ошибки через `getActionTranslations()` (cookie); ключи ошибок zod — в `Admin.validation`.
-- Сайт: стили растра и анимаций лежат в компонентах (inline styles / GSAP), а не в `globals.css` — Turbopack на пути с кириллицей иногда не подхватывает правки CSS без перезапуска dev-сервера.
-- Анимации сайта — `MotionRoot`: data-атрибуты `data-hero-*`, `data-anim="stamp|splat|deal|tape"`, `data-count="<итог>"`, `data-splash`. Элементы первого экрана скрыты inline-стилем, CSS-страховка показывает их через 2,5 с.
+- Сайт: стили анимаций лежат в компонентах (inline styles / GSAP), а не в `globals.css` — Turbopack на пути с кириллицей иногда не подхватывает правки CSS без перезапуска dev-сервера, а `npm run build` может взять старый CSS из `.next/cache` (перед сборкой его удалять).
+- Кляксы и потёки — обычные `<img>` с прозрачным PNG, не CSS-маски: маски перерисовываются на каждом кадре анимации.
+- Playwright (headless) на страницах сайта и админки отдаёт 1–3 кадра в секунду (в обычном Chrome — 240), поэтому GSAP-анимации там идут в 10+ раз медленнее. Визуальные проверки анимаций — в Chrome (chrome-devtools).
+- Анимации сайта — `MotionRoot`: data-атрибуты `data-hero-*`, `data-anim="stamp|splat|deal|tape"`, `data-splash` (клякса на месте клика; слушатель на `document`, чтобы работали кнопки в диалогах-порталах). Элементы первого экрана скрыты inline-стилем, CSS-страховка показывает их через 2,5 с. При перезагрузке `MotionRoot` сбрасывает прокрутку и #якорь (`history.scrollRestoration = "manual"`).
 - Форма заявки открывается и с сайта (`LeadDialogProvider`, без `conversationId`).
 - Источники под ответом — только на языке ответа (`visibleSources`), полный список с языком документа хранится в `messages.sources`.
 - Обрыв генерации (ошибка или `abort` по таймауту) после первых слов: пометка `cannedReply("interrupted")`, форма заявки, `answered = null`.
