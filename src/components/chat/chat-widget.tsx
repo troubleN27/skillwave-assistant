@@ -52,7 +52,7 @@ export function ChatWidget({ config }: { config: WidgetConfig }) {
         hidden={!open}
         className={cn(
           "fixed inset-0 z-50 flex flex-col overflow-hidden bg-paper",
-          "sm:inset-auto sm:right-6 sm:bottom-24 sm:h-[min(600px,calc(100svh-8rem))] sm:w-[380px] sm:border-[3px] sm:border-ink sm:shadow-[0_18px_40px_rgba(18,17,16,0.35)]",
+          "sm:inset-auto sm:right-6 sm:bottom-24 sm:h-[min(600px,calc(100svh-8rem))] sm:w-[380px] sm:border-[3px] sm:border-ink sm:shadow-[8px_8px_0_var(--color-ink)]",
           "motion-safe:origin-bottom-right motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-200",
         )}
       >
