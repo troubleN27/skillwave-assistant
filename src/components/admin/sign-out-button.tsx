@@ -31,7 +31,7 @@ export function SignOutButton() {
     <div className="flex flex-col gap-1">
       <Button
         variant="ghost"
-        className="justify-start"
+        className="justify-start hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         onClick={handleSignOut}
         disabled={pending}
       >

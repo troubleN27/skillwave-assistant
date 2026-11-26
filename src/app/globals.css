@@ -154,10 +154,18 @@
   --sidebar-foreground: #f4ecd0;
   --sidebar-primary: #ffff00;
   --sidebar-primary-foreground: #121110;
-  --sidebar-accent: #ffff00;
-  --sidebar-accent-foreground: #121110;
+  /* Hover in the sidebar: a dark step with yellow text, so it never merges
+     with the yellow active item next to it. */
+  --sidebar-accent: #2a2620;
+  --sidebar-accent-foreground: #ffff00;
   --sidebar-border: #2a2620;
   --sidebar-ring: #ffff00;
+}
+
+/* The active sidebar item stays yellow with black text, hovered or not. */
+.admin-theme [data-sidebar="menu-button"][data-active] {
+  background: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
 }
 
 /* Admin tables: black header row with yellow labels. */
