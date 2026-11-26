@@ -284,7 +284,6 @@
     "learning": {
       "title": "How studying works",
       "subtitle": "Seven steps from your request to your diploma. Study from any country and keep your job.",
-      "photoAlt": "Top view: hands on a laptop keyboard, code and a video call with a mentor on the screen, a notebook with sketches and yellow sticky notes nearby",
       "steps": [
         {
           "title": "Request",
@@ -315,7 +314,55 @@
           "text": "An electronic certificate with a verification number and six months of career center support."
         }
       ],
-      "pause": "Need a break? Move to the next cohort free of charge — once per course, for up to 3 months."
+      "pause": "Need a break? Move to the next cohort free of charge — once per course, for up to 3 months.",
+      "week": {
+        "label": "A sample study week",
+        "title": "Study week",
+        "course": "{course} course",
+        "hours": "8–10 hours a week",
+        "days": [
+          {
+            "day": "Mon",
+            "text": "Recorded lessons: 2–3 lessons of 20–40 minutes",
+            "note": "any time"
+          },
+          {
+            "day": "Tue",
+            "text": "Live webinar, 1.5 hours",
+            "note": "7 pm Moscow",
+            "live": true
+          },
+          {
+            "day": "Wed",
+            "text": "Practical assignment on the week's topic",
+            "note": "flexible deadlines"
+          },
+          {
+            "day": "Thu",
+            "text": "Live webinar, 1.5 hours",
+            "note": "7 pm Moscow",
+            "live": true
+          },
+          {
+            "day": "Fri",
+            "text": "Your mentor reviews the assignment and gives feedback",
+            "note": "usually within 48 hours",
+            "done": true
+          },
+          {
+            "day": "Sat",
+            "text": "Questions in the cohort chat — to your mentor and group",
+            "note": "if you like"
+          },
+          {
+            "day": "Sun",
+            "text": "Day off",
+            "note": "",
+            "off": true
+          }
+        ],
+        "stamp": "Reviewed"
+      }
     },
     "teachers": {
       "title": "Teachers",

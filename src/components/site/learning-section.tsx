@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
-import { FramedPhoto } from "./framed-photo";
 import { InkSplat } from "./ink";
 import { Section, SectionTitle } from "./section";
+import { WeekPlanner } from "./week-planner";
 
 type Step = { title: string; text: string };
 
@@ -12,17 +12,13 @@ export function LearningSection() {
   return (
     <Section id="learning" labelledBy="learning-title">
       <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr]">
-        <div className="md:sticky md:top-28 md:self-start">
+        {/* Pinned while the steps scroll by, on screens tall enough to show it whole. */}
+        <div className="md:self-start [@media(min-height:870px)]:md:sticky [@media(min-height:870px)]:md:top-28">
           <SectionTitle id="learning-title">{t("title")}</SectionTitle>
           <p className="mt-5 max-w-[42ch] text-[17px] leading-relaxed text-ink-soft">{t("subtitle")}</p>
-          <div className="relative mt-10 hidden md:block">
+          <div className="relative mt-8 hidden md:block">
             <InkSplat seed={58} data-anim="splat" className="absolute -top-14 -right-12 size-44" />
-            <FramedPhoto
-              src="/images/learning.jpg"
-              alt={t("photoAlt")}
-              sizes="(min-width: 768px) 440px, 0px"
-              className="aspect-[4/3] -rotate-1"
-            />
+            <WeekPlanner />
           </div>
         </div>
 
