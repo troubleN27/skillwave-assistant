@@ -11,7 +11,7 @@ export function EmptyState({
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 border-2 border-dashed border-ink bg-white px-6 py-16 text-center">
-      <div className="flex size-12 items-center justify-center rounded-md bg-sun text-ink">
+      <div className="flex size-12 items-center justify-center bg-ink text-sun">
         <Icon className="size-6" />
       </div>
       <div className="flex max-w-sm flex-col gap-1">
