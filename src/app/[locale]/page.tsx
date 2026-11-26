@@ -5,6 +5,7 @@ import { CareerSection } from "@/components/site/career-section";
 import { ContactsSection } from "@/components/site/contacts-section";
 import { CoursesSection } from "@/components/site/courses-section";
 import { Hero } from "@/components/site/hero";
+import { InkEdge } from "@/components/site/ink";
 import { LeadDialogProvider } from "@/components/site/lead-dialog";
 import { LearningSection } from "@/components/site/learning-section";
 import { MotionRoot } from "@/components/site/motion-root";
@@ -34,7 +35,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         <MotionRoot>
           <SiteHeader />
           {/* Clip the slanted ticker and splats that reach past the page edge. */}
-          <main className="overflow-x-clip">
+          <main className="relative overflow-x-clip">
+            {/* Paint dripping from under the header; it stays at the top of the page
+                instead of following the sticky header over the content. */}
+            <InkEdge className="absolute inset-x-0 -top-7 z-20 text-ink sm:-top-9" />
             <Hero />
             <Ticker />
             <Starts />

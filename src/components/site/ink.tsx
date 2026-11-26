@@ -1,8 +1,9 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
-/* Printed-ink decorations. Shapes are generated from a seed, so server and
-   client render the same markup and every splat can look different. */
+/* Printed-ink decorations. Splats and the header edge are photographed ink;
+   section edges are generated from a seed, so server and client render the
+   same markup. */
 
 function random(seed: number) {
   let state = seed >>> 0;
@@ -17,64 +18,40 @@ function random(seed: number) {
 
 const round = (n: number) => Math.round(n * 10) / 10;
 
-/** Closed smooth path through points (Catmull-Rom converted to cubic Béziers). */
-function smoothClosedPath(points: [number, number][]) {
-  const n = points.length;
-  const at = (i: number) => points[(i + n) % n];
-  let d = `M${round(at(0)[0])} ${round(at(0)[1])}`;
-  for (let i = 0; i < n; i++) {
-    const [p0, p1, p2, p3] = [at(i - 1), at(i), at(i + 1), at(i + 2)];
-    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-    d += ` C${round(c1[0])} ${round(c1[1])} ${round(c2[0])} ${round(c2[1])} ${round(p2[0])} ${round(p2[1])}`;
-  }
-  return `${d} Z`;
-}
+/* Photographed black ink, cut out to transparent PNGs. Plain images rather
+   than CSS masks: masks are repainted on every animation frame. */
+export const INK_SPLATS = ["/images/ink-splat-1.png", "/images/ink-splat-2.png", "/images/ink-splat-3.png"];
 
-function splatShape(seed: number) {
-  const rnd = random(seed);
-  const points: [number, number][] = [];
-  const count = 30;
-  for (let i = 0; i < count; i++) {
-    const angle = (i / count) * Math.PI * 2 + (rnd() - 0.5) * 0.12;
-    let radius = 44 + rnd() * 14;
-    if (rnd() < 0.2) radius += 18 + rnd() * 26; // a splash arm
-    points.push([100 + Math.cos(angle) * radius, 100 + Math.sin(angle) * radius]);
-  }
-  const drops = Array.from({ length: 12 + Math.floor(rnd() * 6) }, () => {
-    const angle = rnd() * Math.PI * 2;
-    const distance = 66 + rnd() * 30;
-    return {
-      cx: round(100 + Math.cos(angle) * distance),
-      cy: round(100 + Math.sin(angle) * distance),
-      r: round(1.2 + (1 - (distance - 66) / 30) * 4.5 * rnd() + 0.8),
-    };
-  });
-  return { body: smoothClosedPath(points), drops };
-}
-
-/** An ink splat. Colour comes from `currentColor`. */
+/** A black ink splat; the seed picks the shape and its turn. */
 export function InkSplat({
   seed,
   className,
+  style,
   ...rest
-}: { seed: number; className?: string } & Omit<ComponentProps<"svg">, "children">) {
-  const { body, drops } = splatShape(seed);
+}: { seed: number; className?: string } & Omit<ComponentProps<"img">, "children" | "src" | "alt">) {
+  const turn = Math.round(random(seed)() * 360);
   return (
-    <svg
-      viewBox="0 0 200 200"
-      className={cn("pointer-events-none", className)}
+    // Decorative and tiny: next/image would add nothing here.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={INK_SPLATS[seed % INK_SPLATS.length]}
+      alt=""
       aria-hidden
-      focusable="false"
+      draggable={false}
+      className={cn("pointer-events-none block object-contain select-none", className)}
+      style={{ rotate: `${turn}deg`, ...style }}
       {...rest}
-    >
-      <g fill="currentColor">
-        <path d={body} />
-        {drops.map((drop, i) => (
-          <circle key={i} {...drop} />
-        ))}
-      </g>
-    </svg>
+    />
+  );
+}
+
+/** Black paint dripping from under the site header. */
+export function InkEdge({ className }: { className?: string }) {
+  return (
+    <div aria-hidden className={cn("pointer-events-none h-[clamp(72px,8vw,150px)] overflow-hidden", className)}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/images/ink-edge.png" alt="" draggable={false} className="block h-full w-[max(100%,1100px)] max-w-none select-none" />
+    </div>
   );
 }
 

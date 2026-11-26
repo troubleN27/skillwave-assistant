@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { HalftonePhoto } from "./halftone-photo";
+import { FramedPhoto } from "./framed-photo";
 import { InkSplat } from "./ink";
 import { Section, SectionTitle } from "./section";
 
@@ -16,12 +16,12 @@ export function LearningSection() {
           <SectionTitle id="learning-title">{t("title")}</SectionTitle>
           <p className="mt-5 max-w-[42ch] text-[17px] leading-relaxed text-ink-soft">{t("subtitle")}</p>
           <div className="relative mt-10 hidden md:block">
-            <InkSplat seed={58} data-anim="splat" className="absolute -top-10 -right-8 size-40 text-ink" />
-            <HalftonePhoto
+            <InkSplat seed={58} data-anim="splat" className="absolute -top-14 -right-12 size-44 text-ink" />
+            <FramedPhoto
               src="/images/learning.jpg"
               alt={t("photoAlt")}
               sizes="(min-width: 768px) 440px, 0px"
-              className="relative aspect-[4/3]"
+              className="aspect-[4/3] -rotate-1"
             />
           </div>
         </div>

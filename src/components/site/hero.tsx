@@ -15,7 +15,7 @@ export function Hero() {
       {/* Safety net: if the entrance animation hasn't started in 2.5 s (slow network,
           no JavaScript), a CSS animation shows the hidden elements anyway. */}
       <style>{"@keyframes hero-reveal{to{visibility:visible}}[data-hero-hidden]{animation:hero-reveal 0s 2.5s forwards}"}</style>
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-8 pb-16 sm:px-6 md:grid-cols-[1.1fr_1fr] md:pt-12 md:pb-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-20 pb-16 sm:px-6 md:grid-cols-[1.1fr_1fr] md:pt-28 md:pb-24">
         <div className="relative z-10">
           <h1
             id="hero-title"

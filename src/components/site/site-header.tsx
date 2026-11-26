@@ -60,7 +60,7 @@ export function SiteHeader() {
         </div>
       </div>
       {/* The ink runs off the bar onto the page below. */}
-      <TornEdge seed={7} className="-mt-px text-ink" />
+      <TornEdge seed={7} drips={false} className="-mt-px text-ink" />
     </header>
   );
 }

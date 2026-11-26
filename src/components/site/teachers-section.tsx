@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { COURSES } from "@/lib/site/courses";
-import { HalftonePhoto } from "./halftone-photo";
+import Image from "next/image";
 import { Section, SectionTitle } from "./section";
 
 export function TeachersSection() {
@@ -19,13 +19,15 @@ export function TeachersSection() {
             <li key={course.id}>
               {/* A staff pass: photo, name, course. */}
               <article className="flex h-full flex-col bg-paper text-ink">
-                <HalftonePhoto
-                  src={`/images/teacher-${course.id}.jpg`}
-                  alt={t(`${key}.photoAlt`)}
-                  sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 100vw"
-                  className="aspect-square"
-                  imageClassName="object-top"
-                />
+                <div className="relative aspect-square border-b-[3px] border-ink">
+                  <Image
+                    src={`/images/teacher-${course.id}.jpg`}
+                    alt={t(`${key}.photoAlt`)}
+                    fill
+                    sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
                 <div className="flex flex-1 flex-col p-5">
                   <p className="self-start bg-ink px-2 py-0.5 text-xs font-bold text-sun">
                     {t(`courses.items.${course.id}.name`)}
