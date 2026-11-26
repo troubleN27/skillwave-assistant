@@ -1,14 +1,38 @@
-import { useTranslations } from "next-intl";
-import { CONTACTS } from "@/lib/site/courses";
+import type { ReactNode } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { COURSES, CONTACTS, formatRub, formatStartDate, fullPaymentPrice } from "@/lib/site/courses";
 import { AskButton } from "./ask-button";
 import { button } from "./buttons";
-import { HalftonePhoto } from "./halftone-photo";
+import { ChatReplies, type Reply } from "./chat-replies";
 import { InkSplat } from "./ink";
 import { LeadButton } from "./lead-dialog";
 import { Section, SectionTitle } from "./section";
 
+/* The sample conversation quotes the UX/UI course; prices and dates come from the site data. */
+const sampleCourse = COURSES.find((course) => course.id === "ux-ui")!;
+
 export function ContactsSection() {
   const t = useTranslations("Site");
+  const locale = useLocale();
+  const bold = (chunks: ReactNode) => <strong className="font-extrabold">{chunks}</strong>;
+  const replies: Reply[] = [
+    { from: "user", content: t("contacts.chat.question1") },
+    {
+      from: "assistant",
+      content: t.rich("contacts.chat.answer1", {
+        course: t("courses.items.ux-ui.name"),
+        months: sampleCourse.months,
+        price: formatRub(sampleCourse.price, locale),
+        full: formatRub(fullPaymentPrice(sampleCourse.price), locale),
+        monthly: formatRub(sampleCourse.monthly, locale),
+        start: formatStartDate(sampleCourse.start, locale),
+        b: bold,
+      }),
+      sources: t.raw("contacts.chat.sources1") as string[],
+    },
+    { from: "user", content: t("contacts.chat.question2") },
+    { from: "assistant", content: t("contacts.chat.answer2"), sources: t.raw("contacts.chat.sources2") as string[] },
+  ];
 
   const rows = [
     { label: t("contacts.phone"), value: CONTACTS.phone, href: CONTACTS.phoneHref },
@@ -44,14 +68,18 @@ export function ContactsSection() {
           <p className="mt-4 text-sm text-ink-soft">{t("contacts.hours")}</p>
         </div>
         <div className="relative">
-          <InkSplat seed={88} data-anim="splat" className="absolute -right-10 -bottom-12 size-56 text-ink" />
-          <HalftonePhoto
-            src="/images/final-cta.jpg"
-            alt={t("contacts.photoAlt")}
-            sizes="(min-width: 768px) 520px, 100vw"
-            stock="paper"
-            className="relative aspect-[4/3]"
-          />
+          <InkSplat seed={87} data-anim="splat" className="absolute -bottom-16 -left-14 size-56" />
+          <div className="relative">
+            <ChatReplies
+              replies={replies}
+              labels={{
+                conversation: t("contacts.chat.label"),
+                you: t("contacts.chat.you"),
+                assistant: t("contacts.chat.assistant"),
+                typing: t("contacts.chat.typing"),
+              }}
+            />
+          </div>
         </div>
       </div>
     </Section>

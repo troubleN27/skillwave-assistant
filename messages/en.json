@@ -369,7 +369,6 @@
     "career": {
       "title": "Certificate and job support",
       "text": "Help with finding a job is included in every course. The career center works with you during the course and for 6 months after graduation.",
-      "photoAlt": "A graduate shaking hands with an interviewer",
       "points": [
         "CV and cover letter",
         "A portfolio on GitHub, Behance or as case studies",
@@ -377,7 +376,24 @@
         "Referrals to partner companies and internships for top students"
       ],
       "certificate": "A certificate with a unique number is issued after you defend your final project and complete 80% of assignments. An English version is free on request.",
-      "note": "We do not guarantee employment — the result depends on you too. On average, graduates find their first job in 3 months."
+      "note": "We do not guarantee employment — the result depends on you too. On average, graduates find their first job in 3 months.",
+      "sample": {
+        "label": "Sample Skillwave Academy certificate",
+        "title": "Certificate",
+        "issued": "This certifies that",
+        "name": "Alexey Morozov",
+        "course": "has successfully completed the {course} course",
+        "meta": [
+          "9 months",
+          "6 portfolio projects",
+          "final project defended"
+        ],
+        "number": "No. SW-2026-04817",
+        "signName": "Dmitry Orlov",
+        "signRole": "course teacher",
+        "date": "15 October 2026",
+        "dateLabel": "date of issue"
+      }
     },
     "reviews": {
       "title": "What graduates say",
@@ -451,11 +467,27 @@
     "contacts": {
       "title": "Still have questions?",
       "text": "Leave a request — a manager will call you back, help you choose a course and open free introductory lessons for 7 days. Or ask the assistant on the site right now.",
-      "photoAlt": "Four students looking at a laptop together at a wooden table",
       "hours": "Managers are available on weekdays from 10 am to 7 pm Moscow time",
       "email": "Email",
       "phone": "Phone",
-      "telegram": "Telegram"
+      "telegram": "Telegram",
+      "chat": {
+        "label": "Sample conversation with the assistant",
+        "you": "You",
+        "assistant": "Skillwave assistant",
+        "question1": "How much is the UX/UI course and when is the next start?",
+        "answer1": "The {course} course lasts {months} months and costs <b>{price}</b> in full. You can pay at once with a 10% discount — <b>{full}</b>, or in interest-free installments over 12 months — from <b>{monthly}</b> a month. The next cohort starts on <b>{start}</b>.",
+        "sources1": [
+          "UX/UI Designer course",
+          "Payment, installments and discounts"
+        ],
+        "question2": "Can I try it first?",
+        "answer2": "Yes. After your request a manager opens free access to the introductory lessons for 7 days, so you can see whether the profession suits you.",
+        "sources2": [
+          "How studying at Skillwave Academy works"
+        ],
+        "typing": "The assistant is typing…"
+      }
     },
     "leadDialog": {
       "title": "Course request",
