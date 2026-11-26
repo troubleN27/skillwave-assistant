@@ -77,6 +77,8 @@ export function DailyChart({ data }: { data: Point[] }) {
             cursor={{ stroke: "rgba(244,236,208,0.5)", strokeWidth: 1 }}
             content={
               <ChartTooltipContent
+                // The card around the chart sets light text; the tooltip is light, so the date needs dark ink.
+                labelClassName="text-ink"
                 labelFormatter={(_, payload) => {
                   const day = payload?.[0]?.payload?.day as string | undefined;
                   return day ? longDate.format(toDate(day)) : "";
