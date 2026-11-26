@@ -27,7 +27,6 @@
     "loadingHistory": "Loading the conversation…",
     "errors": {
       "generic": "Couldn't get an answer. Check your internet connection and try again.",
-      "forbidden": "The chat isn't available on this website.",
       "retry": "Try again"
     },
     "leadSent": "Thank you, {name}! Your request has been sent — a manager will contact you during business hours (Mon–Fri, 10 am – 7 pm Moscow time).",
@@ -76,7 +75,6 @@
     "menuClose": "Close menu",
     "language": "Site language",
     "chooseCourse": "Choose a course",
-    "askQuestion": "Ask a question",
     "askAssistant": "Ask the assistant",
     "leaveRequest": "Leave a request",
     "hero": {
