@@ -148,17 +148,17 @@ function SearchResults({
             <TableHeader>
               <TableRow>
                 <TableHead className="w-12 pl-4">#</TableHead>
-                <TableHead>{t("columns.chunk")}</TableHead>
-                <TableHead className="text-right">{t("columns.similarity")}</TableHead>
-                <TableHead className="text-right">{t("columns.vector")}</TableHead>
-                <TableHead className="text-right">{t("columns.text")}</TableHead>
+                <TableHead className="w-full">{t("columns.chunk")}</TableHead>
+                <TableHead className="w-24 text-center">{t("columns.similarity")}</TableHead>
+                <TableHead className="w-24 text-center">{t("columns.vector")}</TableHead>
+                <TableHead className="w-24 pr-4 text-center">{t("columns.text")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {result.chunks.map((chunk, index) => (
-                <TableRow key={chunk.id} className="align-top">
+                <TableRow key={chunk.id} className="[&>td]:py-3 [&>td]:align-top">
                   <TableCell className="pl-4 tabular-nums">{index + 1}</TableCell>
-                  <TableCell className="max-w-xl whitespace-normal">
+                  <TableCell className="whitespace-normal">
                     <p className="font-medium">{chunk.documentTitle}</p>
                     {chunk.heading && (
                       <p className="text-xs text-muted-foreground">{chunk.heading}</p>
@@ -169,16 +169,16 @@ function SearchResults({
                   </TableCell>
                   <TableCell
                     className={cn(
-                      "text-right tabular-nums",
+                      "text-center tabular-nums",
                       chunk.similarity >= minSimilarity ? "font-medium" : "text-muted-foreground",
                     )}
                   >
                     {percent(chunk.similarity)}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell className="text-center tabular-nums">
                     {chunk.vectorRank ?? "—"}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell className="pr-4 text-center tabular-nums">
                     {chunk.textRank ?? "—"}
                   </TableCell>
                 </TableRow>
