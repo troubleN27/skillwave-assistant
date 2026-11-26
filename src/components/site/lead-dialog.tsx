@@ -28,7 +28,7 @@ export function LeadDialogProvider({ courses, children }: { courses: Course[]; c
       <Dialog.Root open={state !== null} onOpenChange={(open) => !open && close()}>
         <Dialog.Portal>
           <Dialog.Backdrop className="fixed inset-0 z-50 bg-ink/70 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
-          <Dialog.Popup className="fixed top-1/2 left-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-paper p-5 text-ink shadow-[8px_8px_0_var(--color-ink)] transition duration-200 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0">
+          <Dialog.Popup className="fixed inset-0 z-50 m-auto h-fit max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto bg-paper p-5 text-ink shadow-[8px_8px_0_var(--color-ink)] transition duration-200 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0">
             <div className="mb-3 flex items-start justify-between gap-3">
               <Dialog.Title className="font-display text-2xl font-black uppercase">{t("title")}</Dialog.Title>
               <Dialog.Close
