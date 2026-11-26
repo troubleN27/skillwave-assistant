@@ -4,10 +4,11 @@
 
 Skillwave Academy is an online school of digital professions. Since 2019 we have been helping people learn a new profession from scratch or strengthen their current skills and move to the next level. More than 12,000 students have studied with us so far.
 
-We teach five professions:
+We teach six professions:
 
 - Frontend Developer — 9 months;
 - UX/UI Designer — 6 months;
+- Graphic Designer — 7 months;
 - Python Developer — 10 months;
 - Data Analyst — 8 months;
 - Digital Marketer — 5 months.

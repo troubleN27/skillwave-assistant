@@ -365,6 +365,44 @@
         "Frequently asked questions",
         "Частые вопросы"
       ]
+    },
+    {
+      "question": "Сколько стоит курс графического дизайна?",
+      "lang": "ru",
+      "expected": [
+        "Курс «Графический дизайнер»",
+        "Graphic Designer course",
+        "Оплата, рассрочка и скидки",
+        "Payment, installments and discounts"
+      ]
+    },
+    {
+      "question": "Кто ведёт курс «Графический дизайнер»?",
+      "lang": "ru",
+      "expected": [
+        "Преподаватели Skillwave Academy",
+        "Skillwave Academy teachers",
+        "Курс «Графический дизайнер»",
+        "Graphic Designer course"
+      ]
+    },
+    {
+      "question": "What will I learn on the Graphic Designer course?",
+      "lang": "en",
+      "expected": [
+        "Курс «Графический дизайнер»",
+        "Graphic Designer course"
+      ]
+    },
+    {
+      "question": "When does the Graphic Designer course start?",
+      "lang": "en",
+      "expected": [
+        "Курс «Графический дизайнер»",
+        "Graphic Designer course",
+        "Частые вопросы",
+        "Frequently asked questions"
+      ]
     }
   ],
   "noAnswer": [

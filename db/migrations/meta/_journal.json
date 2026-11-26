@@ -43,6 +43,13 @@
       "when": 1795649146931,
       "tag": "0005_tune_min_similarity_bilingual",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1795665132056,
+      "tag": "0006_add_graphic_design_course",
+      "breakpoints": true
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 ## Which course should a beginner choose?
 
-All our courses are designed for beginners. If you want to program and build websites, choose "Frontend Developer". If you prefer visual work and design, choose "UX/UI Designer". If you like logic and want to write the server side, choose "Python Developer". If you enjoy working with numbers, choose "Data Analyst". If you want to start earning as soon as possible without programming, choose "Digital Marketer" — it is the shortest course (5 months). If you are unsure, leave a request and a manager will help you decide.
+All our courses are designed for beginners. If you want to program and build websites, choose "Frontend Developer". If you prefer designing websites and apps, choose "UX/UI Designer"; if you prefer brand identities, posters and packaging, choose "Graphic Designer". If you like logic and want to write the server side, choose "Python Developer". If you enjoy working with numbers, choose "Data Analyst". If you want to start earning as soon as possible without programming, choose "Digital Marketer" — it is the shortest course (5 months). If you are unsure, leave a request and a manager will help you decide.
 
 ## Do I need experience or a special education?
 
@@ -54,7 +54,7 @@ Access to lessons, webinar recordings and course materials stays forever, includ
 
 ## When do the next cohorts start?
 
-Digital Marketer — 15 December 2026, Frontend Developer — 19 January 2027, UX/UI Designer — 26 January 2027, Python Developer — 2 February 2027, Data Analyst — 9 February 2027.
+Digital Marketer — 15 December 2026, Frontend Developer — 19 January 2027, UX/UI Designer — 26 January 2027, Python Developer — 2 February 2027, Data Analyst — 9 February 2027, Graphic Designer — 16 February 2027.
 
 ## Can I study from another country?
 

@@ -5,6 +5,7 @@ import { COURSES, fullPaymentPrice } from "@/lib/site/courses";
 const files: Record<string, string> = {
   frontend: "course-frontend.md",
   "ux-ui": "course-ux-ui.md",
+  "graphic-design": "course-graphic-design.md",
   python: "course-python.md",
   "data-analyst": "course-data-analyst.md",
   marketing: "course-marketing.md",

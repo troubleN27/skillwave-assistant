@@ -114,7 +114,7 @@
       }
     },
     "ticker": [
-      "5 professions from scratch",
+      "6 professions from scratch",
       "0% installments for 12 months",
       "−10% when you pay in full",
       "100% refund in the first 14 days",
@@ -193,6 +193,27 @@
             "A full-cycle final project for a real client"
           ]
         },
+        "graphic-design": {
+          "name": "Graphic Designer",
+          "description": "Composition, type and colour. Logos, brand identities, packaging and social media visuals.",
+          "audience": "Beginners, SMM specialists and marketers who make their own visuals, illustrators and photographers. You do not need to draw by hand.",
+          "schedule": "Webinars on Tuesdays and Thursdays at 7 pm Moscow time",
+          "workload": "8–10 hours a week",
+          "modules": [
+            "Graphic design basics",
+            "Typography and layout",
+            "Identity and branding",
+            "Digital design and packaging",
+            "Final project and career"
+          ],
+          "projectList": [
+            "A poster series for a city festival",
+            "A logo and brand identity for a coffee shop",
+            "Packaging design for a product line",
+            "Visuals for a social media ad campaign",
+            "Final project: a brand identity with guidelines for a real client"
+          ]
+        },
         "python": {
           "name": "Python Developer",
           "description": "Python, SQL, Django, FastAPI and Docker. Backend development, APIs and Telegram bots.",
@@ -263,7 +284,7 @@
     "learning": {
       "title": "How studying works",
       "subtitle": "Seven steps from your request to your diploma. Study from any country and keep your job.",
-      "photoAlt": "Hands typing on a laptop with code and design layouts on screen, a notebook beside it",
+      "photoAlt": "Top view: hands on a laptop keyboard, code and a video call with a mentor on the screen, a notebook with sketches and yellow sticky notes nearby",
       "steps": [
         {
           "title": "Request",
@@ -306,7 +327,7 @@
           "role": "Senior frontend developer",
           "years": 9,
           "text": "Builds the interface of a fintech service used by several million people and leads a team of six developers.",
-          "photoAlt": "Dmitry Orlov, a man with a short beard in a dark T-shirt"
+          "photoAlt": "Dmitry Orlov, a man with a short beard in a black t-shirt"
         },
         "ux-ui": {
           "name": "Anna Belova",
@@ -314,6 +335,13 @@
           "years": 8,
           "text": "Has designed apps for delivery and online education services and built design systems from scratch.",
           "photoAlt": "Anna Belova, a woman with short wavy hair in a black sweater"
+        },
+        "graphic-design": {
+          "name": "Ekaterina Smirnova",
+          "role": "Art director at a branding agency",
+          "years": 8,
+          "text": "Has created brand identities for restaurants, city festivals and tech startups and led visual communications for a book publisher.",
+          "photoAlt": "Ekaterina Smirnova, a woman with long dark hair and red lipstick in a black turtleneck"
         },
         "python": {
           "name": "Sergey Kovalev",

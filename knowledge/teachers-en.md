@@ -22,6 +22,10 @@ Product analyst with 7 years in the profession. She has worked with data at a ma
 
 Performance marketer with 10 years in the profession. He has run advertising campaigns for online schools, services and online stores and now heads a digital marketing department. On the course he teaches the advertising and web analytics modules and helps students launch their first campaign with a real budget.
 
+## Ekaterina Smirnova — Graphic Designer course
+
+Art director at a branding agency with 8 years in the profession. She has created brand identities for restaurants, city festivals and tech startups and led visual communications for a book publisher. On the course she teaches the typography and identity modules, reviews students' work at webinars and helps them build a portfolio.
+
 ## Mentors
 
 In addition to the lead teachers, every course has mentors — specialists with at least 3 years of experience. They review practical assignments, usually within 48 hours, answer questions in the cohort chat and help with the final project. Each mentor works with no more than 25 students.

@@ -6,6 +6,7 @@
 |---|---|---|---|
 | Frontend Developer | 89,000 RUB | 80,100 RUB | from 7,417 RUB per month |
 | UX/UI Designer | 69,000 RUB | 62,100 RUB | from 5,750 RUB per month |
+| Graphic Designer | 75,000 RUB | 67,500 RUB | from 6,250 RUB per month |
 | Python Developer | 95,000 RUB | 85,500 RUB | from 7,917 RUB per month |
 | Data Analyst | 85,000 RUB | 76,500 RUB | from 7,084 RUB per month |
 | Digital Marketer | 59,000 RUB | 53,100 RUB | from 4,917 RUB per month |

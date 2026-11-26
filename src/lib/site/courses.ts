@@ -1,6 +1,6 @@
 /** Course facts shown on the site; must match knowledge/course-*.md. */
 export type SiteCourse = {
-  id: "frontend" | "ux-ui" | "python" | "data-analyst" | "marketing";
+  id: "frontend" | "ux-ui" | "graphic-design" | "python" | "data-analyst" | "marketing";
   months: number;
   price: number;
   monthly: number;
@@ -11,6 +11,7 @@ export type SiteCourse = {
 export const COURSES: SiteCourse[] = [
   { id: "frontend", months: 9, price: 89_000, monthly: 7_417, start: "2027-01-19", projects: 6 },
   { id: "ux-ui", months: 6, price: 69_000, monthly: 5_750, start: "2027-01-26", projects: 4 },
+  { id: "graphic-design", months: 7, price: 75_000, monthly: 6_250, start: "2027-02-16", projects: 5 },
   { id: "python", months: 10, price: 95_000, monthly: 7_917, start: "2027-02-02", projects: 5 },
   { id: "data-analyst", months: 8, price: 85_000, monthly: 7_084, start: "2027-02-09", projects: 5 },
   { id: "marketing", months: 5, price: 59_000, monthly: 4_917, start: "2026-12-15", projects: 4 },
