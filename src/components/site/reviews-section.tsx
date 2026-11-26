@@ -26,7 +26,7 @@ export function ReviewsSection() {
           <li key={review.name} className="mb-8 break-inside-avoid pt-3">
             <figure className={cn("relative bg-paper p-6 shadow-[4px_4px_0_var(--color-ink)]", TILTS[i % TILTS.length])}>
               {/* A strip of tape holding the card. */}
-              <span aria-hidden className="absolute -top-3 left-1/2 h-6 w-24 -translate-x-1/2 rotate-[-3deg] bg-ink/15" />
+              <span aria-hidden className="absolute -top-3 left-1/2 h-6 w-24 -translate-x-1/2 rotate-[-3deg] bg-ink" />
               <blockquote className="leading-relaxed">{review.text}</blockquote>
               <figcaption className="mt-5 flex items-center gap-3">
                 <span
