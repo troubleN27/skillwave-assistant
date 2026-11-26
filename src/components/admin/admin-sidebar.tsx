@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/logo-mark";
 import { scrollToTop } from "@/lib/scroll-top";
+import { cn } from "@/lib/utils";
 import { Suspense, type ReactNode } from "react";
 import {
   Sidebar,
@@ -52,7 +53,7 @@ function ActiveNavMenu() {
 }
 
 /** Logo link to the dashboard; on the dashboard itself it scrolls back to the top. */
-function HomeLink({ children }: { children: ReactNode }) {
+export function AdminHomeLink({ children, className }: { children: ReactNode; className?: string }) {
   // Reads the URL on click: usePathname() here would need a Suspense boundary.
   const { isMobile, setOpenMobile } = useSidebar();
   return (
@@ -64,7 +65,10 @@ function HomeLink({ children }: { children: ReactNode }) {
         event.preventDefault();
         scrollToTop();
       }}
-      className="flex items-center gap-3 px-2 py-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring"
+      className={cn(
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring",
+        className ?? "flex items-center gap-3 px-2 py-1.5",
+      )}
     >
       {children}
     </Link>
@@ -76,13 +80,13 @@ export function AdminSidebar({ footer }: { footer: ReactNode }) {
   return (
     <Sidebar>
       <SidebarHeader>
-        <HomeLink>
+        <AdminHomeLink>
           <LogoMark inverted className="-my-1 size-12" />
           <div className="min-w-0 leading-tight">
             <p className="truncate font-display font-black uppercase">Skillwave</p>
             <p className="truncate text-xs text-sidebar-foreground/70">{t("subtitle")}</p>
           </div>
-        </HomeLink>
+        </AdminHomeLink>
         <LanguageSwitch className="mx-2 mt-1" />
       </SidebarHeader>
       <SidebarContent>
