@@ -25,7 +25,7 @@ docs/                 PRD и SPEC
 db/migrations/        SQL-миграции drizzle-kit (0000 — pgvector, 0002 — настройки по умолчанию, 0003/0004 — порог и контакты, 0005 — порог 0.68, 0006 — курс «Графический дизайнер» в форме заявки, 0007 — телефон без «бесплатно по России»)
 messages/             переводы сайта, виджета и админки (ru, en)
 knowledge/            база знаний (Markdown, 13 документов × RU/EN, 6 курсов; заголовок `#` = название, `-en.md` = английский)
-public/images/        портреты преподавателей (фон выровнен под #FFFF00), learning.jpg, чернила ink-*.png (прозрачные PNG)
+public/images/        портреты преподавателей (фон выровнен под #FFFF00), learning.jpg, аэрозольная краска spray-edge.png / spray-splat.png (прозрачные PNG цвета #121110)
 evals/questions.json  тестовые вопросы: answerable (ожидаемые документы), noAnswer, offTopic
 scripts/              CLI: create-admin, seed-knowledge, eval-retrieval
 src/proxy.ts          локали next-intl; /admin: проверка cookie сессии и переписывание на /admin/{lang} по cookie admin_lang
@@ -36,7 +36,7 @@ src/app/embed/        чат для iframe: /embed?lang= → proxy перепи�
 src/app/api/          route handlers: chat, chat/history, feedback, leads, auth/[...all], admin/blob-upload
 public/widget.js      скрипт встраивания (без зависимостей); public/embed-test.html — проверка
 src/components/chat/  виджет: chat-widget (сайт), embedded-chat (iframe), chat-panel, chat-session (useChat), lead-form
-src/components/site/  разделы сайта, ink.tsx (кляксы и потёки из PNG, рваные края), hero-receipt (чек), starts/starts-board (табло стартов), certificate, chat-replies, framed-photo, home-link, motion-root (GSAP), lead-dialog; данные курсов — src/lib/site/courses.ts (тесты сверяют сайт с knowledge/)
+src/components/site/  разделы сайта, ink.tsx (InkSplat — клякса, InkEdge — край под шапкой / над подвалом), hero-receipt (чек), starts/starts-board (табло стартов), certificate, chat-replies, framed-photo, home-link, motion-root (GSAP), lead-dialog; данные курсов — src/lib/site/courses.ts (тесты сверяют сайт с knowledge/)
 src/components/brand/ логотип (LogoMark — знак на кляксе), печать (Stamp), splat-paths.ts (контуры клякс, сгенерированы один раз)
 src/db/               schema.ts, client.ts (createDb для скриптов), index.ts (db для приложения)
 src/lib/              auth*, session.ts (requireAdmin), settings.ts (настройки, isAllowedOrigin), rate-limit.ts, language.ts, validations/
