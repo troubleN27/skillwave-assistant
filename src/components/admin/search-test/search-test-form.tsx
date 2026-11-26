@@ -116,10 +116,9 @@ function SearchResults({
     <div className={cn("flex flex-col gap-4", pending && "opacity-60")}>
       <div
         className={cn(
-          "flex items-start gap-3 rounded-md px-4 py-3 text-sm",
-          confident
-            ? "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"
-            : "bg-amber-500/10 text-amber-800 dark:text-amber-300",
+          // Black text on a white panel; the icon tells passed from not passed.
+          "flex items-start gap-3 border-2 border-ink bg-white px-4 py-3 text-sm text-ink",
+          confident ? "shadow-[4px_4px_0_var(--color-ink)]" : "border-dashed",
         )}
       >
         {confident ? (
