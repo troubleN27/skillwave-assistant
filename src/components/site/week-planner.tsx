@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type Day = { day: string; text: string; note: string; live?: boolean; done?: boolean; off?: boolean };
 
 /**
- * A sample study week as a paper planner taped to the page, in the same series
+ * A sample study week as a paper planner on the page, in the same series
  * as the hero receipt and the certificate. Facts come from the knowledge base
  * (webinar days of the Frontend course, lesson lengths, the 48-hour review).
  */
@@ -13,9 +13,7 @@ export function WeekPlanner() {
   const days = t.raw("learning.week.days") as Day[];
 
   return (
-    <figure className="relative mx-auto w-full max-w-[440px] pt-4">
-      {/* Black tape holding the sheet. */}
-      <span aria-hidden className="absolute top-0 left-1/2 z-10 h-7 w-32 -translate-x-1/2 -rotate-3 bg-ink" />
+    <figure className="relative mx-auto w-full max-w-[440px]">
       <div className="rotate-[-1.5deg] bg-white shadow-[8px_8px_0_var(--color-ink)]">
         <div className="flex items-baseline justify-between gap-3 bg-ink px-5 py-2.5 text-sun">
           <figcaption className="font-display text-lg leading-none font-black uppercase">
