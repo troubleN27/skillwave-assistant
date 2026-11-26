@@ -455,8 +455,7 @@
       "hours": "Managers are available on weekdays from 10 am to 7 pm Moscow time",
       "email": "Email",
       "phone": "Phone",
-      "telegram": "Telegram",
-      "phoneNote": "toll-free in Russia"
+      "telegram": "Telegram"
     },
     "leadDialog": {
       "title": "Course request",

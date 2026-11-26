@@ -455,8 +455,7 @@
       "hours": "Менеджеры на связи по будням с 10:00 до 19:00 по Москве",
       "email": "Email",
       "phone": "Телефон",
-      "telegram": "Telegram",
-      "phoneNote": "бесплатно по России"
+      "telegram": "Telegram"
     },
     "leadDialog": {
       "title": "Заявка на обучение",

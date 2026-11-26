@@ -43,7 +43,7 @@ Each mentor works with no more than 25 students, so everyone gets attention and 
 ## Contacts
 
 - Email: hello@skillwave.academy
-- Phone: +7 800 555-27-41 (toll-free within Russia)
+- Phone: +7 800 555-27-41
 - Telegram: @skillwave_academy
 - Managers' working hours: Monday to Friday, 10 am – 7 pm Moscow time.
 

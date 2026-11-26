@@ -50,6 +50,13 @@
       "when": 1795665132056,
       "tag": "0006_add_graphic_design_course",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795665350998,
+      "tag": "0007_drop_toll_free_note",
+      "breakpoints": true
     }
   ]
 }

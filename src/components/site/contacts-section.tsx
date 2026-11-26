@@ -11,7 +11,7 @@ export function ContactsSection() {
   const t = useTranslations("Site");
 
   const rows = [
-    { label: t("contacts.phone"), value: CONTACTS.phone, href: CONTACTS.phoneHref, note: t("contacts.phoneNote") },
+    { label: t("contacts.phone"), value: CONTACTS.phone, href: CONTACTS.phoneHref },
     { label: t("contacts.email"), value: CONTACTS.email, href: `mailto:${CONTACTS.email}` },
     { label: t("contacts.telegram"), value: CONTACTS.telegram, href: CONTACTS.telegramHref },
   ];
@@ -37,7 +37,6 @@ export function ContactsSection() {
                   >
                     {row.value}
                   </a>
-                  {row.note && <span className="ml-2 text-sm font-normal text-ink-soft">{row.note}</span>}
                 </dd>
               </div>
             ))}
