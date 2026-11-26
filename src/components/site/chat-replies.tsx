@@ -160,7 +160,7 @@ function Bubble({
       )}
       <div
         className={cn(
-          "flex flex-col",
+          "flex w-full flex-col",
           user ? "items-end" : "items-start",
           state === "shown"
             ? "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2"
