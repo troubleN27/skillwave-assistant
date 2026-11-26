@@ -5,7 +5,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { LogoMark } from "@/components/brand/logo-mark";
 import { cn } from "@/lib/utils";
 
-export type Reply = { from: "user" | "assistant"; content: ReactNode; sources?: string[] };
+export type Reply = {
+  from: "user" | "assistant";
+  content: ReactNode;
+  sources?: string[];
+};
 
 const TYPING_MS = 1100;
 const PAUSE_MS = 700;
@@ -21,7 +25,12 @@ export function ChatReplies({
   labels,
 }: {
   replies: Reply[];
-  labels: { conversation: string; you: string; assistant: string; typing: string };
+  labels: {
+    conversation: string;
+    you: string;
+    assistant: string;
+    typing: string;
+  };
 }) {
   const [shown, setShown] = useState(replies.length);
   const [typing, setTyping] = useState(false);
@@ -29,7 +38,11 @@ export function ChatReplies({
 
   useEffect(() => {
     const element = root.current;
-    if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (
+      !element ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
     const timers: number[] = [];
     let started = false;
 
@@ -72,59 +85,115 @@ export function ChatReplies({
     };
   }, [replies]);
 
+  // Every reply keeps its place from the start, so the block never changes
+  // height (and never shifts) while the conversation plays out. Replies not
+  // reached yet are invisible; the one being "typed" shows the dots in its place.
   return (
-    <div ref={root} role="group" aria-label={labels.conversation} className="grid min-h-[430px] content-start gap-4">
-      {replies.slice(0, shown).map((reply, i) => (
-        <Bubble key={i} reply={reply} labels={labels} />
-      ))}
-      {typing && (
-        <div className="flex flex-col items-start motion-safe:animate-in motion-safe:fade-in">
-          <Who from="assistant" labels={labels} />
-          <div className="-rotate-1 border-[3px] border-ink bg-white px-4 py-3 shadow-[6px_6px_0_var(--color-ink)]">
-            <span className="sr-only">{labels.typing}</span>
-            <span className="flex gap-1" aria-hidden>
-              {[0, 150, 300].map((delay) => (
-                <span key={delay} className="size-1.5 animate-bounce rounded-full bg-ink" style={{ animationDelay: `${delay}ms` }} />
-              ))}
-            </span>
-          </div>
-        </div>
-      )}
+    <div
+      ref={root}
+      role="group"
+      aria-label={labels.conversation}
+      className="grid content-start gap-4"
+    >
+      {replies.map((reply, i) => {
+        const state =
+          i < shown ? "shown" : typing && i === shown ? "typing" : "hidden";
+        return <Bubble key={i} reply={reply} labels={labels} state={state} />;
+      })}
     </div>
   );
 }
 
-function Who({ from, labels }: { from: Reply["from"]; labels: { you: string; assistant: string } }) {
+function Who({
+  from,
+  labels,
+}: {
+  from: Reply["from"];
+  labels: { you: string; assistant: string };
+}) {
   return (
-    <p className={cn("mb-1 flex items-center gap-1.5 text-xs font-extrabold", from === "user" && "self-end")}>
+    <p
+      className={cn(
+        "mb-1 flex items-center gap-1.5 text-xs font-extrabold",
+        from === "user" && "self-end",
+      )}
+    >
       {from === "assistant" && <LogoMark className="size-6" />}
       {from === "user" ? labels.you : labels.assistant}
     </p>
   );
 }
 
-function Bubble({ reply, labels }: { reply: Reply; labels: { you: string; assistant: string } }) {
+function Bubble({
+  reply,
+  labels,
+  state,
+}: {
+  reply: Reply;
+  labels: { you: string; assistant: string; typing: string };
+  state: "shown" | "typing" | "hidden";
+}) {
   const user = reply.from === "user";
   return (
-    <div className={cn("flex flex-col motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2", user ? "items-end" : "items-start")}>
-      <Who from={reply.from} labels={labels} />
+    <div
+      className={cn(
+        "relative flex flex-col",
+        user ? "items-end" : "items-start",
+      )}
+    >
+      {state === "typing" && (
+        <div className="absolute top-0 left-0 flex flex-col items-start motion-safe:animate-in motion-safe:fade-in">
+          <Who from="assistant" labels={labels} />
+          <div className="-rotate-1 border-[3px] border-ink bg-white px-4 py-3 shadow-[6px_6px_0_var(--color-ink)]">
+            <span className="sr-only">{labels.typing}</span>
+            <span className="flex gap-1" aria-hidden>
+              {[0, 150, 300].map((delay) => (
+                <span
+                  key={delay}
+                  className="size-1.5 animate-bounce rounded-full bg-ink"
+                  style={{ animationDelay: `${delay}ms` }}
+                />
+              ))}
+            </span>
+          </div>
+        </div>
+      )}
       <div
         className={cn(
-          "max-w-[88%] border-[3px] border-ink px-4 py-2.5 text-[15px] leading-relaxed shadow-[6px_6px_0_var(--color-ink)]",
-          user ? "rotate-[1.5deg] bg-ink font-semibold text-sun" : "-rotate-1 bg-white text-ink",
+          "flex flex-col",
+          user ? "items-end" : "items-start",
+          state === "shown"
+            ? "motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2"
+            : "invisible",
         )}
       >
-        {reply.content}
-        {reply.sources && (
-          <span className="mt-2 flex flex-wrap gap-1.5">
-            {reply.sources.map((source) => (
-              <span key={source} className="inline-flex items-center gap-1 border border-ink/30 bg-white px-2 py-0.5 text-[11px] text-ink-soft">
-                <FileTextIcon className="size-3 shrink-0 text-ink" aria-hidden />
-                {source}
-              </span>
-            ))}
-          </span>
-        )}
+        <Who from={reply.from} labels={labels} />
+        <div
+          className={cn(
+            "max-w-[88%] border-[3px] border-ink px-4 py-2.5 text-[15px] leading-relaxed shadow-[6px_6px_0_var(--color-ink)]",
+            user
+              ? "rotate-[1.5deg] bg-ink font-semibold text-sun"
+              : "-rotate-1 bg-white text-ink",
+          )}
+        >
+          {reply.content}
+          {reply.sources && (
+            <span className="mt-2 flex flex-wrap gap-1.5">
+              {reply.sources.map((source) => (
+                <span
+                  key={source}
+                  className="inline-flex items-center gap-1 border border-ink/30 bg-white px-2 py-0.5 text-[11px] text-ink-soft"
+                >
+                  <FileTextIcon
+                    className="size-3 shrink-0 text-ink"
+                    aria-hidden
+                  />
+                  {source}
+                </span>
+              ))}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
