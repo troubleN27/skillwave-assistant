@@ -16,7 +16,7 @@ export default function AdminError({ error, retry }: { error: unknown; retry: ()
   return (
     <div
       role="alert"
-      className="flex flex-col items-center justify-center gap-4 rounded-md border bg-background px-6 py-16 text-center"
+      className="flex flex-col items-center justify-center gap-4 border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] px-6 py-16 text-center"
     >
       <div className="flex size-12 items-center justify-center rounded-md bg-destructive/10 text-destructive">
         <TriangleAlertIcon className="size-6" aria-hidden />

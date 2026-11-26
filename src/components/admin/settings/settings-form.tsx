@@ -21,7 +21,7 @@ import {
 
 function Section({ title, description, children }: { title: string; description?: string; children: ReactNode }) {
   return (
-    <section className="grid gap-4 rounded-md border bg-background p-4 sm:p-5 lg:grid-cols-[16rem_1fr] lg:gap-8">
+    <section className="grid gap-4 border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] p-4 sm:p-5 lg:grid-cols-[16rem_1fr] lg:gap-8">
       <div>
         <h2 className="font-display text-lg font-black uppercase">{title}</h2>
         {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
@@ -144,7 +144,7 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
           {courses.fields.map((field, index) => {
             const e = errors.courses?.[index];
             return (
-              <li key={field.id} className="grid gap-2 rounded-md border p-3 sm:grid-cols-[10rem_1fr_1fr_auto] sm:items-start">
+              <li key={field.id} className="grid gap-2 border border-ink/25 p-3 sm:grid-cols-[10rem_1fr_1fr_auto] sm:items-start">
                 <div>
                   <Input aria-label={t("courses.code")} placeholder={t("courses.codePlaceholder")} {...register(`courses.${index}.id`)} />
                   {e?.id && <p className="mt-1 text-xs text-destructive">{err(e.id.message)}</p>}
@@ -177,16 +177,8 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
         </Button>
       </Section>
 
-      <Section title={t("embed.title")} description={t("embed.description")}>
-        <Field
-          id="allowedOrigins"
-          label={t("embed.origins")}
-          hint={t("embed.hint")}
-          error={err(errors.allowedOrigins?.message)}
-        >
-          <Textarea id="allowedOrigins" rows={4} placeholder="https://partner.ru" {...register("allowedOrigins")} />
-        </Field>
-      </Section>
+      {/* Embedding is only for the school's own site: allowed origins are not edited
+          here, but the stored list is kept and sent back unchanged with the form. */}
 
       <Section title={t("limits.title")} description={t("limits.description")}>
         <div className="grid gap-4 md:grid-cols-2">

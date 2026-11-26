@@ -148,7 +148,7 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
           description={t("emptyText")}
         />
       ) : (
-        <div className="overflow-hidden rounded-md border bg-background">
+        <div className="overflow-hidden border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)]">
           <Table>
             <TableHeader>
               <TableRow>

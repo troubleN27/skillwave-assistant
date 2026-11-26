@@ -20,7 +20,7 @@ export function LanguageToggle({
     <div
       role="radiogroup"
       aria-label={t("documentLanguage")}
-      className="inline-flex w-fit rounded-md border bg-muted p-0.5"
+      className="inline-flex w-fit border-2 border-ink bg-white p-0.5"
     >
       {DOCUMENT_LANGUAGES.map((lang) => (
         <button

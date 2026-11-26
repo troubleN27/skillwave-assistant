@@ -59,7 +59,7 @@ export function ChunksSheet({
           ) : (
             <ol className="flex flex-col gap-3">
               {chunks.map((chunk) => (
-                <li key={chunk.id} className="rounded-md border bg-background p-3">
+                <li key={chunk.id} className="border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] p-3">
                   <p className="mb-1 text-xs font-medium text-muted-foreground">
                     #{chunk.position + 1}
                     {chunk.heading && ` · ${chunk.heading}`}

@@ -59,7 +59,7 @@ async function ConversationsList({ lang, searchParams }: { lang: AdminLang; sear
 
   return (
     <>
-      <div className="flex flex-col gap-3 rounded-md border bg-background p-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] p-4 lg:flex-row lg:items-center lg:justify-between">
         <PeriodFilter current={period} basePath="/admin/conversations" params={keep} />
         <form method="get" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
           <input type="hidden" name="period" value={period} />
@@ -98,7 +98,7 @@ async function ConversationsList({ lang, searchParams }: { lang: AdminLang; sear
       {rows.length === 0 ? (
         <EmptyState icon={MessagesSquareIcon} title={t("empty")} description={t("emptyText")} />
       ) : (
-        <div className="overflow-hidden rounded-md border bg-background">
+        <div className="overflow-hidden border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)]">
           <Table>
             <TableHeader>
               <TableRow>

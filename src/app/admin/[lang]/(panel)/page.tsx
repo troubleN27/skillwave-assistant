@@ -60,14 +60,14 @@ async function Dashboard({ lang, searchParams }: { lang: AdminLang; searchParams
         />
       </div>
 
-      <section className="rounded-md border bg-background p-4 sm:p-5" aria-labelledby="daily-title">
-        <h2 id="daily-title" className="mb-3 font-display text-lg font-black uppercase">
+      <section className="border-2 border-ink bg-ink p-4 text-[#f4ecd0] shadow-[4px_4px_0_rgba(18,17,16,0.35)] sm:p-5" aria-labelledby="daily-title">
+        <h2 id="daily-title" className="mb-3 font-display text-lg font-black text-sun uppercase">
           {t("dailyTitle")}
         </h2>
         <DailyChart data={series} />
       </section>
 
-      <section className="rounded-md border bg-background p-4 sm:p-5" aria-labelledby="top-title">
+      <section className="border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] p-4 sm:p-5" aria-labelledby="top-title">
         <div className="mb-3 flex items-baseline justify-between gap-3">
           <h2 id="top-title" className="font-display text-lg font-black uppercase">
             {t("topTitle")}

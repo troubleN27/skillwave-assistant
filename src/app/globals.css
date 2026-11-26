@@ -128,9 +128,9 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Admin panel: the site's palette, calmer. Paper background, white cards,
-   black sidebar with yellow accents, small radii. Overrides shadcn tokens
-   only inside the admin (the class is on its <body>). */
+/* Admin panel in the site's black and yellow: yellow page, black sidebar
+   with a yellow active item, white panels framed in black, square corners.
+   Overrides shadcn tokens only inside the admin (the class is on its <body>). */
 .admin-theme {
   --background: #ffffff;
   --foreground: #121110;
@@ -140,24 +140,32 @@
   --popover-foreground: #121110;
   --primary: #121110;
   --primary-foreground: #ffff00;
-  --secondary: #f3ecd2;
+  --secondary: #f3efdc;
   --secondary-foreground: #121110;
-  --muted: #f7f2df;
-  --muted-foreground: #625b45;
-  --accent: #fbf3d0;
+  --muted: #f5f2e4;
+  --muted-foreground: #5c5644;
+  --accent: #fffbcc;
   --accent-foreground: #121110;
-  --border: #e4dcc0;
-  --input: #d9cfae;
+  --border: #ddd8c4;
+  --input: #121110;
   --ring: #121110;
-  --radius: 0.375rem;
+  --radius: 0rem;
   --sidebar: #121110;
   --sidebar-foreground: #f4ecd0;
   --sidebar-primary: #ffff00;
   --sidebar-primary-foreground: #121110;
-  --sidebar-accent: #2a2620;
-  --sidebar-accent-foreground: #ffff00;
+  --sidebar-accent: #ffff00;
+  --sidebar-accent-foreground: #121110;
   --sidebar-border: #2a2620;
   --sidebar-ring: #ffff00;
+}
+
+/* Admin tables: black header row with yellow labels. */
+.admin-theme [data-slot="table-header"] {
+  background: #121110;
+}
+.admin-theme [data-slot="table-head"] {
+  color: #ffff00;
 }
 
 /* Ticker tape: two identical rows slide left by one row's width, forever. */

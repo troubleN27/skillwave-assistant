@@ -39,8 +39,8 @@ export default async function AdminPanelLayout({ children }: LayoutProps<"/admin
             </>
           }
         />
-        <SidebarInset className="min-w-0">
-          <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur md:hidden">
+        <SidebarInset className="min-w-0 bg-sun">
+          <header className="sticky top-0 z-10 flex h-14 items-center gap-2 bg-ink px-4 text-sun md:hidden">
             <SidebarTrigger aria-label={t("openMenu")} />
             <span className="font-display font-black uppercase">Skillwave</span>
           </header>

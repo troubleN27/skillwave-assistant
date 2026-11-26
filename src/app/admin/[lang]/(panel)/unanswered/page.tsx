@@ -33,7 +33,7 @@ async function UnansweredList({ lang, searchParams }: { lang: AdminLang; searchP
 
   return (
     <>
-      <nav aria-label={t("statusLabel")} className="inline-flex w-fit rounded-md border bg-background p-0.5">
+      <nav aria-label={t("statusLabel")} className="inline-flex w-fit border-2 border-ink bg-white p-0.5">
         {STATUSES.map((s) => (
           <Link
             key={s}
@@ -56,7 +56,7 @@ async function UnansweredList({ lang, searchParams }: { lang: AdminLang; searchP
           {groups.map((group) => (
             <li
               key={group.key}
-              className="flex flex-col gap-3 rounded-md border bg-background p-4 md:flex-row md:items-center md:justify-between"
+              className="flex flex-col gap-3 border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] p-4 md:flex-row md:items-center md:justify-between"
             >
               <div className="min-w-0">
                 <p className="font-medium break-words">{group.question}</p>

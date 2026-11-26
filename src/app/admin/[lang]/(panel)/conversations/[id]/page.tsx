@@ -40,7 +40,7 @@ async function ConversationDetail({ lang, params }: { lang: AdminLang; params: P
 
   return (
     <>
-      <div className="flex flex-wrap gap-x-6 gap-y-2 rounded-md border bg-background p-4 text-sm">
+      <div className="flex flex-wrap gap-x-6 gap-y-2 border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)] p-4 text-sm">
         <span>
           <span className="text-muted-foreground">{t("started")} </span>
           {formatDateTime(conversation.createdAt, lang)}
@@ -66,7 +66,7 @@ async function ConversationDetail({ lang, params }: { lang: AdminLang; params: P
       </div>
 
       {leads.map((lead) => (
-        <section key={lead.id} aria-label={t("lead.title")} className="rounded-md border-2 border-primary bg-sun/25 p-4 text-sm">
+        <section key={lead.id} aria-label={t("lead.title")} className="border-2 border-ink bg-sun p-4 text-sm">
           <div className="mb-2 flex items-center gap-2">
             <h2 className="font-display font-black uppercase">{t("lead.title")}</h2>
             <Badge variant="secondary">{tStatus(lead.status)}</Badge>

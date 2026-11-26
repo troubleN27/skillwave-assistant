@@ -856,12 +856,6 @@
         "remove": "Remove the course",
         "add": "Add a course"
       },
-      "embed": {
-        "title": "Embedding on sites",
-        "description": "Sites allowed to show the widget. The school site is always allowed.",
-        "origins": "Allowed sites",
-        "hint": "One address per line, e.g. https://partner.ru. Changes take effect within a minute."
-      },
       "limits": {
         "title": "Limits and search",
         "description": "Protect the Gemini API quota and answer quality.",

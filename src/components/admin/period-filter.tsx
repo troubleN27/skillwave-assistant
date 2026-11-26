@@ -15,7 +15,7 @@ export function PeriodFilter({
 }) {
   const t = useTranslations("Admin.period");
   return (
-    <nav aria-label={t("label")} className="inline-flex w-fit rounded-md border bg-background p-0.5">
+    <nav aria-label={t("label")} className="inline-flex w-fit border-2 border-ink bg-white p-0.5">
       {PERIODS.map((period) => {
         const query = new URLSearchParams(
           Object.entries({ ...params, period: String(period), page: undefined }).filter(

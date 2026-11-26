@@ -135,7 +135,7 @@ export function UploadDialog({
             }}
             disabled={pending}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-md border-2 border-dashed px-4 py-8 text-center transition-colors",
+              "flex flex-col items-center gap-2 border-2 border-dashed px-4 py-8 text-center transition-colors",
               dragging ? "border-primary bg-primary/5" : "hover:bg-muted",
             )}
           >

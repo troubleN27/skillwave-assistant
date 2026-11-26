@@ -37,7 +37,7 @@ async function LeadsTable({ lang, searchParams }: { lang: AdminLang; searchParam
 
   return (
     <>
-      <nav aria-label={t("statusLabel")} className="inline-flex w-fit rounded-md border bg-background p-0.5">
+      <nav aria-label={t("statusLabel")} className="inline-flex w-fit border-2 border-ink bg-white p-0.5">
         {filters.map((value) => (
           <Link
             key={value ?? "all"}
@@ -60,7 +60,7 @@ async function LeadsTable({ lang, searchParams }: { lang: AdminLang; searchParam
           description={t("emptyText")}
         />
       ) : (
-        <div className="overflow-hidden rounded-md border bg-background">
+        <div className="overflow-hidden border-2 border-ink bg-white shadow-[4px_4px_0_var(--color-ink)]">
           <Table>
             <TableHeader>
               <TableRow>
