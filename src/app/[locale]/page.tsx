@@ -12,7 +12,7 @@ import { PaymentSection } from "@/components/site/payment-section";
 import { ReviewsSection } from "@/components/site/reviews-section";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
-import { Stats } from "@/components/site/stats";
+import { Starts } from "@/components/site/starts";
 import { TeachersSection } from "@/components/site/teachers-section";
 import { Ticker } from "@/components/site/ticker";
 import { getWidgetConfig } from "@/lib/chat/widget-config";
@@ -37,7 +37,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <main className="overflow-x-clip">
             <Hero />
             <Ticker />
-            <Stats />
+            <Starts />
             <CoursesSection />
             <LearningSection />
             <TeachersSection />

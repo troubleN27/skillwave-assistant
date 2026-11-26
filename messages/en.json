@@ -82,9 +82,36 @@
     "hero": {
       "title": "A new career in tech in 5⁠–⁠10 months",
       "subtitle": "Online courses for beginners with live mentors: development, design, analytics and marketing. Portfolio projects and job support after graduation.",
-      "photoAlt": "A student laughing at her laptop with a mug in her hand",
-      "stamp": "Next start",
-      "stampLink": "Cohort schedule"
+      "stamp": {
+        "top": "SKILLWAVE ACADEMY",
+        "bottom": "NEW CAREER"
+      },
+      "receipt": {
+        "label": "Skillwave in numbers",
+        "title": "SKILLWAVE ACADEMY",
+        "subtitle": "Online school · receipt No. 2019–2026",
+        "rows": [
+          {
+            "label": "Students since 2019",
+            "value": "12,000+"
+          },
+          {
+            "label": "Hired within 6 months",
+            "value": "78%"
+          },
+          {
+            "label": "Partner companies",
+            "value": "150+"
+          },
+          {
+            "label": "Students per mentor",
+            "value": "≤ 25"
+          }
+        ],
+        "totalLabel": "Total received",
+        "total": "A new career",
+        "note": "Keep the receipt — it will come in handy at your interview."
+      }
     },
     "ticker": [
       "5 professions from scratch",
@@ -94,26 +121,14 @@
       "Mentor reviews within 48 hours",
       "Job support for 6 months after graduation"
     ],
-    "stats": {
-      "title": "Skillwave in numbers",
-      "items": [
-        {
-          "value": "12,000+",
-          "label": "students have studied with us since 2019"
-        },
-        {
-          "value": "78%",
-          "label": "of graduates find a job in their new field within 6 months"
-        },
-        {
-          "value": "150+",
-          "label": "IT companies and agencies are our partners"
-        },
-        {
-          "value": "25",
-          "label": "students at most per mentor"
-        }
-      ]
+    "starts": {
+      "title": "Upcoming starts",
+      "profession": "Course",
+      "start": "Start",
+      "duration": "Length",
+      "months": "{count} mo.",
+      "show": "Show the {name} course",
+      "item": "{name}: starts {date}, {count} months"
     },
     "courses": {
       "title": "Courses",

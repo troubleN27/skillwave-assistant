@@ -21,11 +21,11 @@ describe("site texts match the knowledge base", () => {
     });
   }
 
-  it("stats", () => {
+  it("numbers on the hero receipt", () => {
     const about = kb("about.md");
     const career = kb("certificates-and-career.md");
-    const values = ru.Site.stats.items.map((item) => plain(item.value));
-    expect(values).toEqual(["12 000+", "78%", "150+", "25"]);
+    const values = ru.Site.hero.receipt.rows.map((row) => plain(row.value));
+    expect(values).toEqual(["12 000+", "78%", "150+", "≤ 25"]);
     expect(about).toContain("более 12 000 студентов");
     expect(career).toContain("78% выпускников");
     expect(career).toContain("более чем 150 IT-компаниями");

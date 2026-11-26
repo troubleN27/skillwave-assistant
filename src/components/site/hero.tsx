@@ -1,19 +1,14 @@
-import { useLocale, useTranslations } from "next-intl";
-import { formatDayMonth, nextCohort } from "@/lib/site/courses";
+import { useTranslations } from "next-intl";
 import { AskButton } from "./ask-button";
 import { button } from "./buttons";
-import { HalftonePhoto } from "./halftone-photo";
+import { HeroReceipt } from "./hero-receipt";
 import { InkSplat } from "./ink";
-
-const nextStart = nextCohort();
 
 /** Hidden in the server HTML; the entrance animation reveals it (see MotionRoot). */
 const hiddenUntilAnimated = { "data-hero-hidden": true, style: { visibility: "hidden" } } as const;
 
 export function Hero() {
   const t = useTranslations("Site");
-  const locale = useLocale();
-  const startCourse = t(`courses.items.${nextStart.id}.name`);
 
   return (
     <section aria-labelledby="hero-title" className="relative">
@@ -41,35 +36,9 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg md:max-w-none">
-          <InkSplat seed={41} data-hero-splat {...hiddenUntilAnimated} className="absolute -top-14 -left-8 size-52 text-ink" />
-          <InkSplat seed={9} data-hero-splat {...hiddenUntilAnimated} className="absolute -right-6 -bottom-14 size-24 text-ink" />
-          <div data-hero-photo {...hiddenUntilAnimated} className="relative">
-            <HalftonePhoto
-              src="/images/hero.jpg"
-              alt={t("hero.photoAlt")}
-              sizes="(min-width: 768px) 520px, 100vw"
-              priority
-              stock="paper"
-              className="relative aspect-[4/3]"
-              imageClassName="object-[70%_50%]"
-            />
-          </div>
-          {/* The clip-path lives on the inner block so it can't clip the focus ring. */}
-          <a
-            href="#courses"
-            data-hero-stamp
-            {...hiddenUntilAnimated}
-            className="group absolute right-4 -bottom-6 rotate-[-6deg] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:right-8"
-          >
-            <span className="flex flex-col bg-ink px-5 py-3 text-sun group-hover:bg-ink-soft">
-              <span className="text-xs font-bold text-sun/70">{t("hero.stamp")}</span>
-              <span className="font-display text-2xl font-black uppercase">
-                {formatDayMonth(nextStart.start, locale)}
-              </span>
-              <span className="text-xs font-semibold">{startCourse}</span>
-            </span>
-          </a>
+        <div className="relative">
+          <InkSplat seed={9} data-hero-splat {...hiddenUntilAnimated} className="absolute -bottom-10 left-2 size-28 text-ink sm:left-10" />
+          <HeroReceipt hiddenProps={hiddenUntilAnimated} />
         </div>
       </div>
     </section>
