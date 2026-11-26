@@ -177,8 +177,16 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
         </Button>
       </Section>
 
-      {/* Embedding is only for the school's own site: allowed origins are not edited
-          here, but the stored list is kept and sent back unchanged with the form. */}
+      <Section title={t("embed.title")} description={t("embed.description")}>
+        <Field
+          id="allowedOrigins"
+          label={t("embed.origins")}
+          hint={t("embed.hint")}
+          error={err(errors.allowedOrigins?.message)}
+        >
+          <Textarea id="allowedOrigins" rows={4} placeholder="https://partner.ru" {...register("allowedOrigins")} />
+        </Field>
+      </Section>
 
       <Section title={t("limits.title")} description={t("limits.description")}>
         <div className="grid gap-4 md:grid-cols-2">
