@@ -31,10 +31,10 @@ export function LanguageToggle({
           disabled={disabled}
           onClick={() => onChange(lang)}
           className={cn(
-            "rounded-sm px-3 py-1 text-sm transition-colors disabled:opacity-50",
+            "px-3 py-1 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink disabled:opacity-50",
             value === lang
-              ? "bg-background font-medium shadow-sm"
-              : "text-muted-foreground hover:text-foreground",
+              ? "bg-ink font-bold text-sun"
+              : "text-ink hover:bg-sun",
           )}
         >
           {t(`languages.${lang}`)}
