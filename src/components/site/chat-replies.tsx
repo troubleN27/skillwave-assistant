@@ -144,7 +144,7 @@ function Bubble({
       {state === "typing" && (
         <div className="absolute top-0 left-0 flex flex-col items-start motion-safe:animate-in motion-safe:fade-in">
           <Who from="assistant" labels={labels} />
-          <div className="-rotate-1 border-[3px] border-ink bg-white px-4 py-3 shadow-[6px_6px_0_var(--color-ink)]">
+          <div className="-rotate-1 border-[3px] border-ink bg-white px-4 py-3 drop-shadow-[6px_6px_0_var(--color-ink)]">
             <span className="sr-only">{labels.typing}</span>
             <span className="flex gap-1" aria-hidden>
               {[0, 150, 300].map((delay) => (
@@ -170,7 +170,7 @@ function Bubble({
         <Who from={reply.from} labels={labels} />
         <div
           className={cn(
-            "max-w-[88%] border-[3px] border-ink px-4 py-2.5 text-[15px] leading-relaxed shadow-[6px_6px_0_var(--color-ink)]",
+            "max-w-[88%] border-[3px] border-ink px-4 py-2.5 text-[15px] leading-relaxed drop-shadow-[6px_6px_0_var(--color-ink)]",
             user
               ? "rotate-[1.5deg] bg-ink font-semibold text-sun"
               : "-rotate-1 bg-white text-ink",
