@@ -68,7 +68,7 @@ export function ContactsSection() {
           <p className="mt-4 text-sm text-ink-soft">{t("contacts.hours")}</p>
         </div>
         <div className="relative">
-          <InkSplat seed={87} data-anim="splat" className="absolute -bottom-16 -left-14 size-56" />
+          <InkSplat seed={87} data-anim="splat" className="absolute -right-12 -bottom-28 size-56" />
           <div className="relative">
             <ChatReplies
               replies={replies}
