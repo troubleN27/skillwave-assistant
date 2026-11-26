@@ -38,7 +38,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <main className="relative overflow-x-clip">
             {/* Paint dripping from under the header; it stays at the top of the page
                 instead of following the sticky header over the content. */}
-            <InkEdge className="absolute inset-x-0 -top-7 z-20 text-ink sm:-top-9" />
+            <InkEdge className="absolute inset-x-0 -top-px z-20" />
             <Hero />
             <Ticker />
             <Starts />

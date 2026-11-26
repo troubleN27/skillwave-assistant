@@ -7,7 +7,7 @@ export function TeachersSection() {
   const t = useTranslations("Site");
 
   return (
-    <Section id="teachers" tone="ink" seed={64} labelledBy="teachers-title">
+    <Section id="teachers" tone="ink" labelledBy="teachers-title">
       <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-end">
         <SectionTitle id="teachers-title">{t("teachers.title")}</SectionTitle>
         <p className="max-w-[52ch] text-[17px] leading-relaxed text-sun/80">{t("teachers.subtitle")}</p>

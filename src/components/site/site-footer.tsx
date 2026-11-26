@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { CONTACTS } from "@/lib/site/courses";
 import { HomeLink } from "./home-link";
-import { TornEdge } from "./ink";
+import { InkEdge } from "./ink";
 import { Logo } from "./logo";
 import { NAV_ITEMS } from "./nav-items";
 
@@ -13,7 +13,8 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-auto">
-      <TornEdge seed={23} side="top" drips={false} className="-mb-px text-ink" />
+      {/* Spray paint rising from the footer onto the page above. */}
+      <InkEdge flip className="-mb-px" />
       {/* Extra bottom padding keeps the text clear of the floating chat button. */}
       <div className="bg-ink pb-28 text-sun sm:pb-12">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-10 sm:grid-cols-[1.4fr_1fr_1fr] sm:px-6">

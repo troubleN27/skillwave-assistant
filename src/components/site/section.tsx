@@ -1,22 +1,16 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { TornEdge } from "./ink";
 
-/**
- * A page section. Black sections get torn ink edges: a ragged top where the
- * ink meets the yellow paper, and drips running down from the bottom.
- */
+/** A page section on yellow paper, or a black block with straight edges (`tone="ink"`). */
 export function Section({
   id,
   tone = "sun",
-  seed = 1,
   labelledBy,
   className,
   children,
 }: {
   id?: string;
   tone?: "sun" | "ink";
-  seed?: number;
   labelledBy?: string;
   className?: string;
   children: ReactNode;
@@ -24,11 +18,9 @@ export function Section({
   const ink = tone === "ink";
   return (
     <section id={id} aria-labelledby={labelledBy} className="relative scroll-mt-20">
-      {ink && <TornEdge seed={seed} side="top" drips={false} className="-mb-px text-ink" />}
       <div className={cn(ink ? "bg-ink text-sun" : "text-ink")}>
         <div className={cn("mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24", className)}>{children}</div>
       </div>
-      {ink && <TornEdge seed={seed + 100} className="-mt-px text-ink" />}
     </section>
   );
 }

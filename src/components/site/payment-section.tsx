@@ -10,7 +10,7 @@ export function PaymentSection() {
   const options = t.raw("payment.options") as Option[];
 
   return (
-    <Section id="payment" tone="ink" seed={77} labelledBy="payment-title">
+    <Section id="payment" tone="ink" labelledBy="payment-title">
       <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-end">
         <SectionTitle id="payment-title">{t("payment.title")}</SectionTitle>
         <p className="max-w-[52ch] text-[17px] leading-relaxed text-sun/80">{t("payment.subtitle")}</p>

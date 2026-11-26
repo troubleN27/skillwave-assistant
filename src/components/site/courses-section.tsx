@@ -46,7 +46,7 @@ export function CoursesSection() {
   };
 
   return (
-    <Section id="courses" tone="ink" seed={31} labelledBy="courses-title">
+    <Section id="courses" tone="ink" labelledBy="courses-title">
       <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-end">
         <SectionTitle id="courses-title">{t("title")}</SectionTitle>
         <p className="max-w-[52ch] text-[17px] leading-relaxed text-sun/80">{t("subtitle")}</p>

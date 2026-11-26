@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useEffect, useRef, type ReactNode } from "react";
-import { INK_SPLATS } from "./ink";
+import { SPRAY_SPLAT } from "./ink";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -128,7 +128,7 @@ export function MotionRoot({ children }: { children: ReactNode }) {
         if (!button || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         const size = gsap.utils.random(96, 140);
         const splat = document.createElement("img");
-        splat.src = gsap.utils.random(INK_SPLATS);
+        splat.src = SPRAY_SPLAT;
         splat.alt = "";
         splat.setAttribute("aria-hidden", "true");
         Object.assign(splat.style, {

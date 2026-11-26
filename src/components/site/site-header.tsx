@@ -2,7 +2,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
-import { TornEdge } from "./ink";
 import { HomeLink } from "./home-link";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
@@ -57,8 +56,6 @@ export function SiteHeader() {
           </div>
         </div>
       </div>
-      {/* The ink runs off the bar onto the page below. */}
-      <TornEdge seed={7} drips={false} className="-mt-px text-ink" />
     </header>
   );
 }
