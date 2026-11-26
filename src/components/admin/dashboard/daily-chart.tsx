@@ -23,13 +23,13 @@ const COLORS = { conversations: "#FFFF00", leads: "#FF6B35" };
 type Point = { day: string; conversations: number; leads: number };
 
 /** Names a series right after its last point, so the lines don't rely on colour alone. */
-function endLabel(text: string, color: string, count: number) {
+function endLabel(text: string, color: string, count: number, dy = 4) {
   // recharts passes loosely typed label props
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function EndLabel(props: any) {
     if (props.index !== count - 1) return null;
     return (
-      <text x={Number(props.x) + 8} y={Number(props.y) + 4} fill={color} fontSize={12} fontWeight={700}>
+      <text x={Number(props.x) + 8} y={Number(props.y) + dy} fill={color} fontSize={12} fontWeight={700}>
         {text}
       </text>
     );
@@ -53,6 +53,9 @@ export function DailyChart({ data }: { data: Point[] }) {
     [t, intlLocale],
   );
   const empty = data.every((p) => p.conversations === 0 && p.leads === 0);
+  // When both lines end on the same value, move their labels apart.
+  const last = data.at(-1);
+  const sameEnd = last !== undefined && last.conversations === last.leads;
 
   return (
     <div className="flex flex-col gap-3">
@@ -95,7 +98,7 @@ export function DailyChart({ data }: { data: Point[] }) {
             dot={false}
             activeDot={{ r: 4 }}
           >
-            <LabelList dataKey="conversations" content={endLabel(config.conversations.label, COLORS.conversations, data.length)} />
+            <LabelList dataKey="conversations" content={endLabel(config.conversations.label, COLORS.conversations, data.length, sameEnd ? -6 : 4)} />
           </Line>
           <Line
             dataKey="leads"
@@ -106,7 +109,7 @@ export function DailyChart({ data }: { data: Point[] }) {
             dot={false}
             activeDot={{ r: 4 }}
           >
-            <LabelList dataKey="leads" content={endLabel(config.leads.label, COLORS.leads, data.length)} />
+            <LabelList dataKey="leads" content={endLabel(config.leads.label, COLORS.leads, data.length, sameEnd ? 14 : 4)} />
           </Line>
         </LineChart>
       </ChartContainer>

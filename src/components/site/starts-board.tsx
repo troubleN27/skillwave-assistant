@@ -13,6 +13,10 @@ const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)"
 /** One row of split-flap cells. On a new text each cell spins through random letters. */
 function Flap({ text, width }: { text: string; width: number }) {
   const cells = useRef<(HTMLSpanElement | null)[]>([]);
+  // The first text is rendered on the server, so the board is readable before
+  // JavaScript runs. React never changes it afterwards; the effect below writes
+  // each next text into the cells directly.
+  const [initial] = useState(() => [...text.toLocaleUpperCase().padEnd(width, " ")]);
 
   useEffect(() => {
     const target = [...text.toLocaleUpperCase().padEnd(width, " ")];
@@ -48,7 +52,9 @@ function Flap({ text, width }: { text: string; width: number }) {
             cells.current[i] = el;
           }}
           className="relative grid aspect-[1/1.4] place-items-center bg-[#24211e] font-display text-[clamp(10px,3.1vw,22px)] leading-none font-black text-sun after:absolute after:inset-x-0 after:top-1/2 after:h-px after:bg-black"
-        />
+        >
+          {initial[i] === " " ? "" : initial[i]}
+        </span>
       ))}
     </span>
   );

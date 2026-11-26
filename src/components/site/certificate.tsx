@@ -40,7 +40,7 @@ export function Certificate() {
             <div className="flex items-center justify-between gap-3">
               <span className="flex items-center gap-2 font-display text-[clamp(10px,1.6vw,14px)] font-black tracking-wide">
                 <LogoMark inverted className="-my-1 size-[clamp(24px,4vw,34px)]" />
-                SKILLWAVE ACADEMY
+                {t("hero.receipt.title")}
               </span>
               <span className="text-right text-[clamp(9px,1.3vw,11.5px)] font-bold text-white">{t("career.sample.number")}</span>
             </div>

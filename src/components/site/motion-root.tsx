@@ -20,17 +20,24 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 export function MotionRoot({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
 
-  // A reload always starts at the top of the page: the browser must not restore
-  // the old scroll position or jump to a #section left in the URL.
+  // A reload always starts at the top of the page, without jumping to a
+  // #section left in the URL. Back/forward keep the browser's own scroll
+  // restoration, so only reloads are handled here.
   useEffect(() => {
-    history.scrollRestoration = "manual";
     const [navigation] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
-    if (navigation?.type === "reload") {
-      if (window.location.hash) {
-        history.replaceState(history.state, "", window.location.pathname + window.location.search);
-      }
-      window.scrollTo(0, 0);
+    if (navigation?.type !== "reload") return;
+    if (window.location.hash) {
+      history.replaceState(history.state, "", window.location.pathname + window.location.search);
     }
+    window.scrollTo(0, 0);
+    // The browser may restore the old position after hydration; reset once more.
+    const frame = requestAnimationFrame(() => window.scrollTo(0, 0));
+    const onLoad = () => window.scrollTo(0, 0);
+    window.addEventListener("load", onLoad, { once: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("load", onLoad);
+    };
   }, []);
 
   useGSAP(

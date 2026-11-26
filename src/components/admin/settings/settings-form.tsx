@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import {
   settingsSchema,
   type SettingsFormValues,
@@ -234,7 +235,13 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
         <button
           type="submit"
           disabled={isSubmitting || !isDirty}
-          className="inline-flex h-12 items-center gap-2 border-2 border-ink bg-ink px-7 text-base font-bold text-sun shadow-[4px_4px_0_rgba(18,17,16,0.35)] transition-[transform,box-shadow,background-color] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(18,17,16,0.35)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink disabled:pointer-events-none disabled:bg-white disabled:text-ink/60 disabled:shadow-none"
+          aria-busy={isSubmitting || undefined}
+          className={cn(
+            "inline-flex h-12 items-center gap-2 border-2 border-ink bg-ink px-7 text-base font-bold text-sun shadow-[4px_4px_0_rgba(18,17,16,0.35)] transition-[transform,box-shadow,background-color] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_rgba(18,17,16,0.35)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink disabled:pointer-events-none",
+            // Calm outlined look only when there is nothing to save; while
+            // saving the button stays black with a spinner.
+            !isDirty && !isSubmitting && "bg-white text-ink/60 shadow-none",
+          )}
         >
           {isSubmitting && <Loader2Icon className="size-4 animate-spin" aria-hidden />}
           {t("save")}
