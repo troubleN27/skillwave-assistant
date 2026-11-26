@@ -98,4 +98,5 @@ tests/                Vitest
 - Источники под ответом — только на языке ответа (`visibleSources`), полный список с языком документа хранится в `messages.sources`.
 - Обрыв генерации (ошибка или `abort` по таймауту) после первых слов: пометка `cannedReply("interrupted")`, форма заявки, `answered = null`.
 - Neon: проект `skillwave-assistant` (aws-eu-central-1), ветка `dev` для разработки.
-- Vercel: проект `skillwave-assistant` (без деплоя), Blob store `skillwave-knowledge` (private, fra1).
+- Vercel: проект `skillwave-assistant` (https://skillwave-assistant.vercel.app), подключён к GitHub `troubleN27/skillwave-assistant` — пуш в `main` публикует сайт. Функции в `fra1` (`vercel.json`), рядом с Neon. Blob store `skillwave-knowledge` (private, fra1).
+- Neon: продакшен — ветка `main` (строка подключения локально в `.env.production.local`, не в git), разработка — ветка `dev`.
