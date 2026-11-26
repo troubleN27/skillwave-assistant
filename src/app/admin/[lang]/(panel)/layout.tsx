@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
+import { Suspense, type CSSProperties } from "react";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,7 +49,25 @@ export default async function AdminPanelLayout({ children }: LayoutProps<"/admin
           </div>
         </SidebarInset>
       </SidebarProvider>
-      <Toaster position="top-center" richColors />
+      {/* Notifications in the site style: black card, yellow text, hard shadow;
+          errors are white with a black dashed frame so they stand apart. */}
+      <Toaster
+        position="top-center"
+        style={
+          {
+            "--normal-bg": "var(--color-ink)",
+            "--normal-text": "var(--color-sun)",
+            "--normal-border": "var(--color-ink)",
+            "--border-radius": "0px",
+          } as CSSProperties
+        }
+        toastOptions={{
+          classNames: {
+            toast: "!border-2 !font-sans !font-semibold !shadow-[4px_4px_0_rgba(18,17,16,0.35)]",
+            error: "!border-dashed !bg-white !text-ink",
+          },
+        }}
+      />
     </TooltipProvider>
   );
 }
