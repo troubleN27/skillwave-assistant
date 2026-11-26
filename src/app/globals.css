@@ -189,46 +189,39 @@
     @apply font-sans;
   }
 }
-/* Scrollbars in the poster style: a square black thumb on the yellow page and
-   in light panels, a yellow thumb inside black blocks. Chrome, Edge and Safari
-   use the ::-webkit-scrollbar rules; Firefox falls back to scrollbar-color. */
-::-webkit-scrollbar {
+/* Scrollbars inside the page (dialogs, chat, tables, admin panels) in the
+   poster style: a square black thumb, yellow inside black blocks. The page's
+   own scrollbar stays the browser default. Chrome, Edge and Safari use the
+   ::-webkit-scrollbar rules; Firefox falls back to scrollbar-color. */
+body *::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
-::-webkit-scrollbar-track {
+body *::-webkit-scrollbar-track,
+body *::-webkit-scrollbar-corner {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
+body *::-webkit-scrollbar-thumb {
   background: var(--color-ink);
   border: 3px solid transparent;
   background-clip: padding-box;
 }
-::-webkit-scrollbar-thumb:hover {
+body *::-webkit-scrollbar-thumb:hover {
   border-width: 2px;
 }
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-html::-webkit-scrollbar-track {
-  background: var(--color-sun);
-  border-left: 2px solid var(--color-ink);
-}
-.bg-ink ::-webkit-scrollbar-thumb,
 .bg-ink::-webkit-scrollbar-thumb,
-[data-sidebar="sidebar"] ::-webkit-scrollbar-thumb {
+.bg-ink *::-webkit-scrollbar-thumb,
+[data-sidebar="sidebar"] *::-webkit-scrollbar-thumb {
   background-color: var(--color-sun);
 }
 @supports not selector(::-webkit-scrollbar) {
-  * {
+  body * {
     scrollbar-width: thin;
     scrollbar-color: var(--color-ink) transparent;
   }
-  html {
-    scrollbar-color: var(--color-ink) var(--color-sun);
-  }
   .bg-ink,
-  [data-sidebar="sidebar"] {
+  .bg-ink *,
+  [data-sidebar="sidebar"] * {
     scrollbar-color: var(--color-sun) transparent;
   }
 }
