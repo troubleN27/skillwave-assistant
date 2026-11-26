@@ -106,6 +106,12 @@ export function ChatSession({
       ? { anchorId: lastMessage.id, courseId: requestedForm.courseId }
       : null;
 
+  // The panel mounts after history loads, so focus the composer on mount —
+  // but not on touch screens, where focus pops up the keyboard over the chat.
+  useEffect(() => {
+    if (window.matchMedia("(pointer: fine)").matches) inputRef.current?.focus();
+  }, []);
+
   // Keep the newest content in view.
   useEffect(() => {
     const list = listRef.current;
@@ -272,8 +278,6 @@ export function ChatSession({
           <textarea
             ref={inputRef}
             data-chat-input
-            // The panel mounts after history loads, so focus the composer on mount.
-            autoFocus
             value={input}
             onChange={(event) => setInput(event.target.value.slice(0, MAX_MESSAGE_LENGTH))}
             onKeyDown={(event) => {
@@ -285,7 +289,7 @@ export function ChatSession({
             rows={1}
             placeholder={t("placeholder")}
             aria-label={t("placeholder")}
-            className="max-h-32 min-h-6 flex-1 resize-none bg-transparent text-sm text-ink outline-none [field-sizing:content] placeholder:text-ink-soft/70"
+            className="max-h-32 min-h-6 flex-1 resize-none bg-transparent text-base text-ink sm:text-sm outline-none [field-sizing:content] placeholder:text-ink-soft/70"
           />
           {busy ? (
             <button

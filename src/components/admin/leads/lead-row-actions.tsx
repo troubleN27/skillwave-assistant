@@ -95,7 +95,7 @@ export function LeadNoteButton({ id, note, name }: { id: string; note: string | 
         className="max-w-48 justify-start"
       >
         <StickyNoteIcon className="shrink-0" />
-        <span className="truncate">{note || t("add")}</span>
+        <span className="min-w-0 truncate">{note || t("add")}</span>
       </Button>
       <Dialog open={open} onOpenChange={(next) => !pending && setOpen(next)}>
         <DialogContent>

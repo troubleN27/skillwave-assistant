@@ -34,15 +34,27 @@ export function ChatWidget({ config }: { config: WidgetConfig }) {
       if (event.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
-    const focus = window.setTimeout(
-      () => document.querySelector<HTMLTextAreaElement>("[data-chat-input]")?.focus(),
-      50,
-    );
+    // Touch screens get no focus: it would pop up the keyboard over the chat.
+    const focus = window.matchMedia("(pointer: fine)").matches
+      ? window.setTimeout(() => document.querySelector<HTMLTextAreaElement>("[data-chat-input]")?.focus(), 50)
+      : undefined;
     return () => {
       window.removeEventListener("keydown", onKey);
       window.clearTimeout(focus);
     };
   }, [open, close, mounted]);
+
+  // On phones the chat covers the whole screen: lock the page underneath, so
+  // scrolling the chat never moves the page (and the browser bars with it).
+  useEffect(() => {
+    if (!open || !window.matchMedia("(max-width: 639px)").matches) return;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      root.style.overflow = previous;
+    };
+  }, [open]);
 
   return (
     <>
@@ -52,7 +64,7 @@ export function ChatWidget({ config }: { config: WidgetConfig }) {
         aria-labelledby={titleId}
         hidden={!open}
         className={cn(
-          "fixed inset-0 z-50 flex flex-col overflow-hidden bg-paper",
+          "fixed inset-0 z-50 flex h-dvh flex-col overflow-hidden overscroll-none bg-paper",
           "sm:inset-auto sm:right-6 sm:bottom-24 sm:h-[min(600px,calc(100svh-8rem))] sm:w-[380px] sm:border-[3px] sm:border-ink sm:shadow-[8px_8px_0_var(--color-ink)]",
           "motion-safe:origin-bottom-right motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-200",
         )}

@@ -25,9 +25,9 @@ export function HeroReceipt({ hiddenProps }: { hiddenProps: HiddenProps }) {
   return (
     // On wide screens the receipt shifts right so it sits midway between the
     // headline and the splat at the page edge (the gap grows with the viewport).
-    <div className="relative mx-auto w-full max-w-[380px] pt-16 xl:translate-x-[clamp(-40px,calc(25vw-387px),300px)]">
+    <div className="relative mx-auto w-full max-w-[380px] px-2 pt-16 sm:px-0 xl:translate-x-[clamp(-40px,calc(25vw-387px),300px)]">
       {/* Tilted around the middle of its top edge, so the stamp stays centred on it. */}
-      <div data-hero-photo {...hiddenProps} className="origin-top -rotate-2 drop-shadow-[0_14px_16px_rgba(18,17,16,0.22)]">
+      <div data-hero-photo {...hiddenProps} className="origin-top -rotate-1 sm:-rotate-2 drop-shadow-[0_14px_16px_rgba(18,17,16,0.22)]">
         <div
           className="bg-white px-6 pt-20 pb-9 text-[15px] leading-snug text-ink"
           style={{ mask: zigzag, WebkitMask: zigzag }}

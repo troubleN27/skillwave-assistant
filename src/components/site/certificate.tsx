@@ -26,7 +26,7 @@ export function Certificate() {
 
       <div aria-hidden>
         {/* The CV peeking out from under the certificate. */}
-        <div className="absolute top-0 -right-1.5 h-[86%] w-[62%] rotate-6 bg-white px-5 py-5 shadow-[0_10px_20px_rgba(18,17,16,0.15)]">
+        <div className="absolute top-0 right-1 h-[86%] sm:-right-1.5 w-[62%] rotate-6 bg-white px-5 py-5 shadow-[0_10px_20px_rgba(18,17,16,0.15)]">
           <p className="font-display text-[15px] leading-none font-black">{t("career.sample.name")}</p>
           <p className="mt-1 text-[11px] font-bold text-ink-soft">{t("courses.items.frontend.name")}</p>
           {["w-2/5 h-2.5 bg-ink mt-5", "mt-2.5", "mt-2.5", "mt-2.5 w-3/5", "w-2/5 h-2.5 bg-ink mt-5", "mt-2.5", "mt-2.5 w-3/5"].map((bar, i) => (

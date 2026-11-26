@@ -166,17 +166,17 @@ export function KnowledgeManager({ documents }: { documents: KnowledgeDocument[]
             <TableBody>
               {documents.map((doc) => (
                 <TableRow key={doc.id}>
-                  <TableCell className="max-w-72 pl-4">
+                  <TableCell className="max-w-72 min-w-48 pl-4 whitespace-normal">
                     <button
                       type="button"
-                      className="block truncate text-left font-medium hover:underline"
+                      className="block text-left font-medium break-words hover:underline"
                       onClick={() => setDialog({ type: "chunks", document: doc })}
                       title={doc.title}
                     >
                       {doc.title}
                     </button>
                     {doc.status === "error" && doc.error && (
-                      <p className="truncate text-xs text-destructive" title={doc.error}>
+                      <p className="line-clamp-2 text-xs break-words text-destructive" title={doc.error}>
                         {doc.error}
                       </p>
                     )}

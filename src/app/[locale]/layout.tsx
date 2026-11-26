@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -9,6 +9,12 @@ import "../globals.css";
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+// The on-screen keyboard shrinks the page instead of covering it, so the
+// full-screen chat and dialogs keep their header and input in view on phones.
+export const viewport: Viewport = {
+  interactiveWidget: "resizes-content",
+};
 
 export async function generateMetadata({
   params,

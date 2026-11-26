@@ -16,8 +16,8 @@ export function LearningSection() {
         <div className="md:self-start [@media(min-height:870px)]:md:sticky [@media(min-height:870px)]:md:top-28">
           <SectionTitle id="learning-title">{t("title")}</SectionTitle>
           <p className="mt-5 max-w-[42ch] text-[17px] leading-relaxed text-ink-soft">{t("subtitle")}</p>
-          <div className="relative mt-8 hidden md:block">
-            <InkSplat seed={58} data-anim="splat" className="absolute -top-14 -right-12 size-44" />
+          <div className="relative mt-10 pr-2 md:mt-8 md:pr-0">
+            <InkSplat seed={58} data-anim="splat" className="absolute -top-12 -right-6 size-32 md:-top-14 md:-right-12 md:size-44" />
             <WeekPlanner />
           </div>
         </div>
