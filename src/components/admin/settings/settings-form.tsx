@@ -228,7 +228,7 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
         />
       </Section>
 
-      <div className="sticky bottom-0 z-10 -mx-4 flex items-center gap-3 border-t bg-background/95 px-4 py-3 backdrop-blur md:-mx-8 md:px-8">
+      <div className="flex items-center gap-3 pt-2">
         <Button type="submit" disabled={isSubmitting || !isDirty}>
           {isSubmitting && <Loader2Icon className="animate-spin" />}
           {t("save")}
