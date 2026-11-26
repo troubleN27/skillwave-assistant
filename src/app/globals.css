@@ -190,7 +190,7 @@
   }
 }
 /* Scrollbars inside the page (dialogs, chat, tables, admin panels) in the
-   poster style: a square black thumb, yellow inside black blocks. The page's
+   poster style: a square black thumb, yellow on black scroll areas. The page's
    own scrollbar stays the browser default. Chrome, Edge and Safari use the
    ::-webkit-scrollbar rules; Firefox falls back to scrollbar-color. */
 body *::-webkit-scrollbar {
@@ -209,9 +209,10 @@ body *::-webkit-scrollbar-thumb {
 body *::-webkit-scrollbar-thumb:hover {
   border-width: 2px;
 }
+/* Yellow only where the scrolling area itself is black (not light panels
+   that merely sit inside a black block). */
 .bg-ink::-webkit-scrollbar-thumb,
-.bg-ink *::-webkit-scrollbar-thumb,
-[data-sidebar="sidebar"] *::-webkit-scrollbar-thumb {
+[data-sidebar="content"]::-webkit-scrollbar-thumb {
   background-color: var(--color-sun);
 }
 @supports not selector(::-webkit-scrollbar) {
@@ -220,8 +221,7 @@ body *::-webkit-scrollbar-thumb:hover {
     scrollbar-color: var(--color-ink) transparent;
   }
   .bg-ink,
-  .bg-ink *,
-  [data-sidebar="sidebar"] * {
+  [data-sidebar="content"] {
     scrollbar-color: var(--color-sun) transparent;
   }
 }
