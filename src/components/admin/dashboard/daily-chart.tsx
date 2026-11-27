@@ -38,6 +38,14 @@ function endLabel(text: string, color: string, count: number, dy = 4) {
 
 const toDate = (day: string) => new Date(`${day}T00:00:00Z`);
 
+/**
+ * Right margin that fits the end labels: about 7.6 px per character of the
+ * 12 px bold label, plus the 8 px gap and some air. A fixed margin clipped
+ * longer labels such as "Conversations".
+ */
+const labelMargin = (labels: string[]) =>
+  Math.max(72, Math.ceil(Math.max(...labels.map((l) => l.length)) * 7.6) + 16);
+
 export function DailyChart({ data }: { data: Point[] }) {
   const t = useTranslations("Admin.dashboard");
   const intlLocale = adminIntlLocale(parseAdminLang(useLocale()));
@@ -65,7 +73,10 @@ export function DailyChart({ data }: { data: Point[] }) {
         role="img"
         aria-label={t("dailyTitle")}
       >
-        <LineChart data={data} margin={{ top: 18, right: 72, left: -8, bottom: 0 }}>
+        <LineChart
+          data={data}
+          margin={{ top: 18, right: labelMargin([config.conversations.label, config.leads.label]), left: -8, bottom: 0 }}
+        >
           <CartesianGrid vertical={false} strokeDasharray="0" stroke="rgba(244,236,208,0.14)" />
           <XAxis
             dataKey="day"
@@ -98,7 +109,7 @@ export function DailyChart({ data }: { data: Point[] }) {
             dot={false}
             activeDot={{ r: 4 }}
           >
-            <LabelList dataKey="conversations" content={endLabel(config.conversations.label, COLORS.conversations, data.length, sameEnd ? -6 : 4)} />
+            <LabelList dataKey="conversations" content={endLabel(config.conversations.label, COLORS.conversations, data.length, sameEnd ? -10 : 4)} />
           </Line>
           <Line
             dataKey="leads"
@@ -109,7 +120,8 @@ export function DailyChart({ data }: { data: Point[] }) {
             dot={false}
             activeDot={{ r: 4 }}
           >
-            <LabelList dataKey="leads" content={endLabel(config.leads.label, COLORS.leads, data.length, sameEnd ? 14 : 4)} />
+            {/* With equal ends the labels stack 16 px apart, both above the x-axis ticks. */}
+            <LabelList dataKey="leads" content={endLabel(config.leads.label, COLORS.leads, data.length, sameEnd ? 6 : 4)} />
           </Line>
         </LineChart>
       </ChartContainer>
