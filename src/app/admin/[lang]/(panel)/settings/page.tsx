@@ -16,7 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
 async function SettingsData() {
   const s = await getSettings(db);
   const initial: SettingsFormValues = {
-    assistantName: s.assistantName,
+    assistantNameRu: s.assistantNameRu,
+    assistantNameEn: s.assistantNameEn,
     welcomeRu: s.welcomeRu ?? "",
     welcomeEn: s.welcomeEn ?? "",
     quickQuestionsRu: (s.quickQuestionsRu ?? []).join("\n"),

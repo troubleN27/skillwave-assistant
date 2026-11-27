@@ -878,7 +878,8 @@
       "assistant": {
         "title": "Assistant",
         "description": "How the assistant introduces itself to visitors.",
-        "name": "Assistant name",
+        "nameRu": "Assistant name (Russian)",
+        "nameEn": "Assistant name (English)",
         "welcomeRu": "Greeting (Russian)",
         "welcomeEn": "Greeting (English)",
         "quickRu": "Quick questions (Russian)",

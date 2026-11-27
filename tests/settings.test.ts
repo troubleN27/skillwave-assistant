@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { settingsSchema, toLines, toOrigin, type SettingsFormValues } from "@/lib/validations/settings";
 
 const valid: SettingsFormValues = {
-  assistantName: "Ассистент Skillwave",
+  assistantNameRu: "Ассистент Skillwave",
+  assistantNameEn: "Skillwave Assistant",
   welcomeRu: "Здравствуйте!",
   welcomeEn: "",
   quickQuestionsRu: "Есть ли рассрочка?\n\n  Какой курс выбрать?  ",

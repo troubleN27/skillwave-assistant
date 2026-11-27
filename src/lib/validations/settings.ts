@@ -45,8 +45,11 @@ export const courseSchema = z.object({
   name_en: z.string().trim().min(2, "courseNameEn").max(80, "courseNameMax"),
 });
 
+const assistantName = z.string().trim().min(2, "assistantNameMin").max(60, "assistantNameMax");
+
 export const settingsSchema = z.object({
-  assistantName: z.string().trim().min(2, "assistantNameMin").max(60, "assistantNameMax"),
+  assistantNameRu: assistantName,
+  assistantNameEn: assistantName,
   welcomeRu: optionalText(500, "welcomeMax"),
   welcomeEn: optionalText(500, "welcomeMax"),
   quickQuestionsRu: quickQuestions,

@@ -48,7 +48,8 @@ export const settings = pgTable(
   "settings",
   {
     id: integer("id").primaryKey().default(1),
-    assistantName: text("assistant_name").notNull(),
+    assistantNameRu: text("assistant_name_ru").notNull(),
+    assistantNameEn: text("assistant_name_en").notNull(),
     welcomeRu: text("welcome_ru"),
     welcomeEn: text("welcome_en"),
     quickQuestionsRu: jsonb("quick_questions_ru").$type<string[]>(),

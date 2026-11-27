@@ -186,7 +186,7 @@ export async function POST(request: Request) {
   const courseIds = new Set((settings.courses ?? []).map((c) => c.id));
   const system = buildSystemPrompt(
     {
-      assistantName: settings.assistantName,
+      assistantName: language === "ru" ? settings.assistantNameRu : settings.assistantNameEn,
       contactsRu: settings.contactsRu,
       contactsEn: settings.contactsEn,
       courses: settings.courses ?? [],

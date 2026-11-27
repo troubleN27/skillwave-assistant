@@ -24,7 +24,7 @@ export async function getWidgetConfig(locale: Language): Promise<WidgetConfig> {
   const isRu = locale === "ru";
   return {
     locale,
-    assistantName: settings.assistantName,
+    assistantName: isRu ? settings.assistantNameRu : settings.assistantNameEn,
     welcome: (isRu ? settings.welcomeRu : settings.welcomeEn) ?? null,
     quickQuestions: ((isRu ? settings.quickQuestionsRu : settings.quickQuestionsEn) ?? []).slice(0, 4),
     courses: (settings.courses ?? []).map((c) => ({ id: c.id, name: isRu ? c.name_ru : c.name_en })),

@@ -98,9 +98,14 @@ export function SettingsForm({ initial }: { initial: SettingsFormValues }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-4 pb-20">
       <Section title={t("assistant.title")} description={t("assistant.description")}>
-        <Field id="assistantName" label={t("assistant.name")} error={err(errors.assistantName?.message)}>
-          <Input id="assistantName" {...register("assistantName")} />
-        </Field>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Field id="assistantNameRu" label={t("assistant.nameRu")} error={err(errors.assistantNameRu?.message)}>
+            <Input id="assistantNameRu" {...register("assistantNameRu")} />
+          </Field>
+          <Field id="assistantNameEn" label={t("assistant.nameEn")} error={err(errors.assistantNameEn?.message)}>
+            <Input id="assistantNameEn" {...register("assistantNameEn")} />
+          </Field>
+        </div>
         <div className="grid gap-4 md:grid-cols-2">
           <Field id="welcomeRu" label={t("assistant.welcomeRu")} error={err(errors.welcomeRu?.message)}>
             <Textarea id="welcomeRu" rows={4} {...register("welcomeRu")} />

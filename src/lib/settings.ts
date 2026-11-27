@@ -8,7 +8,8 @@ export type AssistantSettings = typeof settings.$inferSelect;
 
 const FALLBACK: AssistantSettings = {
   id: 1,
-  assistantName: "Ассистент Skillwave",
+  assistantNameRu: "Ассистент Skillwave",
+  assistantNameEn: "Skillwave Assistant",
   welcomeRu: null,
   welcomeEn: null,
   quickQuestionsRu: [],
